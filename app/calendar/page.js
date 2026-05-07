@@ -62,13 +62,15 @@ const weekDays = [
 
 const Day = ({ day_number, tasks, date, onClick, isSelected }) => {
   const today = isToday(date);
+  const visibleTasks = tasks.slice(0, 2);
+  const remainingTasks = tasks.length - visibleTasks.length;
 
   return (
     <button
       type="button"
       onClick={onClick}
       aria-pressed={isSelected}
-      className={`relative flex aspect-square flex-col rounded-xl border-2 p-3 text-left shadow-md transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5
+      className={`relative flex aspect-square min-w-0 flex-col overflow-hidden rounded-xl border-2 p-3 text-left shadow-md transition-[transform,box-shadow,border-color] duration-200 ease-out hover:-translate-y-0.5
       ${
         isSelected
           ? "border-[#FFDA15] bg-[#FFDA15] text-[#806D0B] shadow-lg ring-4 ring-[#FFF7AB]"
@@ -83,23 +85,36 @@ const Day = ({ day_number, tasks, date, onClick, isSelected }) => {
           Today
         </span>
       )}
-      <div className="font-bold text-lg mb-2">
+      <div className="mb-2 shrink-0 text-lg font-bold">
         {day_number}
       </div>
 
       <div
-        className={`max-h-24 space-y-1 overflow-y-auto text-xs ${
+        className={`min-w-0 flex-1 space-y-1 overflow-hidden text-xs ${
           isSelected ? "text-[#806D0B]" : "text-gray-700"
         }`}
       >
         {tasks.length > 0 ? (
-          tasks.map((task, index) => (
-            <div key={`${task.id || task.title}-${index}`}>
-              {formatTimeRange(task.start, task.end)} {task.title}
-            </div>
-          ))
+          <>
+            {visibleTasks.map((task, index) => (
+              <div
+                key={`${task.id || task.title}-${index}`}
+                className="min-w-0 truncate whitespace-nowrap"
+                title={`${formatTimeRange(task.start, task.end)} ${task.title}`}
+              >
+                {formatTimeRange(task.start, task.end)} {task.title}
+              </div>
+            ))}
+            {remainingTasks > 0 && (
+              <div className="truncate whitespace-nowrap font-semibold">
+                +{remainingTasks} more
+              </div>
+            )}
+          </>
         ) : (
-          <div className="text-gray-400">No events</div>
+          <div className="truncate whitespace-nowrap text-gray-400">
+            No events
+          </div>
         )}
       </div>
     </button>
