@@ -50,6 +50,27 @@ const formatDisplayDate = (dateString) => {
   });
 };
 
+const decodeHtmlEntities = (value) => {
+  return value
+    .replace(/&amp;/g, "&")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+};
+
+const getPlainEventText = (value) => {
+  if (!value) return "";
+
+  return decodeHtmlEntities(
+    value
+      .replace(/<br\s*\/?>/gi, "\n")
+      .replace(/<a[^>]*href=["']([^"']+)["'][^>]*>.*?<\/a>/gi, "$1")
+      .replace(/<[^>]+>/g, "")
+      .trim(),
+  );
+};
+
 const weekDays = [
   "Sunday",
   "Monday",
@@ -169,22 +190,22 @@ const SelectedDaySchedule = ({ date, events, onClose, isClosing }) => {
             events.map((event, index) => (
               <div
                 key={`${event.id || event.title}-${index}`}
-                className="border-l-4 border-[#FFDA15] bg-yellow-50 p-4"
+                className="min-w-0 overflow-hidden border-l-4 border-[#FFDA15] bg-yellow-50 p-4"
               >
                 <p className="text-sm font-semibold text-[#806D0B]">
                   {formatTimeRange(event.start, event.end)}
                 </p>
-                <h3 className="mt-1 text-lg font-bold text-[#333122]">
+                <h3 className="mt-1 break-words text-lg font-bold text-[#333122] [overflow-wrap:anywhere]">
                   {event.title}
                 </h3>
-                {event.location && (
-                  <p className="mt-1 text-sm text-gray-600">
-                    {event.location}
+                {getPlainEventText(event.location) && (
+                  <p className="mt-1 whitespace-pre-wrap break-words text-sm leading-6 text-gray-600 [overflow-wrap:anywhere]">
+                    {getPlainEventText(event.location)}
                   </p>
                 )}
-                {event.description && (
-                  <p className="mt-2 text-sm leading-6 text-gray-700">
-                    {event.description}
+                {getPlainEventText(event.description) && (
+                  <p className="mt-2 whitespace-pre-wrap break-words text-sm leading-6 text-gray-700 [overflow-wrap:anywhere]">
+                    {getPlainEventText(event.description)}
                   </p>
                 )}
               </div>
