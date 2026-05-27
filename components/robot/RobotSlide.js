@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-const RobotSlide = ({ robot_name, image, onSelect }) => {
+const RobotSlide = ({ robot_name, image, year, onSelect }) => {
   return (
     <button
       type="button"
@@ -25,6 +25,9 @@ const RobotSlide = ({ robot_name, image, onSelect }) => {
 
       {/* Robot Name */}
       <h1 className="text-5xl dk-prince-frog mt-4 text-center">{robot_name}</h1>
+      <p className="mt-4 rounded-full bg-[#FFDA15] px-6 py-2 text-2xl font-bold text-gray-900 shadow-sm">
+        {year}
+      </p>
     </button>
   );
 };

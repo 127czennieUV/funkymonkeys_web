@@ -45,6 +45,7 @@ const LazyRobotSlide = ({ robot, index, onSelect }) => {
         <RobotSlide
           robot_name={robot.name}
           image={robot.image}
+          year={robot.year}
           stats={robot.stats}
           onSelect={() => onSelect(robot)}
         />
