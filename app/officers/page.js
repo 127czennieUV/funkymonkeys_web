@@ -50,7 +50,7 @@ const Officers = () => {
       </div>
 
       <div className="flex flex-row px-[5vw] gap-4 mt-[2vw]">
-        {[2026, 2025, 2024, 2023, 2022, 2021].map((year) => (
+        {[2027, 2026, 2025, 2024, 2023, 2022, 2021].map((year) => (
           <div
             key={year}
             onClick={() => setSelectedYear(year)}
