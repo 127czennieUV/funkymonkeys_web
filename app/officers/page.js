@@ -10,13 +10,15 @@ import { officers as officers2025 } from "@/data/officers/2025";
 import { officers as officers2026 } from "@/data/officers/2026";
 import { officers as officers2024 } from "@/data/officers/2024";
 import { officers as officers2023 } from "@/data/officers/2023";
-import { officers as officers2022 } from "@/data/officers/2022";
-import { officers as officers2021 } from "@/data/officers/2021";
+import { officers as officers2022} from "@/data/officers/2022";
+import { officers as officers2021} from "@/data/officers/2021";
+import { officers as officers2027} from "@/data/officers/2027";
 
 const Officers = () => {
   const [selectedYear, setSelectedYear] = useState(2026);
 
   const officersData = {
+    2027: officers2027,
     2025: officers2025,
     2026: officers2026,
     2024: officers2024,
@@ -47,7 +49,6 @@ const Officers = () => {
         <Navbar />
       </div>
 
-      {/* Year Selection Chips */}
       <div className="flex flex-row px-[5vw] gap-4 mt-[2vw]">
         {[2026, 2025, 2024, 2023, 2022, 2021].map((year) => (
           <div
