@@ -95,7 +95,7 @@ const WeekdayHeaders = ({ compact, currentDate }) => {
         <div
           key={weekday}
           className={`flex items-center justify-center rounded-2xl font-medium text-2xl text-black/50 ${
-            compact ? "h-10 sm:h-12" : "h-12 sm:h-14"
+            compact ? "h-3 sm:h-2" : "h-2 sm:h-14"
           }`}
           style={{
             backgroundColor: isCurrentWeekday(weekday, currentDate)

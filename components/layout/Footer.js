@@ -127,7 +127,9 @@ const Footer = () => {
         variants={itemVariants}
       >
         <motion.p className="poppins text-[1rem]" variants={itemVariants}>
-          &copy; 2025 The Funky Monkeys. All rights reserved.
+          &copy; 2026 The Funky Monkeys. All rights reserved.
+          <br />
+          Website created by: Aravind Arivudainambi, Tiffany Wan, Warren Su, Yicheng Lu
         </motion.p>
       </motion.div>
     </motion.div>
