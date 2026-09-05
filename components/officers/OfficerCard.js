@@ -57,8 +57,6 @@ const OfficerCard = ({ name, position }) => {
         onMouseMove={handleMouseMove}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        // Base Transition is for the 'transform' returning to 0 when hover ends.
-        // During hover, we want instant updates, so we override transition in CSS or keep it fast.
         className={`
           relative flex flex-col justify-end 
           w-full aspect-[5/6] 

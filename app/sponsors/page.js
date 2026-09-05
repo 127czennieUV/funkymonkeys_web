@@ -8,7 +8,7 @@ const Sponsors = () => {
     <div className="flex flex-col">
       <div className="flex flex-row">
         <Image
-          src = "/funky_svgs/sponsor_left.svg"
+          src = "/funky_svgs/sponsorleft.svg"
           alt = "sponsors_left_imaeg"
           width ={4000}
           height={4000}
