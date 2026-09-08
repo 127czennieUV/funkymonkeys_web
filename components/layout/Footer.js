@@ -45,8 +45,7 @@ const Footer = () => {
             className="poppins text-[1.125rem] max-w-[27rem]"
             variants={itemVariants}
           >
-            Team 846 - Empowering future engineers through robotics and
-            innovation.
+            Team 846 - Empowering the next generation of engineers since 2002
           </motion.p>
         </motion.div>
         <motion.div className="flex flex-col flex-shrink-0" variants={itemVariants}>
@@ -69,10 +68,10 @@ const Footer = () => {
             Officers
           </Link>
           <Link
-            href="/events"
+            href="/calendar"
             className="poppins text-[1.125rem] hover:text-[#333122] transition-colors mb-[0.5rem]"
           >
-            Events
+            Calendar
           </Link>
           <Link
             href="/contact"
@@ -129,7 +128,7 @@ const Footer = () => {
         <motion.p className="poppins text-[1rem]" variants={itemVariants}>
           &copy; 2026 The Funky Monkeys. All rights reserved.
           <br />
-          Website created by: Aravind Arivudainambi, Tiffany Wan, Warren Su, Yicheng Lu
+          Website created by: ---------
         </motion.p>
       </motion.div>
     </motion.div>
@@ -137,3 +136,4 @@ const Footer = () => {
 };
 
 export default Footer;
+

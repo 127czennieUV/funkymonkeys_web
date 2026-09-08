@@ -10,7 +10,7 @@ const Navbar = () => {
             MONKEY HUB
           </Link>
           <div className="absolute left-1/2 transform -translate-x-1/2 pt-4 hidden group-hover:block w-max">
-            <div className="flex flex-col bg-black/5 backdrop-blur-lg rounded-2xl p-4 space-y-3 text-black/40 shadow-2xl border border-white/10">
+            <div className="flex flex-col bg-black/5 backdrop-blur-lg rounded-2xl p-4 space-y-3 text-black shadow-2xl border border-white/10">
               <Link
                 href="/"
                 className="hover:text-gray-800 transition-colors px-2 text-center tracking-wide"
@@ -43,7 +43,13 @@ const Navbar = () => {
             FUNKY CORNER
           </Link>
           <div className="absolute left-1/2 transform -translate-x-1/2 pt-4 hidden group-hover:block w-max">
-            <div className="flex flex-col bg-black/5 backdrop-blur-lg rounded-2xl p-4 space-y-3 text-black/40 shadow-2xl border border-white/10">
+            <div className="flex flex-col bg-black/5 backdrop-blur-lg rounded-2xl p-4 space-y-3 text-black shadow-2xl border border-white/10">
+              <Link
+                href="https://fsm846.vercel.app/"
+                className="hover:text-black transition-colors px-2 text-center tracking-wide"
+                >
+                  FunkyStats
+                </Link>
               <Link
                 href="/newsletters"
                 className="hover:text-gray-800 transition-colors px-2 text-center tracking-wide"
@@ -62,6 +68,10 @@ const Navbar = () => {
               >
                 MEDIA
               </Link>
+              <Link
+                href="/media"
+                className = "hover: text-gray-800 transition-colors px-2 text-center tracking-wide"
+              ></Link>
             </div>
           </div>
         </div>

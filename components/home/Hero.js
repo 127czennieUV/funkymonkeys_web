@@ -31,7 +31,7 @@ const Hero = () => {
       animate="visible"
     >
       <motion.div
-        className="w-[35vw] bg-[#FFDA15] flex flex-col flex-1 items-end justify-start relative px-5"
+        className="relative flex w-[35vw] shrink-0 flex-col items-end justify-start bg-[#FFDA15] px-5"
         variants={itemVariants}
       >
         <motion.h1
@@ -51,7 +51,7 @@ const Hero = () => {
         </motion.div>
       </motion.div>
       <motion.div
-        className="flex flex-col gap-[2vw] justify-between max-w-[1280px] w-[63vw]"
+        className="flex w-[65vw] shrink-0 flex-col gap-[2vw] justify-between"
         variants={itemVariants}
       >
         <motion.div
@@ -59,13 +59,13 @@ const Hero = () => {
           variants={itemVariants}
         >
           <motion.div
-            className="flex flex-row align-top"
+            className="flex w-full flex-row items-start justify-between"
             variants={itemVariants}
           >
             <motion.div className="flex flex-col" variants={itemVariants}>
               <div className="flex flex-col w-fit">
                 <motion.p
-                  className="poppins text-[1.5rem] text-[#666666] mt-[9vw]"
+                  className="poppins text-[1.5rem] text-[#666666] mt-[6vw]"
                   variants={itemVariants}
                 >
                   Team 846
@@ -77,125 +77,120 @@ const Hero = () => {
                 ></motion.div>
               </div>
               <motion.h1
-                className="dk-prince-frog text-[9.375rem] max-w-[40rem] leading-[85%] mt-[1vw] ml-[-0.25vw]"
+                className="dk-prince-frog text-[11rem] max-w-[40rem] leading-[85%] mt-[1vw]"
                 variants={itemVariants}
               >
                 The Funky Monkeys
               </motion.h1>
             </motion.div>
-            <Image
-              src={"/funky_svgs/hero_right.svg"}
-              alt="hero right image"
-              width={4000}
-              height={4000}
-              className="w-[9rem] mt-[13vw] h-auto unselectable"
-            />
+            <motion.div
+              className="mt-[6vw] mr-[10vw] flex items-center"
+              variants={itemVariants}
+            >
+              <Image
+                src={"/funky_svgs/hero_right.svg"}
+                alt="hero right image"
+                width={4000}
+                height={4000}
+                className="w-[8rem] h-auto unselectable"
+              />
+            </motion.div>
           </motion.div>
           <motion.div
             className="flex flex-row gap-[2vw]"
             variants={itemVariants}
           >
-            <Image
-              src={"/funky_svgs/hero_left.svg"}
-              alt="hero left image"
-              width={4000}
-              height={4000}
-              className="w-[11.75rem] h-auto unselectable justify-self-start align-bottom "
-            />
-            {/* <motion.div variants={itemVariants}></motion.div> */}
             <motion.div
               className="flex flex-col gap-[1.875vw] align-top justify-start"
               variants={itemVariants}
             >
-              <motion.p
-                className="poppins text-[1.5rem] leading-[106%] w-[40vw] max-w-[40rem]"
-                variants={itemVariants}
-              >
-                A robotics team located at San Jose, empowering future
-                generations with the tools needed to be an engineer.
-              </motion.p>
-              <motion.div className="flex flex-row" variants={itemVariants}>
+              <motion.div className="flex flex-col items-start gap-3" variants={itemVariants}>
                 <motion.p
-                  className="poppins text-[1.5rem] leading-[106%] font-bold px-[3.25rem] max-w-[15rem] rounded-full py-[1rem] text-[#806D0B] bg-[#FFDA15] cursor-pointer hover:translate-y-[-4px] hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out"
+                  className="poppins text-[1.2rem] font-small text-[#333122]"
                   variants={itemVariants}
                 >
-                  <Link href="/robots">Robots &#62;</Link>
+                  Empowering the next generation of engineers since 2002
                 </motion.p>
-                <motion.p
-                  className="poppins text-[1.5rem] leading-[106%] font-bold px-[3.25rem] max-w-[15rem] rounded-full py-[1rem] text-[#808080] cursor-pointer hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
+                <motion.div className="flex flex-row items-center gap-3"
                   variants={itemVariants}
                 >
-                  <Link href="/officers">Officers &#62;</Link>
-                </motion.p>
+                <Link
+                  href="/about"
+                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-[1.5rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
+                >
+                  About Us 
+                </Link>
+                <Link
+                  href="/contact"
+                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-[1.5rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
+                >
+                  Contact Us
+                </Link>
+                </motion.div>
               </motion.div>
             </motion.div>
           </motion.div>
         </motion.div>
         <motion.div
-          className=" mt-auto bg-[#FFF7AB] -z-10 flex flex-row justify-between items-center px-[3rem] py-[1.44rem]"
+          className="mt-auto flex min-h-[12rem] flex-row items-center justify-between bg-[#FFF7AB] px-[4vw] py-8"
           variants={itemVariants}
         >
-          <motion.div
-            className="flex flex-col items-center"
-            variants={itemVariants}
-          >
-            <motion.h1
-              className="dk-prince-frog text-[100px] text-[#333122] leading-[85%]"
-              variants={itemVariants}
-            >
-              10+
-            </motion.h1>
-            <motion.p
-              className="text-[#333122] font-medium -mt-2"
-              variants={itemVariants}
-            >
-              Awards Won
-            </motion.p>
+          <motion.div className="mt-3 flex flex-col items-start gap-4" variants={itemVariants}>
+            <p className="poppins max-w-md text-[1.1rem] leading-[120%] text-[#333122]">
+              Based in San Jose — Build. Learn. Inspire.
+            </p>
+            <div className="border-b-2 border-[#333122] pb-1">
+              <h2 className="poppins text-[1.5rem] font-semibold text-[#333122]">Follow Us</h2>
+            </div>
+            <div className="flex items-center gap-6">
+              <Link
+                href="https://github.com/team846"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Visit Team 846 on GitHub"
+                className="transition-transform hover:scale-110"
+              >
+                <Image src="/icons/social4.svg" alt="" width={52} height={52} className="h-12 w-12" />
+              </Link>
+              <Link
+                href="https://www.instagram.com/firstteam846/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Follow Team 846 on Instagram"
+                className="transition-transform hover:scale-110"
+              >
+                <Image src="/icons/social3.svg" alt="" width={52} height={52} className="h-12 w-12" />
+              </Link>
+              <Link
+                href="https://www.youtube.com/@LynbrookRobotics"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Watch Team 846 on YouTube"
+                className="transition-transform hover:scale-110"
+              >
+                <Image src="/icons/social1.svg" alt="" width={52} height={52} className="h-12 w-12" />
+              </Link>
+            </div>
           </motion.div>
-          {/* verticle line with 50% of heigth */}
-          <motion.div
-            className="w-[2px] h-[60px] bg-[#333122] z-100 opacity-20"
-            variants={itemVariants}
-          />
-
-          <motion.div
-            className="flex flex-col items-center"
-            variants={itemVariants}
-          >
-            <motion.h1
-              className="dk-prince-frog text-[100px] text-[#333122] leading-[85%]"
-              variants={itemVariants}
-            >
-              50+
-            </motion.h1>
-            <motion.p
-              className="text-[#333122] font-medium -mt-2"
-              variants={itemVariants}
-            >
-              Members
-            </motion.p>
-          </motion.div>
-          <motion.div
-            className="w-[2px] h-[60px] bg-[#333122] z-100 opacity-20"
-            variants={itemVariants}
-          />
-          <motion.div
-            className="flex flex-col items-center"
-            variants={itemVariants}
-          >
-            <motion.h1
-              className="dk-prince-frog text-[100px] text-[#333122] leading-[85%]"
-              variants={itemVariants}
-            >
-              1k+
-            </motion.h1>
-            <motion.p
-              className="text-[#333122] font-medium -mt-2"
-              variants={itemVariants}
-            >
-              People helped
-            </motion.p>
-          </motion.div>
+          <motion.nav className="mt-12 flex flex-col items-start gap-4" aria-label="Footer navigation" variants={itemVariants}>
+            <div className="border-b-2 border-[#333122] pb-1">
+              <h2 className="poppins text-[1.5rem] font-semibold text-[#333122]">Quick Links</h2>
+            </div>
+            <div className="flex flex-nowrap items-center gap-[3vw]">
+              <Link href="/calendar" className="poppins whitespace-nowrap text-[1.25rem] font-medium transition-colors hover:text-[#806D0B]">
+                Calendar
+              </Link>
+              <Link href="/robots" className="poppins text-[1.25rem] font-medium transition-colors hover:text-[#806D0B]">
+                Robots
+              </Link>
+              <Link href="/officers" className="poppins text-[1.25rem] font-medium transition-colors hover:text-[#806D0B]">
+                Officers
+              </Link>
+              <Link href="/sponsors" className="poppins text-[1.25rem] font-medium transition-colors hover:text-[#806D0B]">
+                Sponsors
+              </Link>
+            </div>
+          </motion.nav>
         </motion.div>
       </motion.div>
     </motion.div>

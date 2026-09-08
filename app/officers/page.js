@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer"
+import Footer from "@/components/layout/Footer";
 
 import { officers as officers2027} from "@/data/officers/2027";
 import { officers as officers2026 } from "@/data/officers/2026";

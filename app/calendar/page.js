@@ -1,5 +1,5 @@
 "use client";
-
+import { rrulestr } from "rrule";
 import {
   forwardRef,
   useState,
@@ -11,80 +11,240 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
 import Image from "next/image";
+  const parseiCalDate = (icalLine) => {
+    if (!icalLine) return new Date();
 
-const groupEventsByDate = (events) => {
-  const groupedEvents = events.reduce((acc, event) => {
-    const [year, month] = event.date.split("-").map(Number);
-    const monthIndex = month - 1;
+    const rawValue = icalLine.includes(":") ? icalLine.split(":").pop().trim() : icalLine.trim();
+    const clean = rawValue.replace(/[^0-9T]/g, "");
 
-    if (!acc[year]) acc[year] = {};
-    if (!acc[year][monthIndex]) acc[year][monthIndex] = {};
-    if (!acc[year][monthIndex][event.date])
-      acc[year][monthIndex][event.date] = [];
+    if (clean.length < 8) return new Date();
 
-    acc[year][monthIndex][event.date].push(event);
-    return acc;
-  }, {});
+    const year = parseInt(clean.substring(0, 4), 10);
+    const month = parseInt(clean.substring(4, 6), 10) - 1;
+    const day = parseInt(clean.substring(6, 8), 10);
 
-  Object.values(groupedEvents).forEach((yearEvents) => {
-    Object.values(yearEvents).forEach((monthEvents) => {
-      Object.values(monthEvents).forEach((dayEvents) => {
-        dayEvents.sort((a, b) => getEventStartTime(a) - getEventStartTime(b));
-      });
-    });
-  });
+    if (clean.includes("T")) {
+      const hour = parseInt(clean.substring(9, 11), 10) || 0;
+      const min = parseInt(clean.substring(11, 13), 10) || 0;
+      const sec = parseInt(clean.substring(13, 15), 10) || 0;
 
-  return groupedEvents;
-};
+      if (rawValue.endsWith("Z")) {
+        return new Date(Date.UTC(year, month, day, hour, min, sec));
+      }
+      return new Date(year, month, day, hour, min, sec);
+    }
 
-const fillMissingDays = (year, month, eventsMap) => {
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  const filledDays = {};
+    return new Date(year, month, day);
+  };
 
-  for (let day = 1; day <= daysInMonth; day++) {
-    const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    filledDays[dateString] = eventsMap[dateString] || [];
+
+const IGNORED_TITLES = ["take a break", "reminder"];
+const parseICSData = (icsText) => {
+  if (!icsText || typeof icsText !== "string") return [];
+
+  const unfolded = icsText.replace(/\r\n[ \t]/g, "").replace(/\n[ \t]/g, "");
+  const lines = unfolded.split(/\r\n|\n|\r/);
+
+  const events = [];
+  let currentEvent = null;
+
+  for (let line of lines) {
+    const trimmed = line.trim(); // 1. Always declare trimmed FIRST
+
+    if (trimmed.startsWith("BEGIN:VEVENT")) {
+      currentEvent = {};
+    } else if (trimmed.startsWith("END:VEVENT")) {
+      if (currentEvent && currentEvent.title) {
+        // 2. Filter out ignored titles right before expanding the event instance
+        const isIgnored = IGNORED_TITLES.some((ignored) =>
+          currentEvent.title.toLowerCase().includes(ignored)
+        );
+
+        if (!isIgnored) {
+          expandEventInstances(currentEvent, events);
+        }
+      }
+      currentEvent = null;
+    } else if (currentEvent) {
+      if (trimmed.startsWith("SUMMARY")) {
+        const colonIndex = trimmed.indexOf(":");
+        if (colonIndex !== -1) {
+          currentEvent.title = trimmed.substring(colonIndex + 1).trim();
+        }
+      } else if (trimmed.startsWith("DTSTART")) {
+        currentEvent.dtstartRaw = trimmed;
+        currentEvent.start = parseiCalDate(trimmed);
+      } else if (trimmed.startsWith("DTEND")) {
+        currentEvent.end = parseiCalDate(trimmed);
+      } else if (trimmed.startsWith("RRULE")) {
+        currentEvent.rrule = trimmed;
+      } else if (trimmed.startsWith("UID")) {
+        const colonIndex = trimmed.indexOf(":");
+        if (colonIndex !== -1) {
+          currentEvent.id = trimmed.substring(colonIndex + 1).trim();
+        }
+      }
+    }
   }
 
-  return filledDays;
+  return events;
 };
 
-const isToday = (dateString) => {
-  const today = new Date();
+const expandEventInstances = (event, eventsList) => {
+  if (!event.start) return;
 
-  const formattedToday = `${today.getFullYear()}-${String(
-    today.getMonth() + 1,
-  ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+  const title = event.title || "Untitled Event";
+  const duration = event.end ? event.end.getTime() - event.start.getTime() : 3600000;
 
-  return dateString === formattedToday;
+  const windowStart = new Date(2025, 0, 1);
+  const windowEnd = new Date(2027, 11, 31);
+
+  if (event.rrule) {
+  try {
+    const ruleString = `${event.dtstartRaw}\n${event.rrule}`;
+    const rule = rrulestr(ruleString);
+
+    const dates = rule.between(windowStart, windowEnd, true);
+
+    // Preserve the original LOCAL event time
+    const originalStart = event.start;
+
+    const originalHour = originalStart.getHours();
+    const originalMinute = originalStart.getMinutes();
+    const originalSecond = originalStart.getSeconds();
+
+    dates.forEach((d) => {
+      // rrule.js gives us the recurrence date as a UTC-like Date.
+      // Use UTC components for the calendar date.
+      const year = d.getUTCFullYear();
+      const month = d.getUTCMonth();
+      const day = d.getUTCDate();
+
+      // Reconstruct the event in the user's LOCAL timezone
+      const localStart = new Date(
+        year,
+        month,
+        day,
+        originalHour,
+        originalMinute,
+        originalSecond
+      );
+
+      const localEnd = new Date(localStart.getTime() + duration);
+
+      const dateStr = formatDateStr(localStart);
+
+      eventsList.push({
+        id: `${event.id || title}-${dateStr}`,
+        title,
+        date: dateStr,
+        start: localStart.toISOString(),
+        end: localEnd.toISOString(),
+      });
+    });
+
+    return;
+  } catch (e) {
+    console.warn("Failed to parse RRULE for event:", title, e);
+  }
+}
+
+  const startDate = event.start;
+  const endDate = event.end || new Date(startDate.getTime() + duration);
+  const current = new Date(startDate);
+
+  while (current < endDate) {
+    const dateStr = formatDateStr(current);
+    eventsList.push({
+      id: `${event.id || title}-${dateStr}`,
+      title,
+      date: dateStr,
+      start: startDate.toISOString(),
+      end: endDate.toISOString(),
+    });
+    current.setDate(current.getDate() + 1);
+  }
 };
 
-const getDateParts = (dateString) => {
-  const [year, month, day] = dateString.split("-").map(Number);
-  return new Date(year, month - 1, day);
+const formatDateStr = (date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 };
+  const groupEventsByDate = (events) => {
+    const groupedEvents = events.reduce((acc, event) => {
+      const [year, month] = event.date.split("-").map(Number);
+      const monthIndex = month - 1;
 
-const WEEKDAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+      if (!acc[year]) acc[year] = {};
+      if (!acc[year][monthIndex]) acc[year][monthIndex] = {};
+      if (!acc[year][monthIndex][event.date])
+        acc[year][monthIndex][event.date] = [];
 
-const isCurrentWeekday = (weekday, currentDate) => {
-  const today = new Date();
-  const isViewingCurrentMonth =
-    currentDate.getFullYear() === today.getFullYear() &&
-    currentDate.getMonth() === today.getMonth();
+      acc[year][monthIndex][event.date].push(event);
+      return acc;
+    }, {});
 
-  return (
-    isViewingCurrentMonth &&
-    weekday ===
-      today.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()
-  );
-};
+    Object.values(groupedEvents).forEach((yearEvents) => {
+      Object.values(yearEvents).forEach((monthEvents) => {
+        Object.values(monthEvents).forEach((dayEvents) => {
+          dayEvents.sort((a, b) => getEventStartTime(a) - getEventStartTime(b));
+        });
+      });
+    });
 
-const getMondayBasedWeekdayOffset = (date) => {
-  const day = date.getDay();
-  return day === 0 ? 6 : day - 1;
-};
+    return groupedEvents;
+  };
 
-const WeekdayHeaders = ({ compact, currentDate }) => {
+  const fillMissingDays = (year, month, eventsMap) => {
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const filledDays = {};
+
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dateString = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      filledDays[dateString] = eventsMap[dateString] || [];
+    }
+
+    return filledDays;
+  };
+
+  const isToday = (dateString) => {
+    const today = new Date();
+
+    const formattedToday = `${today.getFullYear()}-${String(
+      today.getMonth() + 1,
+    ).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`;
+
+    return dateString === formattedToday;
+  };
+
+  const getDateParts = (dateString) => {
+    const [year, month, day] = dateString.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const WEEKDAYS = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"];
+
+  const isCurrentWeekday = (weekday, currentDate) => {
+    const today = new Date();
+    const isViewingCurrentMonth =
+      currentDate.getFullYear() === today.getFullYear() &&
+      currentDate.getMonth() === today.getMonth();
+
+    return (
+      isViewingCurrentMonth &&
+      weekday ===
+        today.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase()
+    );
+  };
+
+  const getMondayBasedWeekdayOffset = (date) => {
+    const day = date.getDay();
+    return day === 0 ? 6 : day - 1;
+  };
+
+  const WeekdayHeaders = ({ compact }) => {
   return (
     <div
       className={`grid grid-cols-7 gap-3 ${
@@ -94,13 +254,8 @@ const WeekdayHeaders = ({ compact, currentDate }) => {
       {WEEKDAYS.map((weekday) => (
         <div
           key={weekday}
-          className={`flex items-center justify-center rounded-2xl font-medium text-2xl text-black/50 ${
-            compact ? "h-3 sm:h-2" : "h-2 sm:h-14"
-          }`}
+          className="flex items-center justify-center rounded-xl font-medium text-xl text-black/50 h-1 sm:h-8 bg-[#F2F2F2]"
           style={{
-            backgroundColor: isCurrentWeekday(weekday, currentDate)
-              ? "#FFDA15"
-              : "#F2F2F2",
             boxShadow:
               "-9px -7px 4px 0 rgba(255, 255, 255, 0.25) inset, 0 5px 4.9px 0 rgba(0, 0, 0, 0.05)",
           }}
@@ -112,127 +267,136 @@ const WeekdayHeaders = ({ compact, currentDate }) => {
   );
 };
 
-const getEventInitials = (title) => {
-  if (!title) return "";
+  const getEventInitials = (title) => {
+    if (!title) return "";
 
-  const normalizedTitle = title.trim().toLowerCase().replace(/\s+/g, " ");
+    const normalizedTitle = title.trim().toLowerCase().replace(/\s+/g, " ");
 
-  if (normalizedTitle === "worksession" || normalizedTitle === "work session") {
-    return "WS";
-  }
+    if (normalizedTitle === "worksession" || normalizedTitle === "work session") {
+      return "WS";
+    }
 
-  return title
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((word) => word[0])
-    .join("")
-    .toUpperCase();
-};
+    return title
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map((word) => word[0])
+      .join("")
+      .toUpperCase();
+  };
 
-const getCompactCountTextColor = ({ date, isSelected }) => {
-  if (isSelected) return "#FFFFFF";
-  if (isToday(date)) return "#FFDA15";
+  const getCompactCountTextColor = ({ date, isSelected }) => {
+    if (isSelected) return "#FFFFFF";
+    if (isToday(date)) return "#FFDA15";
 
-  return "#FFFFFF";
-};
+    return "#FFFFFF";
+  };
 
-const CompactEventIndicators = ({ tasks, date, isSelected }) => {
-  if (tasks.length === 0) return null;
+  const CompactEventIndicators = ({ tasks, date, isSelected }) => {
+    if (tasks.length === 0) return null;
 
-  const visibleTasks = tasks.slice(0, 1);
-  const remainingTasks = tasks.length - visibleTasks.length;
-  const circleColor = isToday(date) ? "#665708" : "#FFDA15";
+    const visibleTasks = tasks.slice(0, 1);
+    const remainingTasks = tasks.length - visibleTasks.length;
+    const circleColor = isToday(date) ? "#665708" : "#FFDA15";
 
-  return (
-    <div className="absolute left-1/2 top-[6px] flex -translate-x-1/2 items-center justify-center gap-1">
-      {visibleTasks.map((task, index) => (
-        <div
-          key={task.id || `${task.title}-${index}`}
-          className={`flex h-8 w-8 items-center justify-center text-xs font-bold sm:h-10 sm:w-10 sm:text-sm lg:h-9 lg:w-9 lg:text-xs xl:h-10 xl:w-10 xl:text-sm ${
-            isSelected
-              ? ""
-              : "rounded-full border-2 bg-transparent uppercase"
+    return (
+      <div className="absolute left-1/2 top-[6px] flex -translate-x-1/2 items-center justify-center gap-1">
+        {visibleTasks.map((task, index) => (
+          <div
+            key={task.id || `${task.title}-${index}`}
+            className={`flex h-8 w-8 items-center justify-center text-xs font-bold sm:h-10 sm:w-10 sm:text-sm lg:h-9 lg:w-9 lg:text-xs xl:h-10 xl:w-10 xl:text-sm ${
+              isSelected
+                ? ""
+                : "rounded-full border-2 bg-transparent uppercase"
+            }`}
+            style={{
+              borderColor: circleColor,
+              color: circleColor,
+            }}
+            title={task.title}
+          >
+            {isSelected
+              ? getEventInitials(task.title).toLowerCase()
+              : getEventInitials(task.title)}
+          </div>
+        ))}
+
+        {remainingTasks > 0 && (
+          <div
+            className="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold sm:h-11 sm:w-11 sm:text-sm lg:h-10 lg:w-10 lg:text-xs xl:h-11 xl:w-11 xl:text-sm"
+            style={{
+              backgroundColor: circleColor,
+              color: getCompactCountTextColor({ date, isSelected }),
+            }}
+          >
+            +{remainingTasks}
+          </div>
+        )}
+      </div>
+    );
+  };
+
+  const Day = ({ day_number, tasks, date, onClick, isSelected, compact }) => {
+    const isCurrentDay = isToday(date);
+    return (
+      <motion.div
+        layout
+        onClick={onClick}
+        animate={{
+          borderRadius: isSelected ? "9999px" : "1rem",
+          scale: isSelected ? 0.95 : 1,
+        }}
+        whileHover={isSelected ? { scale: 0.95 } : { y: -2 }}
+        transition={{
+          layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+          borderRadius: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+          scale: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
+          y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
+        }}
+        className={`relative flex flex-col justify-start aspect-[2/1] border-3 cursor-pointer overflow-hidden transform-gpu transition-colors duration-300 ease-out ${
+          compact ? "p-1 sm:p-1.5" : "p-1.5 sm:p-2"
+        }
+        ${
+          isSelected
+            ? "bg-gradient-to-b from-[#FFF1CD] to-white border-[#FFDA15] hover:bg-[#FFE86D] hover:border-[#FFE86D]"
+            : "bg-white border-[#FFDA15] hover:border-[#FFE86D]"
+        }
+      `}
+        style={{ willChange: "transform, border-radius" }}
+      ><div className="flex justify-center w-full pt-0.5">
+        <span
+          className={`font-medium flex items-center justify-center text-xs sm:text-sm ${
+            isCurrentDay
+              ? "bg-[#FFDA15] text-black font-bold w-5 h-5 sm:w-6 sm:h-6 rounded-full"
+              : "text-[#000000] opacity-60"
           }`}
-          style={{
-            borderColor: circleColor,
-            color: circleColor,
-          }}
-          title={task.title}
         >
-          {isSelected
-            ? getEventInitials(task.title).toLowerCase()
-            : getEventInitials(task.title)}
-        </div>
-      ))}
+          {day_number}
+        </span>
+      </div>
+        {compact && !isSelected && (
+          <CompactEventIndicators
+            tasks={tasks}
+            date={date}
+            isSelected={isSelected}
+          />
+        )}
 
-      {remainingTasks > 0 && (
-        <div
-          className="flex h-9 w-9 items-center justify-center rounded-full text-xs font-bold sm:h-11 sm:w-11 sm:text-sm lg:h-10 lg:w-10 lg:text-xs xl:h-11 xl:w-11 xl:text-sm"
-          style={{
-            backgroundColor: circleColor,
-            color: getCompactCountTextColor({ date, isSelected }),
-          }}
-        >
-          +{remainingTasks}
-        </div>
-      )}
-    </div>
-  );
-};
-
-const Day = ({ day_number, tasks, date, onClick, isSelected, compact }) => {
-  return (
-    <motion.div
-      layout
-      onClick={onClick}
-      animate={{
-        borderRadius: isSelected ? "9999px" : "1.5rem",
-        scale: isSelected ? 0.95 : 1,
-      }}
-      whileHover={isSelected ? { scale: 0.95 } : { y: -4 }}
-      transition={{
-        layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-        borderRadius: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-        scale: { duration: 0.28, ease: [0.22, 1, 0.36, 1] },
-        y: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-      }}
-      className={`relative flex flex-col items-center justify-between aspect-square border-4 cursor-pointer overflow-hidden transform-gpu transition-colors duration-300 ease-out ${
-        compact ? "p-1 sm:p-2" : "p-3"
-      }
-      ${
-        isSelected
-          ? "bg-gradient-to-b from-[#FFF1CD] to-white border-[#FFDA15] hover:bg-[#FFE86D] hover:border-[#FFE86D]"
-          : isToday(date)
-          ? "bg-[#FFDA15] border-[#FFDA15] hover:bg-[#FFE86D] hover:border-[#FFE86D]"
-          : "bg-white border-[#FFDA15] hover:border-[#FFE86D]"
-      }
-    `}
-      style={{ willChange: "transform, border-radius" }}
-    >
-      {compact && !isSelected && (
-        <CompactEventIndicators
-          tasks={tasks}
-          date={date}
-          isSelected={isSelected}
-        />
-      )}
-
-      {!compact && (
-        <div className="text-xs text-gray-700 max-h-24 px-[4px] py-[8px] overflow-y-auto space-y-1 w-full min-w-0">
-          {tasks.length > 0 ? (
-            tasks.map((task, index) => (
-              <div
-                key={index}
-                className="flex flex-row items-center gap-1 relative h-fit w-full min-w-0 overflow-hidden"
-              >
-                <p className="text-black capitalize text-sm font-medium whitespace-nowrap px-px shrink-0">
-                  {formatTimeRange(task.start, task.end)[0]}{" "}
-                </p>
-                <div className="h-[0.8em] rounded-full w-px bg-black opacity-50 shrink-0" />
-                <p className="text-black text-sm whitespace-nowrap min-w-0 flex-1 overflow-hidden text-ellipsis">
-                  {task.title}
-                </p>
+        {!compact && (
+          <div className="text-xs text-gray-700 max-h-24 px-[4px] pt-0 py-[8px] overflow-y-auto space-y-0.2 w-full min-w-0 overflow-hidden">
+            {tasks.length > 0 ? (
+              tasks.map((task, index) => (
+                <div
+                  key={index}
+                  className="flex flex-row items-center gap-1 relative h-fit w-full min-w-0 overflow-hidden"
+                >
+                  <p className="text-black capitalize text-sm font-medium whitespace-nowrap shrink-0 text-[10px]">
+                    {formatTimeRange(task.start, task.end)[0]}{" "}
+                  </p>
+                  <div className="h-[0.8em] rounded-full w-px bg-black opacity-50 shrink-0" />
+                  <p className="text-black text-sm whitespace-nowrap min-w-0 flex-1 overflow-hidden text-ellipsis">
+                    {task.title}
+                  </p>
               </div>
             ))
           ) : (
@@ -240,296 +404,280 @@ const Day = ({ day_number, tasks, date, onClick, isSelected, compact }) => {
           )}
         </div>
       )}
-      <div
-        className={`font-medium text-[#000000] opacity-60 ${
-          compact ? "mb-[6px] mt-auto text-xl sm:text-2xl" : "text-3xl mb-2"
-        }`}
-      >
-        {day_number}
-      </div>
     </motion.div>
   );
 };
-const formatTimeRange = (start, end) => {
-  const startDate = parseCalendarDate(start);
-  const endDate = parseCalendarDate(end);
-  const startStr = formatCompactTime(startDate);
-  const endStr = formatCompactTime(endDate);
-  return [startStr, endStr];
-};
-
-const formatCompactTime = (date) => {
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const period = hour >= 12 ? "PM" : "AM";
-  const hour12 = hour % 12 || 12;
-
-  if (minute === 0) {
-    return `${hour12}${period}`;
-  }
-
-  return `${hour12}:${String(minute).padStart(2, "0")}`;
-};
-
-const formatFullTime = (dateString) => {
-  const date = parseCalendarDate(dateString);
-  const hour = date.getHours();
-  const minute = date.getMinutes();
-  const period = hour >= 12 ? "PM" : "AM";
-  const hour12 = hour % 12 || 12;
-  const time = minute === 0 ? `${hour12}` : `${hour12}:${String(minute).padStart(2, "0")}`;
-
-  return { time, period };
-};
-
-const formatFullTimeRange = (start, end) => {
-  const startTime = formatFullTime(start);
-  const endTime = formatFullTime(end);
-
-  if (startTime.period === endTime.period) {
-    return `${startTime.time}-${endTime.time}${endTime.period}`;
-  }
-
-  return `${startTime.time}${startTime.period}-${endTime.time}${endTime.period}`;
-};
-
-const HOUR_HEIGHT = 40;
-const MIN_EVENT_HEIGHT = 64;
-
-const parseCalendarDate = (dateString) => {
-  if (!dateString) return new Date(NaN);
-
-  if (!dateString.includes("T")) {
-    const [year, month, day] = dateString.split("-").map(Number);
-    return new Date(year, month - 1, day);
-  }
-
-  return new Date(dateString);
-};
-
-const getEventStartTime = (event) => {
-  const start = parseCalendarDate(event.start);
-  return start.getTime();
-};
-
-const getEventHours = (event) => {
-  const start = parseCalendarDate(event.start);
-  const end = parseCalendarDate(event.end);
-
-  return {
-    startHour: start.getHours() + start.getMinutes() / 60,
-    endHour: end.getHours() + end.getMinutes() / 60,
+  const formatTimeRange = (start, end) => {
+    const startDate = parseCalendarDate(start);
+    const endDate = parseCalendarDate(end);
+    const startStr = formatCompactTime(startDate);
+    const endStr = formatCompactTime(endDate);
+    return [startStr, endStr];
   };
-};
 
-const getEventLayout = (event, index) => {
-  const { startHour, endHour } = getEventHours(event);
-  const duration = Math.max(0, endHour - startHour);
-  const eventHeight = Math.max(MIN_EVENT_HEIGHT, duration * HOUR_HEIGHT);
-  const isRightSide = index % 2 !== 0;
+  const formatCompactTime = (date) => {
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
 
-  return {
-    top: `${startHour * HOUR_HEIGHT}px`,
-    height: `${eventHeight}px`,
-    left: isRightSide ? "39%" : "4%",
-    width: isRightSide ? "55%" : "62%",
-    backgroundColor: isRightSide ? "#FFEDBB" : "#FFF4B7",
+    return `${hour12}:${String(minute).padStart(2, "0")}`;
   };
-};
 
-const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+  const formatFullTime = (dateString) => {
+    const date = parseCalendarDate(dateString);
+    const hour = date.getHours();
+    const minute = date.getMinutes();
+    const period = hour >= 12 ? "PM" : "AM";
+    const hour12 = hour % 12 || 12;
+    const time = minute === 0 ? `${hour12}` : `${hour12}:${String(minute).padStart(2, "0")}`;
 
-const dayDetailMotion = {
-  hidden: {
-    opacity: 0,
-    x: -480,
-    scale: 0.98,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    scale: 1,
-  },
-};
+    return { time, period };
+  };
 
-const useIsDesktop = () => {
-  const [isDesktop, setIsDesktop] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
-  });
+  const formatFullTimeRange = (start, end) => {
+    const startTime = formatFullTime(start);
+    const endTime = formatFullTime(end);
 
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
-    const updateIsDesktop = () => setIsDesktop(mediaQuery.matches);
+    if (startTime.period === endTime.period) {
+      return `${startTime.time}-${endTime.time}${endTime.period}`;
+    }
 
-    updateIsDesktop();
-    mediaQuery.addEventListener("change", updateIsDesktop);
+    return `${startTime.time}${startTime.period}-${endTime.time}${endTime.period}`;
+  };
 
-    return () => mediaQuery.removeEventListener("change", updateIsDesktop);
-  }, []);
+  const HOUR_HEIGHT = 40;
+  const MIN_EVENT_HEIGHT = 64;
 
-  return isDesktop;
-};
+  const parseCalendarDate = (dateString) => {
+    if (!dateString) return new Date(NaN);
 
-const DayDetail = forwardRef(function DayDetail({ date, tasks, height }, ref) {
-  const timelineRef = useRef(null);
-  const isDesktop = useIsDesktop();
-  const selectedDate = getDateParts(date);
-  const sortedTasks = useMemo(
-    () => [...tasks].sort((a, b) => getEventStartTime(a) - getEventStartTime(b)),
-    [tasks],
-  );
-  const hours = Array.from({ length: 24 }, (_, hour) =>
-    new Date(2024, 0, 1, hour).toLocaleTimeString("en-US", {
-      hour: "numeric",
-      hour12: true,
-    }),
-  );
+    if (!dateString.includes("T")) {
+      const [year, month, day] = dateString.split("-").map(Number);
+      return new Date(year, month - 1, day);
+    }
 
-  useLayoutEffect(() => {
-    if (!timelineRef.current) return;
+    return new Date(dateString);
+  };
 
-    const timeline = timelineRef.current;
-    const animationFrame = requestAnimationFrame(() => {
-      if (sortedTasks.length === 0) {
-        timeline.scrollTop = 8 * HOUR_HEIGHT;
+  const getEventStartTime = (event) => {
+    const start = parseCalendarDate(event.start);
+    return start.getTime();
+  };
+
+  const getEventHours = (event) => {
+    const start = parseCalendarDate(event.start);
+    const end = parseCalendarDate(event.end);
+
+    return {
+      startHour: start.getHours() + start.getMinutes() / 60,
+      endHour: end.getHours() + end.getMinutes() / 60,
+    };
+  };
+
+  const getEventLayout = (event, index) => {
+    const { startHour, endHour } = getEventHours(event);
+    const duration = Math.max(0, endHour - startHour);
+    const eventHeight = Math.max(MIN_EVENT_HEIGHT, duration * HOUR_HEIGHT);
+    const isRightSide = index % 2 !== 0;
+
+    return {
+      top: `${startHour * HOUR_HEIGHT}px`,
+      height: `${eventHeight}px`,
+      left: isRightSide ? "39%" : "4%",
+      width: isRightSide ? "55%" : "62%",
+      backgroundColor: isRightSide ? "#FFEDBB" : "#FFF4B7",
+    };
+  };
+
+  const DESKTOP_MEDIA_QUERY = "(min-width: 1024px)";
+
+  const dayDetailMotion = {
+    hidden: {
+      opacity: 0,
+      x: -480,
+      scale: 0.98,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      scale: 1,
+    },
+  };
+
+  const useIsDesktop = () => {
+    const [isDesktop, setIsDesktop] = useState(() => {
+      if (typeof window === "undefined") return false;
+      return window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
+    });
+
+    useEffect(() => {
+      const mediaQuery = window.matchMedia(DESKTOP_MEDIA_QUERY);
+      const updateIsDesktop = () => setIsDesktop(mediaQuery.matches);
+
+      updateIsDesktop();
+      mediaQuery.addEventListener("change", updateIsDesktop);
+
+      return () => mediaQuery.removeEventListener("change", updateIsDesktop);
+    }, []);
+
+    return isDesktop;
+  };
+
+  const DayDetail = forwardRef(function DayDetail({ date, tasks, height }, ref) {
+    const timelineRef = useRef(null);
+    const isDesktop = useIsDesktop();
+    const selectedDate = getDateParts(date);
+    const sortedTasks = useMemo(
+      () => [...tasks].sort((a, b) => getEventStartTime(a) - getEventStartTime(b)),
+      [tasks],
+    );
+    const hours = Array.from({ length: 24 }, (_, hour) =>
+      new Date(2024, 0, 1, hour).toLocaleTimeString("en-US", {
+        hour: "numeric",
+        hour12: true,
+      }),
+    );
+
+    useLayoutEffect(() => {
+      if (!timelineRef.current) return;
+
+      const timeline = timelineRef.current;
+      const animationFrame = requestAnimationFrame(() => {
+        if (sortedTasks.length === 0) {
+          timeline.scrollTop = 8 * HOUR_HEIGHT;
+          return;
+        }
+
+        const firstEventStartHour = getEventHours(sortedTasks[0]).startHour;
+
+        timeline.scrollTop = Math.max(
+          0,
+          (firstEventStartHour - 1) * HOUR_HEIGHT,
+        );
+      });
+
+      return () => cancelAnimationFrame(animationFrame);
+    }, [date, sortedTasks, height]);
+
+    useEffect(() => {
+      if (!timelineRef.current || sortedTasks.length === 0) {
         return;
       }
 
-      const firstEventStartHour = getEventHours(sortedTasks[0]).startHour;
+      const firstEvent = timelineRef.current.querySelector("[data-first-event]");
 
-      timeline.scrollTop = Math.max(
-        0,
-        (firstEventStartHour - 1) * HOUR_HEIGHT,
-      );
-    });
+      firstEvent?.focus({ preventScroll: true });
+    }, [date, sortedTasks]);
 
-    return () => cancelAnimationFrame(animationFrame);
-  }, [date, sortedTasks, height]);
-
-  useEffect(() => {
-    if (!timelineRef.current || sortedTasks.length === 0) {
-      return;
-    }
-
-    const firstEvent = timelineRef.current.querySelector("[data-first-event]");
-
-    firstEvent?.focus({ preventScroll: true });
-  }, [date, sortedTasks]);
-
-  return (
-    <motion.aside
-      ref={ref}
-      layout
-      variants={dayDetailMotion}
-      initial={isDesktop ? "hidden" : false}
-      animate="visible"
-      exit={isDesktop ? "hidden" : { opacity: 1, x: 0, transition: { duration: 0 } }}
-      transition={{
-        layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-        opacity: { duration: 0.22, ease: "easeOut" },
-        scale: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
-        x: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
-      }}
-      className="w-full lg:w-[450px] shrink-0 border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-white overflow-hidden flex flex-col"
-      style={height ? { height: `${height}px` } : undefined}
-    >
-      <div className="flex items-center justify-between gap-4 border-b-4 border-[#E5E5E5] pb-5">
-        <div className="rounded-3xl bg-[#E1E1E1] px-6 py-2 text-2xl sm:text-3xl uppercase">
-          {selectedDate.toLocaleDateString("en-US", { weekday: "short" })}
-        </div>
-        <div className="text-3xl sm:text-4xl">
-          {selectedDate.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-          })}
-        </div>
-      </div>
-
-      <div
-        ref={timelineRef}
-        className="relative mt-4 flex-1 min-h-0 overflow-y-auto pr-2 scrollbar-hide"
+    return (
+      <motion.aside
+        ref={ref}
+        layout
+        variants={dayDetailMotion}
+        initial={isDesktop ? "hidden" : false}
+        animate="visible"
+        exit={isDesktop ? "hidden" : { opacity: 1, x: 0, transition: { duration: 0 } }}
+        transition={{
+          layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+          opacity: { duration: 0.22, ease: "easeOut" },
+          scale: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
+          x: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
+        }}
+        className="w-full lg:w-[450px] shrink-0 border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-white overflow-hidden flex flex-col"
+        style={height ? { height: `${height}px` } : undefined}
       >
-        <div
-          className="relative"
-          style={{ height: `${24 * HOUR_HEIGHT}px` }}
-        >
-          <div className="absolute left-[92px] top-0 bottom-0 w-1 bg-[#E5E5E5]" />
-          <div className="absolute left-0 top-0 w-[88px] text-2xl text-[#8B8B8B]">
-            {hours.map((hour) => (
-              <div
-                key={hour}
-                className="leading-10"
-                style={{ height: `${HOUR_HEIGHT}px` }}
-              >
-                {hour}
-              </div>
-            ))}
+        <div className="flex items-center justify-between gap-4 border-b-4 border-[#E5E5E5] pb-5">
+          <div className="rounded-3xl bg-[#E1E1E1] px-6 py-2 text-2xl sm:text-3xl uppercase">
+            {selectedDate.toLocaleDateString("en-US", { weekday: "short" })}
           </div>
-
-          <div className="absolute left-[112px] right-0 top-0 bottom-0">
-            {sortedTasks.length > 0 ? (
-              sortedTasks.map((task, index) => (
-                <div
-                  key={task.id || `${task.title}-${index}`}
-                  data-first-event={index === 0 ? true : undefined}
-                  tabIndex={index === 0 ? -1 : undefined}
-                  className="absolute rounded-xl bg-[#FFF4B7] px-4 py-3 overflow-hidden"
-                  style={getEventLayout(task, index)}
-                >
-                  <div className="absolute left-2 top-3 bottom-3 w-1.5 rounded-full bg-[#FFDA15]" />
-                  <p
-                    className="pl-3 text-base sm:text-lg leading-tight truncate"
-                    title={task.title}
-                  >
-                    {task.title}
-                  </p>
-                  <p className="pl-3 text-xs sm:text-sm text-[#777] leading-tight truncate">
-                    {formatFullTimeRange(task.start, task.end)}
-                  </p>
-                </div>
-              ))
-            ) : (
-              <div className="pt-4 text-xl text-[#8B8B8B]">No events</div>
-            )}
+          <div className="text-3xl sm:text-4xl">
+            {selectedDate.toLocaleDateString("en-US", {
+              month: "long",
+              day: "numeric",
+            })}
           </div>
         </div>
-      </div>
-    </motion.aside>
-  );
-});
 
-const Calender = () => {
-  const [currDate, setCurrDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [calendarGridHeight, setCalendarGridHeight] = useState(null);
-  const calendarColumnRef = useRef(null);
-  const isCalendarCompact = Boolean(selectedDate);
+        <div
+          ref={timelineRef}
+          className="relative mt-4 flex-1 min-h-0 overflow-y-auto pr-2 scrollbar-hide"
+        >
+          <div
+            className="relative"
+            style={{ height: `${24 * HOUR_HEIGHT}px` }}
+          >
+            <div className="absolute left-[92px] top-0 bottom-0 w-1 bg-[#E5E5E5]" />
+            <div className="absolute left-0 top-0 w-[88px] text-2xl text-[#8B8B8B]">
+              {hours.map((hour) => (
+                <div
+                  key={hour}
+                  className="leading-10"
+                  style={{ height: `${HOUR_HEIGHT}px` }}
+                >
+                  {hour}
+                </div>
+              ))}
+            </div>
 
-  // Fetch events
+            <div className="absolute left-[112px] right-0 top-0 bottom-0">
+              {sortedTasks.length > 0 ? (
+                sortedTasks.map((task, index) => (
+                  <div
+                    key={task.id || `${task.title}-${index}`}
+                    data-first-event={index === 0 ? true : undefined}
+                    tabIndex={index === 0 ? -1 : undefined}
+                    className="absolute rounded-xl bg-[#FFF4B7] px-4 py-3 overflow-hidden"
+                    style={getEventLayout(task, index)}
+                  >
+                    <div className="absolute left-2 top-3 bottom-3 w-1.5 rounded-full bg-[#FFDA15]" />
+                    <p
+                      className="pl-3 text-base sm:text-lg leading-tight truncate"
+                      title={task.title}
+                    >
+                      {task.title}
+                    </p>
+                    <p className="pl-3 text-xs sm:text-sm text-[#777] leading-tight truncate">
+                      {formatFullTimeRange(task.start, task.end)}
+                    </p>
+                  </div>
+                ))
+              ) : (
+                <div className="pt-4 text-xl text-[#8B8B8B]">No events</div>
+              )}
+            </div>
+          </div>
+        </div>
+      </motion.aside>
+    );
+  });
+
+  const Calender = () => {
+    const [currDate, setCurrDate] = useState(new Date());
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [selectedDate, setSelectedDate] = useState(null);
+    const [calendarGridHeight, setCalendarGridHeight] = useState(null);
+    const calendarColumnRef = useRef(null);
+    const isCalendarCompact = Boolean(selectedDate);
+
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
       try {
-        const year = currDate.getFullYear();
-        const month = currDate.getMonth();
-
-        const timeMin = new Date(year, month, 1).toISOString();
-        const timeMax = new Date(year, month + 1, 0, 23, 59, 59).toISOString();
-
-        const response = await fetch(
-          `/api/calendar?timeMin=${timeMin}&timeMax=${timeMax}`,
-        );
+        const response = await fetch(`/api/calendar?t=${Date.now()}`);
 
         if (!response.ok) {
-          throw new Error("Failed to fetch events");
+          throw new Error("Failed to fetch calendar events");
         }
 
-        const data = await response.json();
-        setEvents(data.events);
+        // FIX: Use .text() here instead of .json()
+        const icsText = await response.text();
+        
+        const parsedEvents = parseICSData(icsText);
+
+        setEvents(parsedEvents);
         setError(null);
       } catch (err) {
         console.error("Error fetching events:", err);
@@ -540,176 +688,175 @@ const Calender = () => {
     };
 
     fetchEvents();
-  }, [currDate]);
+  }, [currDate]); 
 
-  const groupedEvents = useMemo(() => groupEventsByDate(events), [events]);
+    const groupedEvents = useMemo(() => groupEventsByDate(events), [events]);
 
-  const currEvents = useMemo(() => {
-    const year = currDate.getFullYear();
-    const month = currDate.getMonth();
-    const monthEvents = groupedEvents[year]?.[month] || {};
-    return fillMissingDays(year, month, monthEvents);
-  }, [currDate, groupedEvents]);
+    const currEvents = useMemo(() => {
+      const year = currDate.getFullYear();
+      const month = currDate.getMonth();
+      const monthEvents = groupedEvents[year]?.[month] || {};
+      return fillMissingDays(year, month, monthEvents);
+    }, [currDate, groupedEvents]);
 
-  const firstWeekdayOffset = useMemo(
-    () =>
-      getMondayBasedWeekdayOffset(
-        new Date(currDate.getFullYear(), currDate.getMonth(), 1),
-      ),
-    [currDate],
-  );
-  const monthKey = `${currDate.getFullYear()}-${currDate.getMonth()}`;
+    const firstWeekdayOffset = useMemo(
+      () =>
+        getMondayBasedWeekdayOffset(
+          new Date(currDate.getFullYear(), currDate.getMonth(), 1),
+        ),
+      [currDate],
+    );
+    const monthKey = `${currDate.getFullYear()}-${currDate.getMonth()}`;
 
-  useEffect(() => {
-    if (!selectedDate || !calendarColumnRef.current) {
-      setCalendarGridHeight(null);
-      return;
-    }
+    useEffect(() => {
+      if (!selectedDate || !calendarColumnRef.current) {
+        setCalendarGridHeight(null);
+        return;
+      }
 
-    const calendarColumn = calendarColumnRef.current;
-    const updateCalendarHeight = () => {
-      setCalendarGridHeight(calendarColumn.offsetHeight);
+      const calendarColumn = calendarColumnRef.current;
+      const updateCalendarHeight = () => {
+        setCalendarGridHeight(calendarColumn.offsetHeight);
+      };
+
+      updateCalendarHeight();
+
+      const resizeObserver = new ResizeObserver(updateCalendarHeight);
+      resizeObserver.observe(calendarColumn);
+
+      return () => resizeObserver.disconnect();
+    }, [selectedDate, currEvents]);
+
+    const handleDayClick = (date) => {
+      setSelectedDate((currentDate) => {
+        return currentDate === date ? null : date;
+      });
     };
 
-    updateCalendarHeight();
+    const CalenderNav = () => {
+      return (
+        <div className="flex items-center justify-end gap-3 py-4">
+          <button
+            onClick={() => {
+              const newDate = new Date(currDate);
+              newDate.setMonth(newDate.getMonth() - 1);
+              setCurrDate(newDate);
+              setSelectedDate(null);
+            }}
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            &lt;
+          </button>
 
-    const resizeObserver = new ResizeObserver(updateCalendarHeight);
-    resizeObserver.observe(calendarColumn);
+          <div className="text-sm sm:text-base bg-[#F5F5F5] px-4 py-1 rounded-lg font-medium">
+            {`${currDate.toLocaleString("en-US", { month: "long" })} ${currDate.getFullYear()}`}
+          </div>
 
-    return () => resizeObserver.disconnect();
-  }, [selectedDate, currEvents]);
-
-  const handleDayClick = (date) => {
-    setSelectedDate((currentDate) => {
-      return currentDate === date ? null : date;
-    });
-  };
-
-  const CalenderNav = () => {
-    return (
-      <div className="flex items-center justify-end gap-3 py-4">
-        <button
-          onClick={() => {
-            const newDate = new Date(currDate);
-            newDate.setMonth(newDate.getMonth() - 1);
-            setCurrDate(newDate);
-            setSelectedDate(null);
-          }}
-          className="p-2 rounded-full hover:bg-gray-100"
-        >
-          &lt;
-        </button>
-
-        <div className="text-sm sm:text-base bg-[#F5F5F5] px-4 py-1 rounded-lg font-medium">
-          {`${currDate.toLocaleString("en-US", { month: "long" })} ${currDate.getFullYear()}`}
+          <button
+            onClick={() => {
+              const newDate = new Date(currDate);
+              newDate.setMonth(newDate.getMonth() + 1);
+              setCurrDate(newDate);
+              setSelectedDate(null);
+            }}
+            className="p-2 rounded-full hover:bg-gray-100"
+          >
+            &gt;
+          </button>
         </div>
+      );
+    };
 
-        <button
-          onClick={() => {
-            const newDate = new Date(currDate);
-            newDate.setMonth(newDate.getMonth() + 1);
-            setCurrDate(newDate);
-            setSelectedDate(null);
-          }}
-          className="p-2 rounded-full hover:bg-gray-100"
-        >
-          &gt;
-        </button>
+    return (
+      <div>
+        <Navbar />
+
+        <div className="flex flex-col px-4 sm:px-8 py-8">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-2">
+            <div className="flex flex-row items-center justify-start gap-4">
+              <h1 className="text-[9vw] dk-prince-frog mt-[-1vw] ml-[4vw]">
+              CaIendar
+            </h1>
+            <Image
+              src={"/monkey.png"}
+              width={4000}
+              height={4000}
+              alt="funky monkey image"
+              className="-mt-[5vw] ml-[1.5vw] max-w-[8rem] w-[33vw] h-auto"
+            />
+          </div>
+          <CalenderNav />
+          </div>
+          {loading && <div className="text-center py-4">Loading events...</div>}
+          {error && (
+            <div className="text-center py-4 text-red-500">Error: {error}</div>
+          )}
+
+          {!loading && !error && (
+            <motion.div
+              layout
+              className="flex flex-col lg:flex-row gap-6 items-start"
+              transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+            >
+              <AnimatePresence initial={false} mode="popLayout">
+                {selectedDate && (
+                  <DayDetail
+                    key="calendar-day-detail"
+                    date={selectedDate}
+                    tasks={currEvents[selectedDate] || []}
+                    height={calendarGridHeight}
+                  />
+                )}
+              </AnimatePresence>
+
+              <motion.div
+                layout
+                ref={calendarColumnRef}
+                className="w-full space-y-5"
+                transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
+              >
+                <WeekdayHeaders
+                  compact={isCalendarCompact}
+                  currentDate={currDate}
+                />
+
+                <div
+                  className={`grid w-full gap-3 ${
+                    isCalendarCompact
+                      ? "grid-cols-7 content-start overflow-y-auto pr-2"
+                      : "grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7"
+                  }`}
+                >
+                  {Array.from({ length: firstWeekdayOffset }).map((_, index) => (
+                    <div
+                      key={`empty-${index}`}
+                      className={isCalendarCompact ? "block" : "hidden lg:block"}
+                      aria-hidden="true"
+                    />
+                  ))}
+
+                  {Object.entries(currEvents).map(([date, events]) => {
+                    const dayNumber = parseInt(date.split("-")[2], 10);
+
+                    return (
+                      <Day
+                        key={date}
+                        day_number={dayNumber}
+                        tasks={events}
+                        date={date}
+                        onClick={() => handleDayClick(date)}
+                        isSelected={selectedDate === date}
+                        compact={isCalendarCompact}
+                      />
+                    );
+                  })}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </div>
       </div>
     );
   };
 
-  return (
-    <div>
-      <Navbar />
-
-      <div className="flex flex-col px-4 sm:px-8 py-8">
-        <div className="flex flex-row items-center justify-start gap-4">
-          <h1 className="text-[11vw] dk-prince-frog mt-[-1vw] ml-[4vw]">
-            Calendar
-          </h1>
-          <Image
-            src={"/images/CalendarRight.svg"}
-            alt="hero right image"
-            width={4000}
-            height={4000}
-            className="w-[10vw] h-auto mt-[0vw] unselectable"
-          />
-        </div>
-        <CalenderNav />
-
-        {loading && <div className="text-center py-4">Loading events...</div>}
-        {error && (
-          <div className="text-center py-4 text-red-500">Error: {error}</div>
-        )}
-
-        {!loading && !error && (
-          <motion.div
-            layout
-            className="flex flex-col lg:flex-row gap-6 items-start"
-            transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-          >
-            <AnimatePresence initial={false} mode="popLayout">
-              {selectedDate && (
-                <DayDetail
-                  key="calendar-day-detail"
-                  date={selectedDate}
-                  tasks={currEvents[selectedDate] || []}
-                  height={calendarGridHeight}
-                />
-              )}
-            </AnimatePresence>
-
-            <motion.div
-              layout
-              ref={calendarColumnRef}
-              className="w-full space-y-5"
-              transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-            >
-              <WeekdayHeaders
-                compact={isCalendarCompact}
-                currentDate={currDate}
-              />
-
-              <div
-                className={`grid w-full gap-3 ${
-                  isCalendarCompact
-                    ? "grid-cols-7 content-start overflow-y-auto pr-2"
-                    : "grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-7"
-                }`}
-              >
-                {Array.from({ length: firstWeekdayOffset }).map((_, index) => (
-                  <div
-                    key={`empty-${index}`}
-                    className={`aspect-square ${
-                      isCalendarCompact ? "block" : "hidden lg:block"
-                    }`}
-                    aria-hidden="true"
-                  />
-                ))}
-
-                {Object.entries(currEvents).map(([date, events]) => {
-                  const dayNumber = parseInt(date.split("-")[2], 10);
-
-                  return (
-                    <Day
-                      key={date}
-                      day_number={dayNumber}
-                      tasks={events}
-                      date={date}
-                      onClick={() => handleDayClick(date)}
-                      isSelected={selectedDate === date}
-                      compact={isCalendarCompact}
-                    />
-                  );
-                })}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </div>
-    </div>
-  );
-};
-
-export default Calender;
+  export default Calender;

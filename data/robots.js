@@ -1,4 +1,13 @@
 const robotDetails = {
+    2026: {
+    sourceTitle: "PhotoJournal_2026",
+    description: "Supplemental archive currently provides a 2026 season-summary image.",
+    bullets: [],
+    images: [
+      "/images/robot_details/2026/intakedrivetrain.webp",
+      "/images/robot_details/2026/ShotSystem.webp",
+    ],
+  },
   2025: {
     sourceTitle: "Reefscape_2025",
     description: "Supplemental archive includes Reefscape detail images for coral, algae, and drive/climber mechanisms.",
@@ -189,7 +198,11 @@ const robotDetails = {
 };
 
 const robots = [
-
+  {
+    name: "Xenothrix",
+    image: "/images/robot_renders/RobotRender26.png",
+    details: robotDetails[2026],
+  },
   {
     name: "Monkey D' Luffy",
     image: "/images/robot_renders/RobotRender25.png",

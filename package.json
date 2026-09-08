@@ -11,10 +11,12 @@
   "dependencies": {
     "framer-motion": "^12.23.12",
     "googleapis": "^171.4.0",
+    "ical.js": "^2.2.1",
     "next": "^16.1.6",
     "nextjs": "^0.0.3",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "rrule": "^2.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

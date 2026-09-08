@@ -15,12 +15,12 @@ body {
   font-family: var(--font-my-custom), Arial, sans-serif;
 }
 
-/* unselectable content */
+
 .unselectable {
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
+  -webkit-user-select: none; 
+  -moz-user-select: none; 
+  -ms-user-select: none; 
+  user-select: none; 
 }
 
 .scrollbar-hide::-webkit-scrollbar {
@@ -28,8 +28,8 @@ body {
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 }
 
 .robot-scrollbar {
@@ -55,4 +55,13 @@ body {
 
 .robot-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #efc900;
+}
+
+.contact-page-background {
+  background:
+    radial-gradient(circle at top left, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
+    radial-gradient(circle at top right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
+    radial-gradient(circle at bottom left, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
+    radial-gradient(circle at bottom right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
+    white;
 }
