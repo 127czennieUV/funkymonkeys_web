@@ -43,7 +43,7 @@ const Officers = () => {
           <h1 className="text-2xl mt-[6vw] ml-[4vw]">Meet Our</h1>
           <div className="w-[9vw] h-[2px] bg-[#666666] mt-[0.5vw] ml-[4vw] font-medium"></div>
           <h1 className="text-[11vw] dk-prince-frog mt-[-1vw] ml-[4vw]">
-            Members
+            Officers
           </h1>
         </div>
         <Navbar />

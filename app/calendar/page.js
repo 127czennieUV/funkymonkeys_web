@@ -420,8 +420,7 @@ const formatDateStr = (date) => {
     const minute = date.getMinutes();
     const period = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
-
-    return `${hour12}:${String(minute).padStart(2, "0")}`;
+    return `${hour12}:${String(minute).padStart(2, "0")}${period.toLowerCase()}`;
   };
 
   const formatFullTime = (dateString) => {
@@ -430,8 +429,7 @@ const formatDateStr = (date) => {
     const minute = date.getMinutes();
     const period = hour >= 12 ? "PM" : "AM";
     const hour12 = hour % 12 || 12;
-    const time = minute === 0 ? `${hour12}` : `${hour12}:${String(minute).padStart(2, "0")}`;
-
+    const time = `${hour12}:${String(minute).padStart(2, "0")}`;
     return { time, period };
   };
 
@@ -484,8 +482,8 @@ const formatDateStr = (date) => {
     return {
       top: `${startHour * HOUR_HEIGHT}px`,
       height: `${eventHeight}px`,
-      left: isRightSide ? "39%" : "4%",
-      width: isRightSide ? "55%" : "62%",
+      left: "0.5%",
+      width: "92%",
       backgroundColor: isRightSide ? "#FFEDBB" : "#FFF4B7",
     };
   };
@@ -524,9 +522,8 @@ const formatDateStr = (date) => {
     return isDesktop;
   };
 
-  const DayDetail = forwardRef(function DayDetail({ date, tasks, height }, ref) {
+  const DayDetail = ({date, tasks, onClose}) => {
     const timelineRef = useRef(null);
-    const isDesktop = useIsDesktop();
     const selectedDate = getDateParts(date);
     const sortedTasks = useMemo(
       () => [...tasks].sort((a, b) => getEventStartTime(a) - getEventStartTime(b)),
@@ -539,56 +536,51 @@ const formatDateStr = (date) => {
       }),
     );
 
-    useLayoutEffect(() => {
-      if (!timelineRef.current) return;
-
-      const timeline = timelineRef.current;
-      const animationFrame = requestAnimationFrame(() => {
-        if (sortedTasks.length === 0) {
-          timeline.scrollTop = 8 * HOUR_HEIGHT;
-          return;
-        }
-
+    useEffect(() => {
+      if (!timelineRef.current || sortedTasks.length ===0) return;
         const firstEventStartHour = getEventHours(sortedTasks[0]).startHour;
 
-        timeline.scrollTop = Math.max(
+        timelineRef.current.scrollTop = Math.max(
           0,
           (firstEventStartHour - 1) * HOUR_HEIGHT,
         );
-      });
+      }, [date, sortedTasks]);
 
-      return () => cancelAnimationFrame(animationFrame);
-    }, [date, sortedTasks, height]);
 
     useEffect(() => {
-      if (!timelineRef.current || sortedTasks.length === 0) {
-        return;
-      }
-
-      const firstEvent = timelineRef.current.querySelector("[data-first-event]");
-
-      firstEvent?.focus({ preventScroll: true });
-    }, [date, sortedTasks]);
-
+      const handleKeyDown = (event) => {
+        if (event.key === "Escape") {
+          onClose();
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    },[onClose]);
     return (
-      <motion.aside
-        ref={ref}
-        layout
-        variants={dayDetailMotion}
-        initial={isDesktop ? "hidden" : false}
-        animate="visible"
-        exit={isDesktop ? "hidden" : { opacity: 1, x: 0, transition: { duration: 0 } }}
-        transition={{
-          layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
-          opacity: { duration: 0.22, ease: "easeOut" },
-          scale: { duration: 0.34, ease: [0.22, 1, 0.36, 1] },
-          x: { duration: 0.42, ease: [0.22, 1, 0.36, 1] },
-        }}
-        className="w-full lg:w-[450px] shrink-0 border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-white overflow-hidden flex flex-col"
-        style={height ? { height: `${height}px` } : undefined}
+      <motion.div
+        className= "fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-[2px] p-4 sm:p-6"
+        initial = {{opacity: 0}}
+        animate = {{opacity: 1}}
+        exit={{opacity:0}}
+        transition={{duration:0.2}}
+        onClick = {onClose}
       >
+        <motion.aside
+          initial={{opacity: 0, scale: 0.92, y: 20}}
+          animate={{opacity: 1, scale: 1, y: 0}}
+          exit={{opacity: 1, scale: 0.92, y:20 }}
+          transition={{
+            duration: 0.3,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        onClick = {(event) => event.stopPropagation()}
+        className="relative w-full max-w-[600px] h-[75vh] sm:h-[650px] border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-white overflow-hidden flex flex-col shadow-2xl"
+      >
+        {/*Header*/}
         <div className="flex items-center justify-between gap-4 border-b-4 border-[#E5E5E5] pb-5">
-          <div className="rounded-3xl bg-[#E1E1E1] px-6 py-2 text-2xl sm:text-3xl uppercase">
+          <div className="rounded-3xl bg-[#E1E1E1] px-6 py-2 text-2xl sm:text-2xl uppercase">
             {selectedDate.toLocaleDateString("en-US", { weekday: "short" })}
           </div>
           <div className="text-3xl sm:text-4xl">
@@ -597,18 +589,27 @@ const formatDateStr = (date) => {
               day: "numeric",
             })}
           </div>
+        {/*Close button*/}
+        <button
+          onClick = {onClose}
+          aria-label="Close"
+          className = "flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#F2F2F2] text-xl text-black/60 transition hover:bg-[#E5E5E5] hover:text-black"
+        >
+          x
+          </button>
         </div>
-
+        {/*Timeline*/}
         <div
           ref={timelineRef}
           className="relative mt-4 flex-1 min-h-0 overflow-y-auto pr-2 scrollbar-hide"
         >
-          <div
-            className="relative"
-            style={{ height: `${24 * HOUR_HEIGHT}px` }}
-          >
-            <div className="absolute left-[92px] top-0 bottom-0 w-1 bg-[#E5E5E5]" />
-            <div className="absolute left-0 top-0 w-[88px] text-2xl text-[#8B8B8B]">
+            <div className="relative"
+              style={{
+                height: `${24*HOUR_HEIGHT}px`,
+              }}>
+              {/*Timeline line*/}
+              <div className="absolute left-[72px] sm:left-[92px] top-0 bottom-0 w-1 bg-[#E5E5E5]"/>
+              <div className="absolute left-0 top-0 w-[68px] sm:w-[88px] text-lg sm:text-2xl text-[#8B8B8B]">
               {hours.map((hour) => (
                 <div
                   key={hour}
@@ -619,20 +620,18 @@ const formatDateStr = (date) => {
                 </div>
               ))}
             </div>
-
-            <div className="absolute left-[112px] right-0 top-0 bottom-0">
+            {/*Events*/}
+            <div className="absolute left-[88px] sm:left-[112px] right-0 top-0 bottom-0">
               {sortedTasks.length > 0 ? (
                 sortedTasks.map((task, index) => (
                   <div
                     key={task.id || `${task.title}-${index}`}
-                    data-first-event={index === 0 ? true : undefined}
-                    tabIndex={index === 0 ? -1 : undefined}
                     className="absolute rounded-xl bg-[#FFF4B7] px-4 py-3 overflow-hidden"
                     style={getEventLayout(task, index)}
                   >
                     <div className="absolute left-2 top-3 bottom-3 w-1.5 rounded-full bg-[#FFDA15]" />
                     <p
-                      className="pl-3 text-base sm:text-lg leading-tight truncate"
+                      className="pl-3 text-base sm:text-lg leading-tight whitespace-nowrap"
                       title={task.title}
                     >
                       {task.title}
@@ -643,23 +642,24 @@ const formatDateStr = (date) => {
                   </div>
                 ))
               ) : (
-                <div className="pt-4 text-xl text-[#8B8B8B]">No events</div>
+                <div className="pt-4 text-xl text-[#8B8B8B]">
+                  No events
+                  </div>
               )}
             </div>
           </div>
         </div>
       </motion.aside>
+      </motion.div>
     );
-  });
+  };
 
-  const Calender = () => {
+  const Calendar = () => {
     const [currDate, setCurrDate] = useState(new Date());
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
-    const [calendarGridHeight, setCalendarGridHeight] = useState(null);
-    const calendarColumnRef = useRef(null);
     const isCalendarCompact = Boolean(selectedDate);
 
   useEffect(() => {
@@ -706,26 +706,6 @@ const formatDateStr = (date) => {
         ),
       [currDate],
     );
-    const monthKey = `${currDate.getFullYear()}-${currDate.getMonth()}`;
-
-    useEffect(() => {
-      if (!selectedDate || !calendarColumnRef.current) {
-        setCalendarGridHeight(null);
-        return;
-      }
-
-      const calendarColumn = calendarColumnRef.current;
-      const updateCalendarHeight = () => {
-        setCalendarGridHeight(calendarColumn.offsetHeight);
-      };
-
-      updateCalendarHeight();
-
-      const resizeObserver = new ResizeObserver(updateCalendarHeight);
-      resizeObserver.observe(calendarColumn);
-
-      return () => resizeObserver.disconnect();
-    }, [selectedDate, currEvents]);
 
     const handleDayClick = (date) => {
       setSelectedDate((currentDate) => {
@@ -733,7 +713,7 @@ const formatDateStr = (date) => {
       });
     };
 
-    const CalenderNav = () => {
+    const CalendarNav = () => {
       return (
         <div className="flex items-center justify-end gap-3 py-4">
           <button
@@ -785,39 +765,31 @@ const formatDateStr = (date) => {
               className="-mt-[5vw] ml-[1.5vw] max-w-[8rem] w-[33vw] h-auto"
             />
           </div>
-          <CalenderNav />
+          <CalendarNav />
           </div>
           {loading && <div className="text-center py-4">Loading events...</div>}
           {error && (
             <div className="text-center py-4 text-red-500">Error: {error}</div>
           )}
-
+ 
           {!loading && !error && (
-            <motion.div
-              layout
-              className="flex flex-col lg:flex-row gap-6 items-start"
-              transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
-            >
-              <AnimatePresence initial={false} mode="popLayout">
+            <>
+              <AnimatePresence>
                 {selectedDate && (
                   <DayDetail
-                    key="calendar-day-detail"
                     date={selectedDate}
                     tasks={currEvents[selectedDate] || []}
-                    height={calendarGridHeight}
+                    onClose={()=> setSelectedDate(null)}
                   />
                 )}
-              </AnimatePresence>
+                </AnimatePresence>
 
               <motion.div
                 layout
-                ref={calendarColumnRef}
                 className="w-full space-y-5"
-                transition={{ layout: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } }}
               >
                 <WeekdayHeaders
                   compact={isCalendarCompact}
-                  currentDate={currDate}
                 />
 
                 <div
@@ -848,15 +820,14 @@ const formatDateStr = (date) => {
                         isSelected={selectedDate === date}
                         compact={isCalendarCompact}
                       />
-                    );
-                  })}
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </div>
-      </div>
-    );
-  };
-
-  export default Calender;
+              );
+            })}
+          </div>
+        </motion.div>
+      </>
+    )}
+  </div>
+    </div>
+  );
+};
+  export default Calendar;

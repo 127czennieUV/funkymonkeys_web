@@ -48,7 +48,7 @@ const Navbar = () => {
                 href="https://fsm846.vercel.app/"
                 className="hover:text-black transition-colors px-2 text-center tracking-wide"
                 >
-                  FunkyStats
+                  FUNKYSTATS
                 </Link>
               <Link
                 href="/newsletters"
@@ -69,20 +69,22 @@ const Navbar = () => {
                 MEDIA
               </Link>
               <Link
-                href="/media"
+                href = "https://monkeyscout.vercel.app/"
                 className = "hover: text-gray-800 transition-colors px-2 text-center tracking-wide"
-              ></Link>
+                >
+                  SCOUTING
+                </Link>
             </div>
           </div>
         </div>
         <a
-          href="https://monkeyscout.vercel.app/"
+          href="/sponsors"
           className="hover:underline text-[1.375rem]"
         >
-          SCOUTING
+          SPONSORS
         </a>
+        </div>
       </div>
-    </div>
   );
 };
 
