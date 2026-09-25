@@ -93,7 +93,7 @@ const newsletters = [
     title: "Volume 30: Robotics & Innovation",
     description:
       "A look at the people, robots, and ideas that made this season memorable.",
-    image: "/images/newsletters/.png",
+    image: "/images/newsletters/20fall.png",
     pdf: "/newsletter-pdf/fall2021.pdf",
   },
   {
@@ -102,7 +102,7 @@ const newsletters = [
     title: "Volume 29: Building Together",
     description:
       "Exploring teamwork, engineering, outreach, and our journey through another robotics season.",
-    image: "/newsletter/2016-2017.png",
+    image: "/images/newsletters/20spring.png",
     pdf: "/newsletter-pdf/spring1920.pdf",
   },
   {
@@ -111,7 +111,7 @@ const newsletters = [
     title: "Volume 28: Engineering in Action",
     description:
       "Featuring our competition robot, student projects, and the work happening throughout our team.",
-    image: "/newsletter/2015-2016.png",
+    image: "/images/newsletters/19winter.png",
     pdf: "/newsletter-pdf/winter1920.pdf",
   },
   {
@@ -129,7 +129,7 @@ const newsletters = [
     title: "Volume 26: The Championship Push",
     description:
       "Exploring new drivetrain designs, our impact on the community, and our commitment to championship competition.",
-    image: "/newsletter/2013-2014.png",
+    image: "/images/newsletters/19spring.jpg",
     pdf: "/newsletter-pdf/spring1819.pdf",
   },
   {
@@ -138,7 +138,7 @@ const newsletters = [
     title: "Volume 25: The Championship Push",
     description:
       "Exploring new drivetrain designs, innovation, and the team's journey through another competition season.",
-    image: "/newsletter/2012-2013.png",
+    image: "/images/newsletters/18fall.jpg",
     pdf: "/newsletter-pdf/fall1819.pdf",
   },
   {
@@ -147,7 +147,7 @@ const newsletters = [
     title: "Volume 24: Robotics & Innovation",
     description:
       "Highlights from another year of engineering, robotics, and community involvement.",
-    image: "/newsletter/2011-2012.png",
+    image: "/images/newsletters/extra17fall.png",
     pdf: "/newsletter-pdf/fallextra1718.pdf",
   },
   {
@@ -156,7 +156,7 @@ const newsletters = [
     title: "Volume 23: Robotics & Innovation",
     description:
       "A look at our team's projects, competitions, and innovations.",
-    image: "/newsletter/2010-2011.png",
+    image: "/images/newsletters/17fall.png",
     pdf: "/newsletter-pdf/fall1718.pdf",
   },
   {
@@ -165,7 +165,7 @@ const newsletters = [
     title: "Volume 22: Robotics & Innovation",
     description:
       "Exploring the team's early projects, competitions, and impact.",
-    image: "/newsletter/2009-2010.png",
+    image: "/images/newsletters/17spring.jpg",
     pdf: "/newsletter-pdf/spring1617.pdf",
   },
   {
@@ -174,7 +174,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "A look back at the early years of Funky Monkeys and the foundation of our robotics program.",
-    image: "/newsletter/2008-2009.png",
+    image: "/images/newsletters/16winter.png",
     pdf: "/newsletter-pdf/winter1617.pdf",
   },
   {
@@ -183,7 +183,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "A look back at the early years of Funky Monkeys and the foundation of our robotics program.",
-    image: "/newsletter/2008-2009.png",
+    image: "/images/newsletters/16spring.png",
     pdf: "/newsletter-pdf/spring1516.pdf",
   },
   {
@@ -192,7 +192,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "A look back at the early years of Funky Monkeys and the foundation of our robotics program.",
-    image: "/newsletter/2008-2009.png",
+    image: "/images/newsletters/15fall.png",
     pdf: "/newsletter-pdf/fall1516.pdf",
   },
   {
@@ -201,7 +201,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/images/newsletters/14winter.png",
     pdf: "newsletter-pdf/winter1415.pdf",
   },
   {
@@ -210,7 +210,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/images/newsletters/14fall.png",
     pdf: "newsletter-pdf/fall1415.pdf",
   },
   {
@@ -219,7 +219,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/images/newsletters/14spring.png",
     pdf: "newsletter-pdf/spring1314.pdf",
   },
   {
@@ -228,7 +228,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/images/newsletters/13winter.png",
     pdf: "newsletter-pdf/winter1314.pdf",
   },
   {
@@ -237,7 +237,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/images/newsletters/13fall.png",
     pdf: "newsletter-pdf/fall1314.pdf",
   },
   {
@@ -246,7 +246,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/winter1213.pdf",
   },
   {
@@ -255,7 +255,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/summer1213.pdf",
   },
   {
@@ -264,7 +264,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/spring1112.pdf",
   },
   {
@@ -273,7 +273,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/winter1112.pdf",
   },
   {
@@ -282,7 +282,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/summer1112.pdf",
   },
   {
@@ -291,7 +291,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/spring1011.pdf",
   },
   {
@@ -300,7 +300,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/spring0910.pdf",
   },
   {
@@ -309,7 +309,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/winter0910.pdf",
   },
   {
@@ -318,7 +318,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/summer0809.pdf",
   },
   {
@@ -327,7 +327,7 @@ const newsletters = [
     title: "Volume 11: The Beginning",
     description:
       "sdfljsdfjadsoi.",
-    image: "/newsletter/.png",
+    image: "/monkey.png",
     pdf: "newsletter-pdf/spring0809.pdf",
   },
 ];
@@ -337,7 +337,6 @@ const Newsletter = () => {
     <main className="min-h-screen">
       <Navbar />
 
-      {/* HEADER */}
       <div className="flex flex-row items-center justify-start gap-4">
         <header className="px-[3.5rem] pb-6 pt-[6rem]">
           <h1 className="text-[9vw] dk-prince-frog loading-[85%]">
@@ -354,10 +353,7 @@ const Newsletter = () => {
         />
       </div>
 
-      {/* NEWSLETTER ARCHIVE */}
       <section className="mx-auto max-w-[1400px] px-6 pb-20 md:px-10">
-
-        {/* ARCHIVE TITLE */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold">
             Our Legacy in Print
@@ -369,15 +365,12 @@ const Newsletter = () => {
             and community.
           </p>
         </div>
-
-        {/* NEWSLETTER CARDS */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           {newsletters.map((newsletter) => (
             <article
               key={newsletter.year}
               className="flex min-h-[260px] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
             >
-              {/* IMAGE */}
               <div className="relative w-[42%] shrink-0 overflow-hidden">
                 <Image
                   src={newsletter.image}
@@ -386,8 +379,6 @@ const Newsletter = () => {
                   className="object-cover"
                 />
               </div>
-
-              {/* CONTENT */}
               <div className="flex flex-1 flex-col justify-between p-5">
                 <div>
                   <p className="mb-2 inline-block rounded-md bg-[#FFDA15] px-3 py-1 text-sm font-semibold">
@@ -403,7 +394,6 @@ const Newsletter = () => {
                   </p>
                 </div>
 
-                {/* BUTTONS */}
                 <div className="mt-5 flex flex-wrap gap-2">
                   <a
                     href={newsletter.pdf}

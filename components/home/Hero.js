@@ -120,6 +120,7 @@ const Hero = () => {
                 >
                   About Us 
                 </Link>
+                
                 <Link
                   href="/contact"
                   className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-[1.5rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
