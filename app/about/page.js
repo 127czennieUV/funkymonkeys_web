@@ -4,7 +4,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import FromStudents from "@/components/home/FromStudents";
 import MonkeyBox from "@/components/home/MonkeyBox";
-import { motion } from "framer-motion";
+
 
 const About = () => {
   return (

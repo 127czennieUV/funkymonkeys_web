@@ -51,7 +51,7 @@ const Navbar = () => {
                   FUNKYSTATS
                 </Link>
               <Link
-                href="/newsletters"
+                href="/newsletter"
                 className="hover:text-gray-800 transition-colors px-2 text-center tracking-wide"
               >
                 NEWSLETTERS
@@ -61,12 +61,6 @@ const Navbar = () => {
                 className="hover:text-gray-800 transition-colors px-2 text-center tracking-wide"
               >
                 MONKEYBOX
-              </Link>
-              <Link
-                href="/media"
-                className="hover:text-gray-800 transition-colors px-2 text-center tracking-wide"
-              >
-                MEDIA
               </Link>
               <Link
                 href = "https://monkeyscout.vercel.app/"

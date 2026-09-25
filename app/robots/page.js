@@ -5,14 +5,13 @@ import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
 
-// components
+
 import RobotSlide from "@/components/robot/RobotSlide";
 import Footer from "@/components/layout/Footer";
 
-// data
+
 import robotsData from "@/data/robots";
 
-// Enhance robots with year if missing
 const robots = robotsData.map((robot) => ({
   ...robot,
   year: robot.image.match(/Render(\d+)/)
@@ -257,7 +256,7 @@ const Robot = () => {
             .range-slider-thumb::-webkit-slider-thumb {
               pointer-events: auto;
               appearance: none;
-              width: 16px;
+              width: 14px;
               height: 16px;
               background: #FFDA15;
               border-radius: 50%;
@@ -268,7 +267,7 @@ const Robot = () => {
             .range-slider-thumb::-moz-range-thumb {
               pointer-events: auto;
               appearance: none;
-              width: 16px;
+              width: 14px;
               height: 16px;
               background: #FFDA15;
               border-radius: 50%;
@@ -288,7 +287,7 @@ const Robot = () => {
               </span>
             </div>
 
-            <div className="relative w-full h-6 flex items-center flex-1">
+            <div className="relative h-6 flex items-center flex-1">
               {/* Visual Track */}
               <div className="absolute w-full h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div

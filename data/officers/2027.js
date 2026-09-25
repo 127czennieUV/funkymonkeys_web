@@ -53,7 +53,7 @@ export const officers = [
   },
   {
     name: "Sophia Shi",
-    position: "Outreach Lead",
+    position: "Co-Outreach Lead",
   },
   {
     name: "Samanvi Bandugula",
