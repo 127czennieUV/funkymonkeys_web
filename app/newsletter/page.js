@@ -382,9 +382,7 @@ const Newsletter = () => {
         <div className="mb-8">
 
           <p className="max-w-2xl text-gray-600">
-            Explore the history of Funky Monkeys through our collection
-            of newsletters, covering our team's projects, competitions,
-            and community.
+            The team’s writers gather and work together to write wonderful articles describing their personal experiences during the season. Every newsletter highlights many different experiences of being on an FRC team.
           </p>
         </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">

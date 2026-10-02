@@ -25,7 +25,7 @@ const itemVariants = {
 const Hero = () => {
   return (
     <motion.div
-      className="flex  flex-row h-[100%]"
+      className="flex flex-row min-h-screen"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -133,7 +133,7 @@ const Hero = () => {
           </motion.div>
         </motion.div>
         <motion.div
-          className="mt-auto flex min-h-[12rem] flex-row items-center justify-between bg-[#FFF7AB] px-[4vw] py-8"
+          className="mt-auto flex min-h-[12rem] w-full flex-col bg-[#FFF7AB] px-[4vw] py-8 lg:flex-row lg:items-center lg:justify-between"
           variants={itemVariants}
         >
           <motion.div className="mt-3 flex flex-col items-start gap-4" variants={itemVariants}>
