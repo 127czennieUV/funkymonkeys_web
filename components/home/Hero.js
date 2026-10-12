@@ -25,17 +25,17 @@ const itemVariants = {
 const Hero = () => {
   return (
     <motion.div
-      className="flex flex-row min-h-screen"
+      className="flex min-h-screen flex-col md:flex-row"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div
-        className="relative flex w-[35vw] shrink-0 flex-col items-end justify-start bg-[#FFDA15] px-5"
+        className="relative flex w-full shrink-0 flex-col items-start justify-start bg-[#FFDA15] px-6 pb-0 pt-24 md:w-[35vw] md:items-end md:px-5 md:pt-0"
         variants={itemVariants}
       >
         <motion.h1
-          className="dk-prince-frog text-[9.375rem] max-w-[28.75rem] leading-[85%] text-[#FFF48E] py-[5vw]"
+          className="dk-prince-frog w-full max-w-[28.75rem] text-[4.25rem] leading-[85%] text-[#FFF48E] md:py-[5vw] md:text-[9.375rem]"
           variants={itemVariants}
         >
           Lynbrook Robotics
@@ -46,16 +46,16 @@ const Hero = () => {
             width={4000}
             height={4000}
             alt="funky monkey image"
-            className="-mt-[5vw] mb-[1vw] ml-[1.5vw] max-w-[26.8125rem] w-[33vw] h-auto"
+            className="mt-4 mb-0 w-[70vw] max-w-[20rem] self-center h-auto md:-mt-[5vw] md:mb-[1vw] md:ml-[1.5vw] md:w-[33vw] md:max-w-[26.8125rem]"
           />
         </motion.div>
       </motion.div>
       <motion.div
-        className="flex w-[65vw] shrink-0 flex-col gap-[2vw] justify-between"
+        className="flex w-full shrink-0 flex-col justify-between md:w-[65vw] md:gap-[2vw]"
         variants={itemVariants}
       >
         <motion.div
-          className="flex flex-col ml-[4vw] gap-[2vw]"
+          className="flex flex-col gap-8 px-6 py-10 md:ml-[4vw] md:gap-[2vw] md:px-0 md:py-0"
           variants={itemVariants}
         >
           <motion.div
@@ -65,7 +65,7 @@ const Hero = () => {
             <motion.div className="flex flex-col" variants={itemVariants}>
               <div className="flex flex-col w-fit">
                 <motion.p
-                  className="poppins text-[1.5rem] text-[#666666] mt-[6vw]"
+                  className="poppins mt-0 text-[1.125rem] text-[#666666] md:mt-[6vw] md:text-[1.5rem]"
                   variants={itemVariants}
                 >
                   Team 846
@@ -77,19 +77,19 @@ const Hero = () => {
                 ></motion.div>
               </div>
               <motion.h1
-                className="dk-prince-frog text-[11rem] max-w-[40rem] leading-[85%] mt-[1vw]"
+                className="dk-prince-frog mt-4 max-w-full text-[3.75rem] leading-[85%] md:mt-[1vw] md:max-w-[40rem] md:text-[9.375rem]"
                 variants={itemVariants}
               >
                 The Funky Monkeys
               </motion.h1>
             </motion.div>
             <motion.div
-              className="mt-[6vw] mr-[10vw] flex items-center"
+              className="hidden md:mt-[6vw] md:mr-[10vw] md:flex md:items-center"
               variants={itemVariants}
             >
               <Image
-                src={"/funky_svgs/hero_right.svg"}
-                alt="hero right image"
+                src="/funky_svgs/hero_right.svg"
+                alt="hero decoration"
                 width={4000}
                 height={4000}
                 className="w-[8rem] h-auto unselectable"
@@ -97,33 +97,33 @@ const Hero = () => {
             </motion.div>
           </motion.div>
           <motion.div
-            className="flex flex-row gap-[2vw]"
+            className="flex flex-col gap-[2vw]"
             variants={itemVariants}
           >
             <motion.div
               className="flex flex-col gap-[1.875vw] align-top justify-start"
               variants={itemVariants}
             >
-              <motion.div className="flex flex-col items-start gap-3" variants={itemVariants}>
+              <motion.div className="flex w-full flex-col items-start gap-4" variants={itemVariants}>
                 <motion.p
-                  className="poppins text-[1.2rem] font-small text-[#333122]"
+                  className="poppins max-w-[20rem] text-[1.2rem] leading-[130%] text-[#333122] md:max-w-none"
                   variants={itemVariants}
                 >
                   Empowering the next generation of engineers since 2002
                 </motion.p>
-                <motion.div className="flex flex-row items-center gap-3"
+                <motion.div className="flex w-full flex-col items-stretch gap-3 md:w-auto md:flex-row md:items-center"
                   variants={itemVariants}
                 >
                 <Link
                   href="/about"
-                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-[1.5rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
+                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-center text-[1.25rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] md:text-[1.5rem]"
                 >
                   About Us 
                 </Link>
                 
                 <Link
                   href="/contact"
-                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-[1.5rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)]"
+                  className="poppins rounded-full bg-[#FFDA15] px-[3.25rem] py-[1rem] text-center text-[1.25rem] font-bold leading-[106%] text-[#806D0B] transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] md:text-[1.5rem]"
                 >
                   Contact Us
                 </Link>
@@ -133,10 +133,10 @@ const Hero = () => {
           </motion.div>
         </motion.div>
         <motion.div
-          className="mt-auto flex min-h-[12rem] w-full flex-col bg-[#FFF7AB] px-[4vw] py-8 lg:flex-row lg:items-center lg:justify-between"
+          className="mt-auto flex w-full flex-col bg-[#FFF7AB] px-6 py-10 md:min-h-[12rem] md:px-[4vw] md:py-8 lg:flex-row lg:items-center lg:justify-between"
           variants={itemVariants}
         >
-          <motion.div className="mt-3 flex flex-col items-start gap-4" variants={itemVariants}>
+          <motion.div className="flex flex-col items-start gap-4 md:mt-3" variants={itemVariants}>
             <p className="poppins max-w-md text-[1.1rem] leading-[120%] text-[#333122]">
               Based in San Jose — Build. Learn. Inspire.
             </p>
@@ -173,11 +173,11 @@ const Hero = () => {
               </Link>
             </div>
           </motion.div>
-          <motion.nav className="mt-12 flex flex-col items-start gap-4" aria-label="Footer navigation" variants={itemVariants}>
+          <motion.nav className="mt-10 flex flex-col items-start gap-4 md:mt-12" aria-label="Footer navigation" variants={itemVariants}>
             <div className="border-b-2 border-[#333122] pb-1">
               <h2 className="poppins text-[1.5rem] font-semibold text-[#333122]">Quick Links</h2>
             </div>
-            <div className="flex flex-nowrap items-center gap-[3vw]">
+            <div className="flex flex-col items-start gap-3 md:flex-row md:flex-nowrap md:items-center md:gap-[3vw]">
               <Link href="/calendar" className="poppins whitespace-nowrap text-[1.25rem] font-medium transition-colors hover:text-[#806D0B]">
                 Calendar
               </Link>
