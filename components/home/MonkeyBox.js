@@ -19,9 +19,11 @@ const MonkeyBox = () => {
         <p className="text-[1.625rem]">
           Student developed videos to inspire and teach the world around us.
         </p>
-        <span className="w-[16rem] text-[1.625rem] bg-[#FFDA15] flex flex-row items-center justify-center py-[0.875rem] rounded-full text-[#806D0B] font-bold cursor-pointer hover:translate-y-[-4px] hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out">
-          Show me &#62;
-        </span>
+        <a href="https://www.youtube.com/@LynbrookRobotics" 
+        className="w-[16rem] text-[1.625rem] bg-[#FFDA15] flex flex-row items-center justify-center py-[0.875rem] rounded-full text-[#806D0B] font-bold cursor-pointer hover:translate-y-[-4px] hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out decoration-none"> 
+          Click here! 
+        </a>
+
       </div>
     </div>
   );

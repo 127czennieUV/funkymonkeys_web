@@ -31,11 +31,11 @@ const Hero = () => {
       animate="visible"
     >
       <motion.div
-        className="relative flex w-full shrink-0 flex-col items-start justify-start bg-[#FFDA15] px-6 pb-0 pt-24 md:w-[35vw] md:items-end md:px-5 md:pt-0"
+        className="relative flex w-full shrink-0 flex-row items-center justify-between bg-[#FFDA15] px-6 py-6 md:w-[35vw] md:flex-col md:items-end md:justify-start md:px-5 md:py-0"
         variants={itemVariants}
       >
         <motion.h1
-          className="dk-prince-frog w-full max-w-[28.75rem] text-[4.25rem] leading-[85%] text-[#FFF48E] md:py-[5vw] md:text-[9.375rem]"
+          className="dk-prince-frog w-[58%] text-[3.5rem] leading-[85%] text-[#FFF48E] md:w-full md:max-w-[28.75rem] md:py-[5vw] md:text-[9.375rem]"
           variants={itemVariants}
         >
           Lynbrook Robotics
@@ -46,7 +46,7 @@ const Hero = () => {
             width={4000}
             height={4000}
             alt="funky monkey image"
-            className="mt-4 mb-0 w-[70vw] max-w-[20rem] self-center h-auto md:-mt-[5vw] md:mb-[1vw] md:ml-[1.5vw] md:w-[33vw] md:max-w-[26.8125rem]"
+            className="m-0 w-[32vw] max-w-[8rem] self-center h-auto md:-mt-[5vw] md:mb-[1vw] md:ml-[1.5vw] md:w-[33vw] md:max-w-[26.8125rem]"
           />
         </motion.div>
       </motion.div>
