@@ -49,19 +49,20 @@ const Officers = () => {
         <Navbar />
       </div>
 
-      <div className="flex flex-row px-[5vw] gap-4 mt-[2vw]">
+      <div className="mt-6 grid grid-cols-2 gap-3 px-5 sm:grid-cols-4 md:mt-[2vw] md:grid-cols-7 md:px-[5vw]">
         {[2027, 2026, 2025, 2024, 2023, 2022, 2021].map((year) => (
-          <div
+          <button
+            type="button"
             key={year}
             onClick={() => setSelectedYear(year)}
-            className={`cursor-pointer px-6 py-2 flex items-center justify-center text-xl font-medium rounded-full duration-200 hover:-translate-y-1 ${
+            className={`flex min-w-0 items-center justify-center rounded-full px-4 py-2 text-lg font-medium duration-200 hover:-translate-y-1 sm:text-xl ${
               selectedYear === year
                 ? "bg-[#FFDA15]"
                 : "border-[#FFDA15] border-4 hover:scale-105"
             }`}
           >
             {year}
-          </div>
+          </button>
         ))}
       </div>
 

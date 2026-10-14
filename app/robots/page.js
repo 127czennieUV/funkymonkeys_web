@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "@/components/layout/Navbar";
 import { motion, AnimatePresence } from "framer-motion";
@@ -24,7 +24,7 @@ const LazyRobotSlide = ({ robot, index, onSelect }) => {
 
   return (
     <motion.div
-      className="snap-center shrink-0"
+      className="min-w-0"
       initial={{ opacity: 0, x: 50, scale: 0.8 }}
       whileInView={{
         opacity: 1,
@@ -44,11 +44,12 @@ const LazyRobotSlide = ({ robot, index, onSelect }) => {
         <RobotSlide
           robot_name={robot.name}
           image={robot.image}
+          year={robot.year}
           stats={robot.stats}
           onSelect={() => onSelect(robot)}
         />
       ) : (
-        <div className="w-[24vw] h-[60vh] bg-gray-100/50 rounded-3xl animate-pulse border-8 border-gray-200" />
+        <div className="min-h-[25rem] w-full animate-pulse rounded-3xl border-8 border-gray-200 bg-gray-100/50 sm:min-h-[30rem]" />
       )}
     </motion.div>
   );
@@ -153,19 +154,7 @@ const RobotDetailModal = ({ robot, onClose }) => {
 };
 
 const Robot = () => {
-  const [sortBy, setSortBy] = useState("default");
-  // selectedYearRange: [min, max] or null for all
-  const [selectedYearRange, setSelectedYearRange] = useState(null);
-  const scrollRef = useRef(null);
-  const [showScrollHint, setShowScrollHint] = useState(true);
   const [selectedRobot, setSelectedRobot] = useState(null);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setShowScrollHint(false);
-    }, 5000);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
     const closeOnEscape = (event) => {
@@ -191,42 +180,6 @@ const Robot = () => {
     };
   }, [selectedRobot]);
 
-  const scrollRight = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollBy({
-        left: window.innerWidth * 0.6,
-        behavior: "smooth",
-      });
-      // Optionally hide hint immediately on interaction
-      setShowScrollHint(false);
-    }
-  };
-
-  // Get unique years for filter
-  const years = useMemo(() => {
-    const allYears = robots
-      .map((r) => parseInt(r.year, 10))
-      .filter((y) => !isNaN(y));
-    const uniqueYears = [...new Set(allYears)].sort((a, b) => a - b); // Ascending for slider
-    return uniqueYears;
-  }, []);
-
-  const minYear = years[0] || 2000;
-  const maxYear = years[years.length - 1] || new Date().getFullYear();
-
-  const filteredAndSortedRobots = useMemo(() => {
-    let result = [...robots];
-
-    // Filter by year range
-    if (selectedYearRange) {
-      const [start, end] = selectedYearRange;
-      result = result.filter((r) => {
-        const y = parseInt(r.year, 10);
-        return !isNaN(y) && y >= start && y <= end;
-      });
-    }
-    return result;
-  }, [sortBy, selectedYearRange]);
 
   return (
     <div className="flex flex-col">
@@ -249,177 +202,16 @@ const Robot = () => {
         <Navbar />
       </div>
 
-      {/* Controls */}
-      <div className="flex flex-col ml-4 mt-8 gap-4 px-4 sticky left-0">
-        <div className="flex flex-wrap gap-4 items-center">
-          <style>{`
-            .range-slider-thumb::-webkit-slider-thumb {
-              pointer-events: auto;
-              appearance: none;
-              width: 14px;
-              height: 16px;
-              background: #FFDA15;
-              border-radius: 50%;
-              cursor: pointer;
-              border: 2px solid white;
-              box-shadow: 0 0 2px rgba(0,0,0,0.2);
-            }
-            .range-slider-thumb::-moz-range-thumb {
-              pointer-events: auto;
-              appearance: none;
-              width: 14px;
-              height: 16px;
-              background: #FFDA15;
-              border-radius: 50%;
-              cursor: pointer;
-              border: 2px solid white;
-              box-shadow: 0 0 2px rgba(0,0,0,0.2);
-            }
-          `}</style>
-          <div className="flex items-center gap-4 bg-white p-3 rounded-xl min-w-[320px]">
-            <div className="flex flex-col justify-center min-w-[fit-content]">
-              <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
-                Year Range
-              </span>
-              <span className="text-sm font-bold text-gray-700">
-                {selectedYearRange ? selectedYearRange[0] : minYear} -{" "}
-                {selectedYearRange ? selectedYearRange[1] : maxYear}
-              </span>
-            </div>
-
-            <div className="relative h-6 flex items-center flex-1">
-              {/* Visual Track */}
-              <div className="absolute w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div
-                  className="h-full bg-[#FFDA15]"
-                  style={{
-                    position: "absolute",
-                    left: `${(((selectedYearRange ? selectedYearRange[0] : minYear) -
-                      minYear) /
-                      (maxYear - minYear || 1)) *
-                      100
-                      }%`,
-                    right: `${100 -
-                      (((selectedYearRange ? selectedYearRange[1] : maxYear) -
-                        minYear) /
-                        (maxYear - minYear || 1)) *
-                      100
-                      }%`,
-                  }}
-                />
-              </div>
-
-              {/* Min Input */}
-              <input
-                type="range"
-                min={minYear}
-                max={maxYear}
-                value={selectedYearRange ? selectedYearRange[0] : minYear}
-                onChange={(e) => {
-                  const val = Math.min(
-                    parseInt(e.target.value),
-                    selectedYearRange ? selectedYearRange[1] : maxYear,
-                  );
-                  setSelectedYearRange([
-                    val,
-                    selectedYearRange ? selectedYearRange[1] : maxYear,
-                  ]);
-                }}
-                className="range-slider-thumb absolute w-full h-2 appearance-none bg-transparent pointer-events-none z-20 focus:outline-none"
-              />
-
-              {/* Max Input */}
-              <input
-                type="range"
-                min={minYear}
-                max={maxYear}
-                value={selectedYearRange ? selectedYearRange[1] : maxYear}
-                onChange={(e) => {
-                  const val = Math.max(
-                    parseInt(e.target.value),
-                    selectedYearRange ? selectedYearRange[0] : minYear,
-                  );
-                  setSelectedYearRange([
-                    selectedYearRange ? selectedYearRange[0] : minYear,
-                    val,
-                  ]);
-                }}
-                className="range-slider-thumb absolute w-full h-2 appearance-none bg-transparent pointer-events-none z-20 focus:outline-none"
-              />
-            </div>
-
-            {selectedYearRange &&
-              (selectedYearRange[0] !== minYear ||
-                selectedYearRange[1] !== maxYear) && (
-                <button
-                  onClick={() => setSelectedYearRange([minYear, maxYear])}
-                  className="text-xs text-gray-400 hover:text-red-500 transition-colors"
-                  title="Reset Filter"
-                >
-                  ✕
-                </button>
-              )}
-          </div>
-        </div>
-      </div>
-
-      <div className="relative w-full group">
-        {/* Horizontal Scroll Hint (Fades out when hovering or interacting could be added, but keeping it visible as a prompt for now) */}
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
-        {/* Horizontal Direction Hint */}
-        <AnimatePresence>
-          {showScrollHint && (
-            <motion.div
-              className="absolute right-8 top-1/2 -translate-y-1/2 z-20 cursor-pointer pointer-events-auto flex flex-col items-center gap-2 text-gray-400"
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.5 } }}
-              onClick={scrollRight}
-            >
-              <motion.div
-                animate={{ x: [0, 10, 0] }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                className="bg-white/30 backdrop-blur-md shadow-lg border border-white/40 p-3 rounded-full hover:bg-white/50 transition-colors"
-              >
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M9 18l6-6-6-6" />
-                </svg>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <div
-          ref={scrollRef}
-          className="robot-scrollbar w-full flex flex-row gap-4 pr-8 ml-4 mt-8 overflow-x-auto snap-x snap-mandatory pb-4 min-h-[65vh]"
-        >
-          <AnimatePresence mode="popLayout">
-            {filteredAndSortedRobots.map((robot, index) => (
-              <LazyRobotSlide
-                key={robot.name}
-                robot={robot}
-                index={index}
-                onSelect={setSelectedRobot}
-              />
-            ))}
-          </AnimatePresence>
-          {filteredAndSortedRobots.length === 0 && (
-            <div className="flex items-center justify-center w-full h-[60vh] text-gray-400">
-              No robots found for the selected criteria.
-            </div>
-          )}
-        </div>
-      </div>
+      <section className="grid grid-cols-1 gap-6 px-5 py-10 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
+        {robots.map((robot, index) => (
+          <LazyRobotSlide
+            key={robot.name}
+            robot={robot}
+            index={index}
+            onSelect={setSelectedRobot}
+          />
+        ))}
+      </section>
 
       <AnimatePresence>
         {selectedRobot && (

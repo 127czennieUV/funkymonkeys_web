@@ -33,7 +33,7 @@ const Team = () => {
             alt="photo"
             width={200}
             height={200}
-            className = "h-[3rem] w-full object-cover object-center md:h-[20rem] md:pt-12"
+            className = "h-[6rem] w-full object-cover object-center md:h-[20rem] md:pt-12"
           />
         </div>
         <div className="poppins space-y-6 text-[1.2rem] leading-[160%] md:pt-30 md:text-[1.4rem]">

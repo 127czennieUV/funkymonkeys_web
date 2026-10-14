@@ -1,26 +1,29 @@
 import Image from "next/image";
 
-const RobotSlide = ({ robot_name, image, onSelect }) => {
+const RobotSlide = ({ robot_name, image, year, onSelect }) => {
   return (
     <button
       type="button"
       onClick={onSelect}
-      className="bg-white border-8 border-[#FFDA15] rounded-3xl w-[28vw] h-[50vh] p-8 shadow-xl flex flex-col justify-center items-center mb-1 text-left transition-transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#FFDA15]/50"
+      className="relative flex min-h-[25rem] w-full flex-col items-center justify-center rounded-3xl border-8 border-[#FFDA15] bg-white p-6 text-left shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#FFDA15]/50 sm:min-h-[30rem] sm:p-8"
       aria-label={`View details for ${robot_name}`}
     >
-      <div className="relative flex justify-center items-center mb-6">
-        <div className="absolute w-[260px] h-[260px] rounded-full bg-[#FFDA15] z-0"></div>
+      <div className="relative mb-6 flex items-center justify-center">
+        <div className="absolute h-[13rem] w-[13rem] rounded-full bg-[#FFDA15] sm:h-[16.25rem] sm:w-[16.25rem]" />
 
         <Image
           src={image}
           width={300}
           height={300}
           alt={robot_name}
-          className="z-10 object-cover w-[220px] h-[220px]"
+          className="z-10 h-[11rem] w-[11rem] object-contain sm:h-[13.75rem] sm:w-[13.75rem]"
         />
       </div>
 
-      <h1 className="text-5xl dk-prince-frog mt-4 text-center">{robot_name}</h1>
+      <h1 className="dk-prince-frog mt-4 text-center text-5xl">{robot_name}</h1>
+      <span className="poppins absolute bottom-5 right-6 text-lg font-bold text-[#333122]">
+        {year}
+      </span>
     </button>
   );
 };

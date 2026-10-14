@@ -35,7 +35,7 @@ const Hero = () => {
         variants={itemVariants}
       >
         <motion.h1
-          className="dk-prince-frog w-[58%] text-[3.5rem] leading-[85%] text-[#FFF48E] md:w-full md:max-w-[28.75rem] md:py-[5vw] md:text-[9.375rem]"
+          className="dk-prince-frog w-[32vw] text-[3.5rem] leading-[85%] text-[#FFF48E] md:w-full md:max-w-[40rem] md:self-center md:py-[5vw] md:text-center md:text-[clamp(4rem,7vw,10rem)]"
           variants={itemVariants}
         >
           Lynbrook Robotics
@@ -46,7 +46,7 @@ const Hero = () => {
             width={4000}
             height={4000}
             alt="funky monkey image"
-            className="m-0 w-[32vw] max-w-[8rem] self-center h-auto md:-mt-[5vw] md:mb-[1vw] md:ml-[1.5vw] md:w-[33vw] md:max-w-[26.8125rem]"
+            className="m-0 w-[32vw] max-w-[8rem] justify-center h-auto md:-mt-[5vw] md:mb-[1vw] md:ml-[1vw] md:w-[33vw] md:max-w-[26.8125rem]"
           />
         </motion.div>
       </motion.div>
@@ -87,13 +87,6 @@ const Hero = () => {
               className="hidden md:mt-[6vw] md:mr-[10vw] md:flex md:items-center"
               variants={itemVariants}
             >
-              <Image
-                src="/funky_svgs/hero_right.svg"
-                alt="hero decoration"
-                width={4000}
-                height={4000}
-                className="w-[8rem] h-auto unselectable"
-              />
             </motion.div>
           </motion.div>
           <motion.div

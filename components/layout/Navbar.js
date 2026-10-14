@@ -8,7 +8,7 @@ const Navbar = () => {
   const [funkyOpen, setFunkyOpen] = useState(false);
   return (
     <>
-    <div className="absolute right-[3.5rem] top-[2.5rem] z-50 hidden flex-row items-center justify-between md:flex">
+    <div className="absolute right-[3.5rem] top-[1rem] z-50 hidden flex-row items-center justify-between md:flex">
       <div></div>
       <div className="flex flex-row space-x-4 transition-all duration-300 ease-in-out text-[1.125rem] items-start">
         <div className="relative group">

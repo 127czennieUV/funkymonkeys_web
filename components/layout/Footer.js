@@ -25,13 +25,13 @@ const itemVariants = {
 const Footer = () => {
   return (
     <motion.div
-      className="bg-[#FFDA15] text-black px-[3.5rem] py-[2.75rem]"
+      className="bg-[#FFF7AB] px-8 py-12 text-[#333122] md:bg-[#FFDA15] md:px-[3.5rem] md:py-[2.75rem] md:text-black"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div
-        className="flex flex-row items-center gap-[4rem]"
+        className="flex flex-col items-start gap-12 md:flex-row md:items-center md:gap-[4rem]"
         variants={itemVariants}
       >
         <motion.div className="flex flex-col flex-1 min-w-0" variants={itemVariants}>
@@ -48,7 +48,7 @@ const Footer = () => {
             Team 846 - Empowering the next generation of engineers since 2002
           </motion.p>
         </motion.div>
-        <motion.div className="flex flex-col flex-shrink-0" variants={itemVariants}>
+        <motion.div className="flex flex-col" variants={itemVariants}>
           <motion.h3
             className="poppins text-[1.375rem] font-bold mb-[0.875rem]"
             variants={itemVariants}
@@ -80,7 +80,7 @@ const Footer = () => {
             Contact
           </Link>
         </motion.div>
-        <motion.div className="flex flex-col flex-shrink-0" variants={itemVariants}>
+        <motion.div className="flex flex-col" variants={itemVariants}>
           <motion.h3
             className="poppins text-[1.375rem] font-bold mb-[0.875rem]"
             variants={itemVariants}
