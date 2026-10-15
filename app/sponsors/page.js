@@ -6,7 +6,7 @@ import Footer from "@/components/layout/Footer";
 const Sponsors = () => {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row">
+      <div className="flex flex-row pt-24 md:pt-0">
         <Image
           src = "/funky_svgs/sponsorleft.svg"
           alt = "sponsors_left_imaeg"

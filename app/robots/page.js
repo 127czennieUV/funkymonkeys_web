@@ -74,7 +74,7 @@ const RobotDetailModal = ({ robot, onClose }) => {
       onClick={onClose}
     >
       <motion.div
-        className="relative grid max-h-[92vh] w-full max-w-6xl grid-cols-1 overflow-hidden rounded-2xl bg-white shadow-2xl md:grid-cols-[380px_1fr]"
+        className="relative flex h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:grid md:max-h-[92vh] md:grid-cols-[380px_1fr]"
         initial={{ opacity: 0, y: 24, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -90,18 +90,18 @@ const RobotDetailModal = ({ robot, onClose }) => {
           x
         </button>
 
-        <div className="flex items-center justify-center bg-[#FFDA15] p-10">
+        <div className="flex h-48 shrink-0 items-center justify-center bg-[#FFDA15] p-4 md:h-auto md:p-10">
           <Image
             src={robot.image}
             width={440}
             height={440}
             alt={robot.name}
-            className="max-h-[380px] w-auto object-contain"
+            className="h-full max-h-40 w-auto object-contain md:max-h-[380px]"
           />
         </div>
 
         <div
-          className="max-h-[92vh] overflow-y-auto overscroll-contain p-10"
+          className="min-h-0 flex-1 touch-pan-y overflow-y-auto overscroll-contain p-6 md:max-h-[92vh] md:p-10"
           onWheel={(event) => event.stopPropagation()}
           onTouchMove={(event) => event.stopPropagation()}
         >
@@ -183,7 +183,7 @@ const Robot = () => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row">
+      <div className="flex flex-row pt-24 md:pt-0">
         <div className="flex flex-col">
           <h1 className="text-2xl mt-[6vw] ml-[4vw]">Meet Our</h1>
           <div className="w-[9vw] h-[2px] bg-[#666666] mt-[0.5vw] ml-[4vw] font-medium"></div>

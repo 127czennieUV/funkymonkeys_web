@@ -31,7 +31,7 @@ const Officers = () => {
 
   return (
     <div>
-      <div className="flex flex-row">
+      <div className="flex flex-row pt-24 md:pt-0">
         <Image
           src={"/funky_svgs/hero_right.svg"}
           alt="hero right image"

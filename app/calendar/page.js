@@ -751,18 +751,18 @@ const formatDateStr = (date) => {
       <div>
         <Navbar />
 
-        <div className="flex flex-col px-4 sm:px-8 py-8">
+        <div className="flex flex-col px-4 pb-8 pt-24 sm:px-8 md:py-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-2">
-            <div className="flex flex-row items-center justify-start gap-4">
-              <h1 className="text-[9vw] dk-prince-frog mt-[-1vw] ml-[4vw]">
-              CaIendar
+            <div className="flex flex-wrap items-center justify-start gap-4 pt-4 md:flex-nowrap md:pt-[4rem]">
+              <h1 className="dk-prince-frog ml-[4vw] text-[clamp(4rem,9vw,9rem)] leading-[85%]">
+              Calendar
             </h1>
             <Image
               src={"/monkey.png"}
               width={4000}
               height={4000}
               alt="funky monkey image"
-              className="-mt-[5vw] ml-[1.5vw] max-w-[8rem] w-[33vw] h-auto"
+              className="-mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
             />
           </div>
           <CalendarNav />

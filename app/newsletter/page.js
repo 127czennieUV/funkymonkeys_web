@@ -362,10 +362,10 @@ const Newsletter = () => {
     <main className="min-h-screen">
       <Navbar />
     
-      <div className="flex flex-row items-center justify-start gap-4">
-        <header className="px-[3.5rem] pb-6 pt-[6rem]">
-          <h1 className="text-[clamp(2rem,9vw,6rem)] dk-prince-frog loading-[85%]">
-            NewsIetters
+      <div className="flex flex-wrap items-center justify-start gap-4 px-6 pb-6 pt-28 md:flex-nowrap md:px-[3.5rem] md:pt-[7rem]">
+        <header className="min-w-0">
+          <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%]">
+            Newsletters
           </h1>
         </header>
 
@@ -374,7 +374,7 @@ const Newsletter = () => {
           width={500}
           height={500}
           alt="funky monkey image"
-          className="mr-[1vw] max-w-[8rem] w-[33vw] h-auto"
+          className="-mt-10 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
         />
       </div>
 
