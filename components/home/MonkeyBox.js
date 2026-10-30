@@ -2,30 +2,37 @@ import Image from "next/image";
 
 const MonkeyBox = () => {
   return (
-    <div className="flex flex-col md:flex-row px-[3.5rem] py-[4.5rem]">
-      <div className="flex-1 min-w-0">
+    <section className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 px-6 py-16 md:grid-cols-2 md:items-center md:gap-16 md:px-[3.5rem] md:py-[4.5rem]">
+      <div className="order-2 hidden min-w-0 md:order-1 md:block">
         <Image
           src={"/images/monkeybox.png"}
           alt="monkey box"
           width={4000}
           height={4000}
-          className="w-[50vw] h-auto"
+          className="h-auto w-full max-w-[42rem]"
         />
       </div>
-      <div className="flex flex-col justify-center pl-[2.75rem] gap-[2.75rem] flex-1">
-        <h1 className="dk-prince-frog text-[6.75rem] mt-4 ml-0 leading-[85%]">
+      <div className="order-1 flex min-w-0 flex-col justify-center gap-7 md:order-2 md:gap-10">
+        <h1 className="dk-prince-frog text-[clamp(4.5rem,8vw,6.75rem)] leading-[85%]">
           Monkey Box
         </h1>
-        <p className="text-[1.625rem]">
+        <Image
+          src={"/images/monkeybox.png"}
+          alt="monkey box"
+          width={4000}
+          height={4000}
+          className="h-auto w-full md:hidden"
+        />
+        <p className="poppins text-[1.25rem] leading-relaxed md:text-[1.625rem]">
           Student developed videos to inspire and teach the world around us.
         </p>
         <a href="https://www.youtube.com/@LynbrookRobotics" 
-        className="w-[16rem] text-[1.625rem] bg-[#FFDA15] flex flex-row items-center justify-center py-[0.875rem] rounded-full text-[#806D0B] font-bold cursor-pointer hover:translate-y-[-4px] hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] transition-all duration-300 ease-in-out decoration-none"> 
+        className="poppins flex w-full max-w-[16rem] flex-row items-center justify-center rounded-full bg-[#FFDA15] py-[0.875rem] text-[1.25rem] font-bold text-[#806D0B] decoration-none transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] md:text-[1.625rem]">
           Click here! 
         </a>
 
       </div>
-    </div>
+    </section>
   );
 };
 

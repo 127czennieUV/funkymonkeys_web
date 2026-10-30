@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Team = () => {
   return (
-    <section className="px-6 pb-20 pt-32 md:px-[8vw] md:pt-[10rem]">
+    <section className="px-6 pb-20 pt-32 md:px-[8vw] md:pt-[6rem]">
       <header className="mx-auto max-w-5xl text-center">
         <p className="poppins text-[1.125rem] font-medium uppercase tracking-[0.18em] text-[#666666] md:text-[1.375rem]">
           Lynbrook Robotics, FIRST 846
@@ -36,7 +36,7 @@ const Team = () => {
             className = "h-[6rem] w-full object-cover object-center md:h-[20rem] md:pt-12"
           />
         </div>
-        <div className="poppins space-y-6 text-[1.2rem] leading-[160%] md:pt-30 md:text-[1.4rem]">
+        <div className="poppins space-y-6 text-[1.2rem] leading-[160%] md:pt-12 md:text-[1.4rem]">
           <p>
             “To build competitive robots and teach students the science behind the machine.”
           </p>

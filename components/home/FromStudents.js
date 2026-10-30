@@ -23,10 +23,10 @@ const itemVariants = {
 };
 
 const TestimonialCard = ({ quote, author, showRightDecorator }) => (
-  <motion.div className="flex flex-row gap-[0.5rem]" variants={itemVariants}>
+  <motion.div className="flex gap-2" variants={itemVariants}>
     <motion.div variants={itemVariants}>
       <Image
-        className="w-[2.75rem] h-[2.875rem]"
+        className="h-8 w-8 shrink-0 md:h-[2.875rem] md:w-[2.75rem]"
         src="/images/quote.png"
         alt="quote"
         width={10}
@@ -35,7 +35,7 @@ const TestimonialCard = ({ quote, author, showRightDecorator }) => (
     </motion.div>
     <motion.div className="flex flex-col" variants={itemVariants}>
       <motion.p
-        className="max-w-[43.25rem] poppins text-[1.625rem] leading-[150%]"
+        className="max-w-[43.25rem] poppins text-[1.125rem] leading-[150%] md:text-[1.625rem]"
         variants={itemVariants}
       >
         {quote}
@@ -45,7 +45,7 @@ const TestimonialCard = ({ quote, author, showRightDecorator }) => (
       </motion.p>
     </motion.div>
     {showRightDecorator && (
-      <motion.div variants={itemVariants}>
+      <motion.div className="hidden md:block" variants={itemVariants}>
         <Image
           className="w-[9rem] h-auto"
           src="/funky_svgs/from_students_right.svg"
@@ -61,19 +61,19 @@ const TestimonialCard = ({ quote, author, showRightDecorator }) => (
 const FromStudents = () => {
   return (
     <motion.div
-      className="pl-[3.5rem] flex flex-row"
+      className="mx-auto flex w-full max-w-[1600px] flex-col gap-10 px-6 py-16 md:flex-row md:gap-12 md:px-[3.5rem] md:py-0"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div
-        className="flex flex-col gap-[2.75rem] py-[4.5rem] flex-1 min-w-0"
+        className="flex min-w-0 flex-1 flex-col gap-8 md:gap-[2.75rem] md:py-[4.5rem]"
         variants={itemVariants}
       >
-        <motion.div className="flex flex-row gap-[2.75rem]" variants={itemVariants}>
+        <motion.div className="flex items-center gap-5 md:gap-[2.75rem]" variants={itemVariants}>
           <motion.div variants={itemVariants}>
             <Image
-              className="w-[13.5rem] h-auto"
+              className="w-20 h-auto md:w-[13.5rem]"
               src="/funky_svgs/from_students_left.svg"
               alt="quote"
               width={4000}
@@ -81,7 +81,7 @@ const FromStudents = () => {
             />
           </motion.div>
           <motion.h1
-            className="text-[6.75rem] dk-prince-frog"
+            className="dk-prince-frog text-[clamp(3.75rem,8vw,6.75rem)] leading-[85%]"
             variants={itemVariants}
           >
             From Students
@@ -96,9 +96,9 @@ const FromStudents = () => {
           />
         ))}
       </motion.div>
-      <motion.div className="flex-shrink-0 self-stretch" variants={itemVariants}>
+      <motion.div className="w-full shrink-0 md:w-[min(30vw,29rem)]" variants={itemVariants}>
         <Image
-          className="w-[29rem] h-full object-cover"
+          className="h-[26rem] w-full object-cover md:h-full"
           src="/images/fromstudents.jpg"
           alt="quote"
           width={4000}

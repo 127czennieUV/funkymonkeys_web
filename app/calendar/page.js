@@ -755,7 +755,7 @@ const formatDateStr = (date) => {
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-2">
             <div className="flex flex-wrap items-center justify-start gap-4 pt-4 md:flex-nowrap md:pt-[4rem]">
               <h1 className="dk-prince-frog ml-[4vw] text-[clamp(4rem,9vw,9rem)] leading-[85%]">
-              Calendar
+              CaIendar
             </h1>
             <Image
               src={"/monkey.png"}

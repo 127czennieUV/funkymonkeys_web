@@ -24,7 +24,7 @@ const LazyRobotSlide = ({ robot, index, onSelect }) => {
 
   return (
     <motion.div
-      className="min-w-0"
+      className="min-w-0 cursor-pointer"
       initial={{ opacity: 0, x: 50, scale: 0.8 }}
       whileInView={{
         opacity: 1,
@@ -39,6 +39,7 @@ const LazyRobotSlide = ({ robot, index, onSelect }) => {
       }}
       viewport={{ once: true, margin: "200px" }}
       onViewportEnter={() => setHasLoaded(true)}
+      
     >
       {hasLoaded ? (
         <RobotSlide
