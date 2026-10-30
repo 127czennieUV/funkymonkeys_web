@@ -273,7 +273,7 @@ const newsletters = [
     description:
       "sdfljsdfjadsoi.",
     image: "/images/newsletters/summer1112.png",
-    pdf: "newsletter-pdf/summer1213.pdf",
+    pdf: "newsletter-pdf/summer1112.pdf",
   },
   {
     year: "2011-2012",
@@ -300,7 +300,7 @@ const newsletters = [
     description:
       "Introduces a new robotics year through the Anaheim Championships, summer projects, Botball, historical team memories, alumni perspectives, and a look at Lynbrook Robotics’ ten-year history.",
     image: "/images/newsletters/summer1011.png",
-    pdf: "newsletter-pdf/summer1112.pdf",
+    pdf: "newsletter-pdf/summer1011.pdf",
   },
   {
     year: "2010-2011",
