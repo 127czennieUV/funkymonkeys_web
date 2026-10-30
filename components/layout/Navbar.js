@@ -9,21 +9,21 @@ const Navbar = () => {
   return (
     <>
     <nav
-      className="absolute inset-x-0 top-0 z-50 hidden h-16 border-b border-black/15 bg-white md:flex"
+      className="absolute inset-x-0 top-0 z-50 hidden h-16 border-b border-black/15 bg-white xl:flex"
       aria-label="Desktop navigation"
     >
-      <div className="mx-auto flex w-full max-w-[1600px] items-center gap-6 px-8 lg:gap-10">
+      <div className="mx-auto flex w-full max-w-[1600px] items-center gap-6 px-8 2xl:gap-10">
         
           <Image
             src="/monkey.png"
             alt="monkey! hehe"
             width={44}
             height={44}
-            className="h-10 w-10 object-contain"
+            className="h-10 w-10 shrink-0 object-contain"
           />
-          <span className="dk-prince-frog text-4xl leading-none">The Funky Monkeys</span>
+          <span className="dk-prince-frog shrink-0 whitespace-nowrap text-4xl leading-none">The Funky Monkeys</span>
 
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-3 whitespace-nowrap text-s font-medium lg:gap-10">
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-6 whitespace-nowrap text-s font-medium 2xl:gap-10">
           <Link href="/" className="transition-colors hover:text-[#F0C14B]">
             Home
           </Link>
@@ -65,7 +65,7 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
-      <div className="md:hidden absolute top-0 left-0 right-0 z-50">
+      <div className="xl:hidden absolute top-0 left-0 right-0 z-50">
         <div className="flex items-center justify-between px-5 py-4 bg-white">
           <Link href="/">
             <img
