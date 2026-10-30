@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const Team = () => {
   return (
-    <section className="px-6 pb-20 pt-32 md:px-[8vw] md:pt-[6rem]">
+    <section className="px-6 pb-16 pt-32 md:px-[8vw] md:pb-[4.5rem] md:pt-[6rem]">
       <header className="mx-auto max-w-5xl text-center">
         <p className="poppins text-[1.125rem] font-medium uppercase tracking-[0.18em] text-[#666666] md:text-[1.375rem]">
           Lynbrook Robotics, FIRST 846
@@ -16,13 +16,13 @@ const Team = () => {
         <Image
           src="/images/finalteamphoto.jpg"
           alt="Lynbrook Robotics students working on their robot"
-          width={2797}
-          height={4032}
-          className="h-[22rem] w-full object-cover object-center md:h-[34rem]"
+          width={2559}
+          height={1706}
+          className="h-auto w-full"
         />
       </figure>
 
-      <div className="mx-auto mt-24 grid max-w-6xl gap-10 md:grid-cols-[minmax(16rem,0.8fr)_minmax(0,1.2fr)] md:gap-20">
+      <div className="mx-auto mt-16 grid max-w-6xl gap-10 md:grid-cols-[minmax(16rem,0.8fr)_minmax(0,1.2fr)] md:gap-20">
         <div>
           <h2 className="dk-prince-frog mt-3 text-[clamp(3.5rem,6vw,6rem)] leading-[85%]">
             Our Mission
@@ -31,9 +31,9 @@ const Team = () => {
           <Image
             src="/images/finalteam.jpg"
             alt="photo"
-            width={200}
-            height={200}
-            className = "h-[6rem] w-full object-cover object-center md:h-[20rem] md:pt-12"
+            width={2047}
+            height={1365}
+            className="mt-8 h-auto w-full"
           />
         </div>
         <div className="poppins space-y-6 text-[1.2rem] leading-[160%] md:pt-12 md:text-[1.4rem]">

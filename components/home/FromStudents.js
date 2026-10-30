@@ -61,19 +61,19 @@ const TestimonialCard = ({ quote, author, showRightDecorator }) => (
 const FromStudents = () => {
   return (
     <motion.div
-      className="mx-auto flex w-full max-w-[1600px] flex-col gap-10 px-6 py-16 md:flex-row md:gap-12 md:px-[3.5rem] md:py-0"
+      className="mx-auto flex w-full max-w-[1600px] flex-col gap-10 px-6 pb-16 pt-0 md:flex-row md:gap-12 md:px-[3.5rem] md:pb-[4.5rem]"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       <motion.div
-        className="flex min-w-0 flex-1 flex-col gap-8 md:gap-[2.75rem] md:py-[4.5rem]"
+        className="flex min-w-0 flex-1 flex-col gap-8 md:gap-[2.75rem]"
         variants={itemVariants}
       >
         <motion.div className="flex items-center gap-5 md:gap-[2.75rem]" variants={itemVariants}>
-          <motion.div variants={itemVariants}>
+          <motion.div className="hidden md:block" variants={itemVariants}>
             <Image
-              className="w-20 h-auto md:w-[13.5rem]"
+              className="h-auto md:w-[13.5rem]"
               src="/funky_svgs/from_students_left.svg"
               alt="quote"
               width={4000}
@@ -96,9 +96,9 @@ const FromStudents = () => {
           />
         ))}
       </motion.div>
-      <motion.div className="w-full shrink-0 md:w-[min(30vw,29rem)]" variants={itemVariants}>
+      <motion.div className="w-full shrink-0 md:w-[min(30vw,29rem)] md:self-center" variants={itemVariants}>
         <Image
-          className="h-[26rem] w-full object-cover md:h-full"
+          className="h-auto w-full"
           src="/images/fromstudents.jpg"
           alt="quote"
           width={4000}

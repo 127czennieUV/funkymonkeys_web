@@ -75,7 +75,7 @@ const RobotDetailModal = ({ robot, onClose }) => {
       onClick={onClose}
     >
       <motion.div
-        className="relative flex h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl md:grid md:max-h-[92vh] md:grid-cols-[380px_1fr]"
+        className="relative flex h-full max-h-[92dvh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-[#F8F4E8] shadow-2xl md:grid md:max-h-[92vh] md:grid-cols-[clamp(15rem,38%,23.75rem)_1fr]"
         initial={{ opacity: 0, y: 24, scale: 0.96 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, y: 12, scale: 0.98 }}
@@ -85,19 +85,19 @@ const RobotDetailModal = ({ robot, onClose }) => {
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-2xl leading-none text-gray-500 shadow hover:text-black"
+          className="absolute right-4 top-4 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-[#F8F4E8]/90 text-2xl leading-none text-gray-500 shadow hover:text-black"
           aria-label="Close robot details"
         >
           x
         </button>
 
-        <div className="flex h-48 shrink-0 items-center justify-center bg-[#FFDA15] p-4 md:h-auto md:p-10">
+        <div className="flex h-[clamp(7rem,28dvh,12rem)] shrink-0 items-center justify-center bg-[#FFDA15] p-4 md:h-auto md:p-10">
           <Image
             src={robot.image}
             width={440}
             height={440}
             alt={robot.name}
-            className="h-full max-h-40 w-auto object-contain md:max-h-[380px]"
+            className="h-full max-h-40 w-auto max-w-full object-contain md:max-h-[380px]"
           />
         </div>
 
@@ -109,7 +109,7 @@ const RobotDetailModal = ({ robot, onClose }) => {
           <p className="text-sm font-bold uppercase tracking-[0.18em] text-gray-400">
             {robot.year}
           </p>
-          <h2 className="dk-prince-frog mt-2 text-7xl leading-none text-gray-950">
+          <h2 className="dk-prince-frog mt-2 break-words text-[clamp(2.5rem,12vw,4.5rem)] leading-none text-gray-950 md:text-[clamp(2.5rem,6.5vw,4.5rem)]">
             {robot.name}
           </h2>
 
@@ -134,7 +134,7 @@ const RobotDetailModal = ({ robot, onClose }) => {
               {detailImages.map((image) => (
                 <div
                   key={image}
-                  className="w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm"
+                  className="w-full overflow-hidden rounded-lg border border-gray-100 bg-[#F8F4E8] shadow-sm"
                 >
                   <Image
                     src={image}

@@ -389,7 +389,7 @@ const Newsletter = () => {
           {newsletters.map((newsletter) => (
             <article
               key={newsletter.year}
-              className="flex min-h-[260px] overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
+              className="flex min-h-[260px] overflow-hidden rounded-2xl border border-gray-200 bg-[#F8F4E8] shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-xl"
             >
               <div className="relative w-[42%] shrink-0 overflow-hidden">
                 <Image

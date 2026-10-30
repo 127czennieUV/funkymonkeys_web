@@ -286,10 +286,10 @@ const formatDateStr = (date) => {
   };
 
   const getCompactCountTextColor = ({ date, isSelected }) => {
-    if (isSelected) return "#FFFFFF";
+    if (isSelected) return "#F8F4E8";
     if (isToday(date)) return "#FFDA15";
 
-    return "#FFFFFF";
+    return "#F8F4E8";
   };
 
   const CompactEventIndicators = ({ tasks, date, isSelected }) => {
@@ -358,8 +358,8 @@ const formatDateStr = (date) => {
         }
         ${
           isSelected
-            ? "bg-gradient-to-b from-[#FFF1CD] to-white border-[#FFDA15] hover:bg-[#FFE86D] hover:border-[#FFE86D]"
-            : "bg-white border-[#FFDA15] hover:border-[#FFE86D]"
+            ? "bg-gradient-to-b from-[#FFF1CD] to-[#F8F4E8] border-[#FFDA15] hover:bg-[#FFE86D] hover:border-[#FFE86D]"
+            : "bg-[#F8F4E8] border-[#FFDA15] hover:border-[#FFE86D]"
         }
       `}
         style={{ willChange: "transform, border-radius" }}
@@ -445,7 +445,7 @@ const formatDateStr = (date) => {
   };
 
   const HOUR_HEIGHT = 40;
-  const MIN_EVENT_HEIGHT = 64;
+  const MIN_EVENT_HEIGHT = 80;
 
   const parseCalendarDate = (dateString) => {
     if (!dateString) return new Date(NaN);
@@ -473,17 +473,62 @@ const formatDateStr = (date) => {
     };
   };
 
-  const getEventLayout = (event, index) => {
+  const getEventPixelRange = (event) => {
     const { startHour, endHour } = getEventHours(event);
     const duration = Math.max(0, endHour - startHour);
-    const eventHeight = Math.max(MIN_EVENT_HEIGHT, duration * HOUR_HEIGHT);
+    const top = startHour * HOUR_HEIGHT;
+    const height = Math.max(MIN_EVENT_HEIGHT, duration * HOUR_HEIGHT);
+    return { top, height };
+  };
+
+  const getEventColumns = (sortedEvents) => {
+    const layouts = new Array(sortedEvents.length);
+    let cluster = [];
+    let columnEnds = [];
+    let clusterEnd = -Infinity;
+
+    const finishCluster = () => {
+      cluster.forEach((i) => {
+        layouts[i].columns = columnEnds.length;
+      });
+      cluster = [];
+      columnEnds = [];
+      clusterEnd = -Infinity;
+    };
+
+    sortedEvents.forEach((event, index) => {
+      const { top, height } = getEventPixelRange(event);
+      const bottom = top + height;
+
+      if (top >= clusterEnd) finishCluster();
+
+      let column = columnEnds.findIndex((end) => end <= top);
+      if (column === -1) {
+        column = columnEnds.length;
+        columnEnds.push(bottom);
+      } else {
+        columnEnds[column] = bottom;
+      }
+
+      layouts[index] = { column, columns: 1 };
+      cluster.push(index);
+      clusterEnd = Math.max(clusterEnd, bottom);
+    });
+
+    finishCluster();
+    return layouts;
+  };
+
+  const getEventLayout = (event, index, { column, columns }) => {
+    const { top, height } = getEventPixelRange(event);
     const isRightSide = index % 2 !== 0;
+    const columnWidth = 92 / columns;
 
     return {
-      top: `${startHour * HOUR_HEIGHT}px`,
-      height: `${eventHeight}px`,
-      left: "0.5%",
-      width: "92%",
+      top: `${top}px`,
+      height: `${height}px`,
+      left: `${0.5 + column * columnWidth}%`,
+      width: columns > 1 ? `calc(${columnWidth}% - 4px)` : "92%",
       backgroundColor: isRightSide ? "#FFEDBB" : "#FFF4B7",
     };
   };
@@ -528,6 +573,10 @@ const formatDateStr = (date) => {
     const sortedTasks = useMemo(
       () => [...tasks].sort((a, b) => getEventStartTime(a) - getEventStartTime(b)),
       [tasks],
+    );
+    const eventColumns = useMemo(
+      () => getEventColumns(sortedTasks),
+      [sortedTasks],
     );
     const hours = Array.from({ length: 24 }, (_, hour) =>
       new Date(2024, 0, 1, hour).toLocaleTimeString("en-US", {
@@ -576,7 +625,7 @@ const formatDateStr = (date) => {
             ease: [0.22, 1, 0.36, 1],
           }}
         onClick = {(event) => event.stopPropagation()}
-        className="relative w-full max-w-[600px] h-[75vh] sm:h-[650px] border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-white overflow-hidden flex flex-col shadow-2xl"
+        className="relative w-full max-w-[600px] max-h-full h-[75vh] sm:h-[650px] border-8 border-[#FFDA15] rounded-[36px] px-5 sm:px-6 py-6 bg-[#F8F4E8] overflow-hidden flex flex-col shadow-2xl"
       >
         {/*Header*/}
         <div className="flex items-center justify-between gap-4 border-b-4 border-[#E5E5E5] pb-5">
@@ -626,12 +675,12 @@ const formatDateStr = (date) => {
                 sortedTasks.map((task, index) => (
                   <div
                     key={task.id || `${task.title}-${index}`}
-                    className="absolute rounded-xl bg-[#FFF4B7] px-4 py-3 overflow-hidden"
-                    style={getEventLayout(task, index)}
+                    className="absolute rounded-xl bg-[#FFF4B7] px-3 py-2 overflow-hidden"
+                    style={getEventLayout(task, index, eventColumns[index])}
                   >
-                    <div className="absolute left-2 top-3 bottom-3 w-1.5 rounded-full bg-[#FFDA15]" />
+                    <div className="absolute left-2 top-2 bottom-2 w-1.5 rounded-full bg-[#FFDA15]" />
                     <p
-                      className="pl-3 text-base sm:text-lg leading-tight whitespace-nowrap"
+                      className="pl-3 text-base sm:text-lg leading-tight line-clamp-2 break-words"
                       title={task.title}
                     >
                       {task.title}

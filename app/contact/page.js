@@ -34,7 +34,7 @@ const Contact = () => {
                 name="firstName"
                 type="text"
                 required
-                className="border-2 border-[#333122] bg-white px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
+                className="border-2 border-[#333122] bg-[#F8F4E8] px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
               />
             </label>
             <label className="flex flex-col gap-2 poppins text-lg font-medium">
@@ -43,7 +43,7 @@ const Contact = () => {
                 name="lastName"
                 type="text"
                 required
-                className="border-2 border-[#333122] bg-white px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
+                className="border-2 border-[#333122] bg-[#F8F4E8] px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
               />
             </label>
           </div>
@@ -53,7 +53,7 @@ const Contact = () => {
               name="email"
               type="email"
               required
-              className="border-2 border-[#333122] bg-white px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
+              className="border-2 border-[#333122] bg-[#F8F4E8] px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
             />
           </label>
           <label className="flex flex-col gap-2 poppins text-lg font-medium">
@@ -62,7 +62,7 @@ const Contact = () => {
               name="message"
               required
               rows={6}
-              className="resize-y border-2 border-[#333122] bg-white px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
+              className="resize-y border-2 border-[#333122] bg-[#F8F4E8] px-4 py-3 outline-none transition-colors focus:border-[#FFDA15]"
             />
           </label>
           <div className="flex items-center gap-5">

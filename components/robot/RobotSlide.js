@@ -5,7 +5,7 @@ const RobotSlide = ({ robot_name, image, year, onSelect }) => {
     <button
       type="button"
       onClick={onSelect}
-      className="relative flex min-h-[25rem] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-8 border-[#FFDA15] bg-white p-6 text-left shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#FFDA15]/50 sm:min-h-[30rem] sm:p-8"
+      className="relative flex min-h-[25rem] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-8 border-[#FFDA15] bg-[#F8F4E8] p-6 text-left shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#FFDA15]/50 sm:min-h-[30rem] sm:p-8"
       aria-label={`View details for ${robot_name}`}
     >
       <div className="relative mb-6 flex items-center justify-center">

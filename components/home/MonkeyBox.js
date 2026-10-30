@@ -2,7 +2,7 @@ import Image from "next/image";
 
 const MonkeyBox = () => {
   return (
-    <section className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 px-6 py-16 md:grid-cols-2 md:items-center md:gap-16 md:px-[3.5rem] md:py-[4.5rem]">
+    <section className="mx-auto grid w-full max-w-[1600px] grid-cols-1 gap-10 px-6 pb-16 pt-0 md:grid-cols-2 md:items-center md:gap-16 md:px-[3.5rem] md:pb-[4.5rem] md:pt-0">
       <div className="order-2 hidden min-w-0 md:order-1 md:block">
         <Image
           src={"/images/monkeybox.png"}

@@ -1,13 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 const Navbar = () => {
+  const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
   const [monkeyOpen, setMonkeyOpen] = useState(false);
   const [funkyOpen, setFunkyOpen] = useState(false);
   return (
     <>
+    {pathname === "/" && (
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 -z-10 hidden h-[3.75rem] bg-white md:block"
+      />
+    )}
     <div className="absolute right-[3.5rem] top-[1rem] z-50 hidden flex-row items-center justify-between md:flex">
       <div></div>
       <div className="flex flex-row space-x-4 transition-all duration-300 ease-in-out text-[1.125rem] items-start">

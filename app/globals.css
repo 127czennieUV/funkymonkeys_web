@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 body {
-  background: var(--background);
+  background: #F8F4E8;
   color: var(--foreground);
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
   overflow-x: hidden;
@@ -63,5 +63,5 @@ body {
     radial-gradient(circle at top right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
     radial-gradient(circle at bottom left, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
     radial-gradient(circle at bottom right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
-    white;
+    #F8F4E8;
 }
