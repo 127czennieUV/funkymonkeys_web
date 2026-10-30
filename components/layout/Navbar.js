@@ -5,8 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [monkeyOpen, setMonkeyOpen] = useState(false);
-  const [funkyOpen, setFunkyOpen] = useState(false);
+  const [teamDocsOpen, setTeamDocsOpen] = useState(false);
   return (
     <>
     <nav
@@ -88,92 +87,50 @@ const Navbar = () => {
           </button>
         </div>
         {menuOpen && (
-          <div className="bg-white border-t border-gray-200">
-            <div className="border-b border-gray-100">
-              <button
-                onClick={() => setMonkeyOpen(!monkeyOpen)}
-                className="w-full flex items-center justify-between px-5 py-4 text-[11px] tracking-wider"
-              >
-                <span>MONKEY HUB</span>
-
-                <span className="text-lg font-light leading-none">
-                  {monkeyOpen ? "−" : "+"}
-                </span>
-              </button>
-
-              {monkeyOpen && (
-                <div className="flex flex-col px-8 pb-3 text-[11px] text-gray-500">
-                  <Link href="/" className="py-2">
-                    HOME
-                  </Link>
-
-                  <Link href="/officers" className="py-2">
-                    OUR TEAM
-                  </Link>
-
-                  <Link href="/robots" className="py-2">
-                    ROBOTS
-                  </Link>
-
-                  <Link href="/calendar" className="py-2">
-                    CALENDAR
-                  </Link>
-                </div>
-              )}
-            </div>
-            <div className="border-b border-gray-100">
+          <div className="border-t border-black/15 bg-white px-5 pb-5 pt-2">
+            <div className="mx-auto flex max-w-sm flex-col text-center text-sm tracking-[0.12em] text-[#21596A]">
+              <Link href="/" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Home
+              </Link>
+              <Link href="/about" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                About
+              </Link>
+              <Link href="/newsletter" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Newsletters
+              </Link>
+              <Link href="/robots" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Robots
+              </Link>
+              <Link href="/officers" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Our Team
+              </Link>
 
               <button
-                onClick={() => setFunkyOpen(!funkyOpen)}
-                className="w-full flex items-center justify-between px-5 py-4 text-[11px] tracking-wider"
+                onClick={() => setTeamDocsOpen(!teamDocsOpen)}
+                className="flex w-full items-center justify-center gap-3 border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]"
+                aria-expanded={teamDocsOpen}
               >
-                <span>FUNKY CORNER</span>
-
-                <span className="text-lg font-light leading-none">
-                  {funkyOpen ? "−" : "+"}
+                <span>TeamDocs</span>
+                <span aria-hidden="true" className="text-base leading-none">
+                  {teamDocsOpen ? "−" : "+"}
                 </span>
               </button>
-
-              {funkyOpen && (
-                <div className="flex flex-col px-8 pb-3 text-[11px] text-gray-500">
-                  <Link
-                    href="https://fsm846.vercel.app/"
-                    className="py-2"
-                  >
-                    FUNKYSTATS
-                  </Link>
-
-                  <Link
-                    href="/newsletter"
-                    className="py-2"
-                  >
-                    NEWSLETTERS
-                  </Link>
-
-                  <Link
-                    href="/monkeybox"
-                    className="py-2"
-                  >
-                    MONKEYBOX
-                  </Link>
-
-                  <Link
-                    href="https://monkeyscout.vercel.app/"
-                    className="py-2"
-                  >
-                    SCOUTING
-                  </Link>
+              {teamDocsOpen && (
+                <div className="flex flex-col bg-white text-xs tracking-[0.1em] text-black">
+                  <Link href="/calendar" onClick={() => setMenuOpen(false)} className="py-2 hover:bg-[#FFF7AB]">Calendar</Link>
+                  <Link href="https://fsm846.vercel.app/" onClick={() => setMenuOpen(false)} className="py-2 hover:bg-[#FFF7AB]">FunkyStats</Link>
+                  <Link href="https://monkeyscout.vercel.app/" onClick={() => setMenuOpen(false)} className="py-2 hover:bg-[#FFF7AB]">Scouting</Link>
+                  <Link href="https://github.com/team846" onClick={() => setMenuOpen(false)} className="py-2 hover:bg-[#FFF7AB]">GitHub</Link>
                 </div>
               )}
+
+              <Link href="/sponsors" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Sponsors
+              </Link>
+              <Link href="/contact" onClick={() => setMenuOpen(false)} className="border-b border-[#21596A]/60 py-3 transition-colors hover:text-[#806D0B]">
+                Contact Us
+              </Link>
             </div>
-
-            <Link
-              href="/sponsors"
-              className="block px-5 py-4 text-[11px] tracking-wider"
-            >
-              SPONSORS
-            </Link>
-
           </div>
         )}
       </div>
