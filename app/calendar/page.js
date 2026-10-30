@@ -802,17 +802,18 @@ const formatDateStr = (date) => {
 
         <div className="flex flex-col px-4 pb-8 pt-24 sm:px-8 md:py-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-2">
-            <div className="flex flex-wrap items-center justify-start gap-4 pt-4 md:flex-nowrap md:pt-[4rem]">
-              <h1 className="dk-prince-frog ml-[4vw] text-[clamp(4rem,9vw,9rem)] leading-[85%]">
-              CaIendar
-            </h1>
-            <Image
+            <div className="flex flex-wrap items-center justify-start gap-4 pt-4 md:flex-nowrap md:pt-0">
+              <Image
               src={"/monkey.png"}
               width={4000}
               height={4000}
               alt="funky monkey image"
-              className="-mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
+              className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
             />
+              <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%] mt-[4vw]">
+              CaIendar
+            </h1>
+            
           </div>
           <CalendarNav />
           </div>

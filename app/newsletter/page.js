@@ -363,12 +363,6 @@ const Newsletter = () => {
       <Navbar />
     
       <div className="flex flex-wrap items-center justify-start gap-4 px-6 pb-6 pt-28 md:flex-nowrap md:px-[3.5rem] md:pt-[7rem]">
-        <header className="min-w-0">
-          <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%]">
-            Newsletters
-          </h1>
-        </header>
-
         <Image
           src="/monkey.png"
           width={500}
@@ -376,6 +370,11 @@ const Newsletter = () => {
           alt="funky monkey image"
           className="-mt-10 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
         />
+        <header className="min-w-0">
+          <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%]">
+            Newsletters
+          </h1>
+        </header>
       </div>
 
       <section className="mx-auto max-w-[1400px] px-6 pb-20 md:px-10">

@@ -30,23 +30,19 @@ const Officers = () => {
   const currentOfficers = officersData[selectedYear] || [];
 
   return (
-    <div>
-      <div className="flex flex-row pt-24 md:pt-0">
+    <div className="flex flex-col">
+      <Navbar/>
+      <div className="flex flex-row items-center gap-4 pt-24 px-[4vw] md:pt-0">
         <Image
-          src={"/funky_svgs/hero_right.svg"}
-          alt="hero right image"
-          width={400}
-          height={400}
-          className="w-[11vw] h-auto mt-[2.5vw] ml-[4vw] unselectable rotate-180"
+          src="/monkey.png" 
+          alt="monkey image"
+          width={800}
+          height={800}
+          className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
         />
         <div className="flex flex-col">
-          <h1 className="text-2xl mt-[6vw] ml-[4vw]">Meet Our</h1>
-          <div className="w-[9vw] h-[2px] bg-[#666666] mt-[0.5vw] ml-[4vw] font-medium"></div>
-          <h1 className="text-[11vw] dk-prince-frog mt-[-1vw] ml-[4vw]">
-            Officers
-          </h1>
+          <h1 className="text-[clamp(4rem,9vw,9rem)] dk-prince-frog mt-[4vw]">Officers</h1>
         </div>
-        <Navbar />
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 px-5 sm:grid-cols-4 md:mt-[2vw] md:grid-cols-7 md:px-[5vw]">
