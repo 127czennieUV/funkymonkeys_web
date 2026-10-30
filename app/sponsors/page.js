@@ -6,20 +6,18 @@ import Footer from "@/components/layout/Footer";
 const Sponsors = () => {
   return (
     <div className="flex flex-col">
-      <div className="flex flex-row pt-24 md:pt-0">
+      <Navbar />
+      <div className="flex flex-row items-center gap-4 pt-24 px-[4vw] md:pt-0">
         <Image
-          src = "/funky_svgs/sponsorleft.svg"
-          alt = "sponsors_left_imaeg"
-          width ={4000}
-          height={4000}
-          className = "w-[11vw] h-auto mt-[3vw] ml-[3vw] unselectable"
+          src="/monkey.png"
+          alt="monkey image"
+          width={800}
+          height={800}
+          className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
         />
         <div className="flex flex-col">
-          <h1 className="text-[11vw] dk-prince-frog mt-[6vw] ml-[2vw]">
-            Sponsors
-          </h1>
+          <h1 className="text-[clamp(4rem,9vw,9rem)] dk-prince-frog mt-[4vw]">Sponsors</h1>
         </div>
-        <Navbar />
       </div>
 
       <div className="flex justify-center items-center w-full mt-16 px-6 pb-24">
