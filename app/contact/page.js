@@ -1,6 +1,7 @@
 "use client";
 
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import Image from "next/image";
 const Contact = () => {
   const handleSubmit = (event) => {
@@ -19,6 +20,7 @@ const Contact = () => {
   };
 
   return (
+    <>
     <main className="min-h-screen px-[6vw] pb-24 pt-[10rem]">
       <Navbar />
       <section className="mx-auto w-full max-w-4xl">
@@ -76,6 +78,8 @@ const Contact = () => {
         </form>
       </section>
     </main>
+    <Footer />
+    </>
   );
 };
 
