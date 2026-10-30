@@ -60,12 +60,8 @@ export const officers = [
     position: "Co-Outreach Lead",
   },
   {
-    name: "Rhea Susarla",
-    position: "Executive Co-Test & Drive Lead",
-  },
-  {
-    name: "Rayming Ye",
-    position: "Co-Test & Drive Lead"
+    name: "Harish Gottiumukkula",
+    position: "Safety Officer",
   },
   {
     name: "Warren Su",
@@ -74,6 +70,14 @@ export const officers = [
   {
     name: "Aaron Yang",
     position: "Co-Scouting & Strategy Lead",
+  },
+  {
+    name: "Rhea Susarla",
+    position: "Executive Co-Test & Drive Lead",
+  },
+  {
+    name: "Rayming Ye",
+    position: "Co-Test & Drive Lead"
   },
     {
     name: "Andy Chen",
@@ -98,9 +102,5 @@ export const officers = [
   {
     name: "Bhavishya Pissa",
     position: "Event Manager",
-  },
-  {
-    name: "Harish Gottiumukkula",
-    position: "Safety Officer",
   },
 ];
