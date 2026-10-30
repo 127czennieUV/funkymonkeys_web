@@ -32,7 +32,7 @@ const Hero = () => {
       animate="visible"
     >
       <motion.div
-        className="relative flex w-full shrink-0 flex-row items-center justify-between bg-[#FFDA15] px-6 py-6 mt-15 md:w-[min(35vw,42rem)] md:flex-col md:items-end md:justify-start md:px-5 md:py-0"
+        className="relative flex w-full shrink-0 flex-row items-center justify-between bg-[#FFDA15] px-6 py-6 mt-20 md:mt-15 md:w-[min(35vw,42rem)] md:flex-col md:items-end md:justify-start md:px-5 md:py-0"
         variants={itemVariants}
       >
         <motion.h1
@@ -41,13 +41,13 @@ const Hero = () => {
         >
           Lynbrook Robotics
         </motion.h1>
-        <motion.div variants={itemVariants}>
+        <motion.div className="md:self-center" variants={itemVariants}>
           <Image
             src={"/monkey.png"}
             width={4000}
             height={4000}
             alt="funky monkey image"
-            className="keep-logo-dark m-0 w-[32vw] max-w-[8rem] justify-center h-auto md:-mt-[min(5vw,6rem)] md:mb-[min(1vw,1.2rem)] md:ml-[min(1vw,1.2rem)] md:w-[min(28vw,26.8125rem)] md:max-w-[26.8125rem]"
+            className="keep-logo-dark m-0 w-[32vw] max-w-[8rem] justify-center h-auto md:-mt-[min(5vw,6rem)] md:mb-[min(1vw,1.2rem)] md:w-[min(28vw,26.8125rem)] md:max-w-[26.8125rem]"
           />
         </motion.div>
       </motion.div>
