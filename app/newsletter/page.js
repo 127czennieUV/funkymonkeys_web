@@ -65,7 +65,7 @@ const newsletters = [
     volume: "Volume 33",
     description:
       "Explores prototyping through robot gripper development, student experiences and emotions, regional competition, outreach demonstrations, future plans, and how technical work connects with community engagement.",
-    image: "/images/newsletters/fall2223.png",
+    image: "/images/newsletters/spring2223.png",
     pdf: "/newsletter-pdf/spring2223.pdf",
   },
   {
