@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import DarkModeToggle from "@/components/layout/DarkModeToggle";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,7 +26,7 @@ const itemVariants = {
 const Footer = () => {
   return (
     <motion.div
-      className="bg-[#FFF7AB] px-8 py-12 text-[#333122] md:bg-[#FFDA15] md:px-[3.5rem] md:py-[2.75rem] md:text-black"
+      className="site-footer bg-[#FFF7AB] px-8 py-12 text-[#333122] md:bg-[#FFDA15] md:px-[3.5rem] md:py-[2.75rem] md:text-black"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -81,6 +82,9 @@ const Footer = () => {
           </Link>
         </motion.div>
         <motion.div className="flex flex-col" variants={itemVariants}>
+          <motion.div className="mb-[1.25rem]" variants={itemVariants}>
+            <DarkModeToggle className="text-[1.125rem]" />
+          </motion.div>
           <motion.h3
             className="poppins text-[1.375rem] font-bold mb-[0.875rem]"
             variants={itemVariants}

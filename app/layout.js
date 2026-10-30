@@ -19,9 +19,22 @@ export const metadata = {
     "The official website of the Lynbrook Robotics Club - The Funky Monkeys",
 };
 
+const themeInitScript = `
+(function () {
+  try {
+    if (localStorage.getItem("theme") === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${dk_frong_prince.variable} ${poppins.variable} antialiased`}
       >

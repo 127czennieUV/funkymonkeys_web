@@ -10,6 +10,7 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import Image from "next/image";
   const parseiCalDate = (icalLine) => {
     if (!icalLine) return new Date();
@@ -529,7 +530,6 @@ const formatDateStr = (date) => {
       height: `${height}px`,
       left: `${0.5 + column * columnWidth}%`,
       width: columns > 1 ? `calc(${columnWidth}% - 4px)` : "92%",
-      backgroundColor: isRightSide ? "#FFEDBB" : "#FFF4B7",
     };
   };
 
@@ -675,7 +675,9 @@ const formatDateStr = (date) => {
                 sortedTasks.map((task, index) => (
                   <div
                     key={task.id || `${task.title}-${index}`}
-                    className="absolute rounded-xl bg-[#FFF4B7] px-3 py-2 overflow-hidden"
+                    className={`absolute rounded-xl px-3 py-2 overflow-hidden ${
+                      index % 2 !== 0 ? "bg-[#FFEDBB]" : "bg-[#FFF4B7]"
+                    }`}
                     style={getEventLayout(task, index, eventColumns[index])}
                   >
                     <div className="absolute left-2 top-2 bottom-2 w-1.5 rounded-full bg-[#FFDA15]" />
@@ -877,6 +879,7 @@ const formatDateStr = (date) => {
       </>
     )}
   </div>
+        <Footer />
     </div>
   );
 };
