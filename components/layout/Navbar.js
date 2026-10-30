@@ -24,7 +24,7 @@ const Navbar = () => {
           />
           <span className="dk-prince-frog text-4xl leading-none">The Funky Monkeys</span>
 
-        <div className="flex min-w-0 flex-1 items-center justify-end gap-3 whitespace-nowrap text-xs font-medium lg:gap-5">
+        <div className="flex min-w-0 flex-1 items-center justify-end gap-3 whitespace-nowrap text-s font-medium lg:gap-10">
           <Link href="/" className="transition-colors hover:text-[#F0C14B]">
             Home
           </Link>
