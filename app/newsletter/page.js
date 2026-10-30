@@ -83,7 +83,7 @@ const newsletters = [
     volume: "Volume 31",
     description:
       "Highlights the presidents’ welcome, underclassmen experiences, a Dean’s List Award, the 2022 season, outreach activities, graduating seniors, and ways new members can participate in Team 846.",
-    image: "/images/newsletters/fall2021.png",
+    image: "/images/newsletters/fall2223.png",
     pdf: "/newsletter-pdf/fall2223.pdf",
   },
   {
