@@ -62,7 +62,7 @@ const Officers = () => {
         ))}
       </div>
 
-      <div className="mt-[4vw] px-[5vw] mb-[5vw] grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="mt-[4vw] px-[5vw] mb-[5vw] grid grid-cols-1 md:grid-cols-2 gap-0 md:gap-8">
         {[0, 1].map((columnIndex) => {
           const half = Math.ceil(currentOfficers.length / 2);
           const columnOfficers = columnIndex === 0
@@ -70,8 +70,8 @@ const Officers = () => {
             : currentOfficers.slice(half);
 
           return (
-            <table key={columnIndex} className="w-full border-collapse">
-              <thead>
+            <table key={columnIndex} className="w-full border-collapse max-md:table-fixed">
+              <thead className={columnIndex === 1 ? "hidden md:table-header-group" : undefined}>
                 <tr className="border-b-2 border-[#FFDA15]">
                   <th className="text-left py-3 px-4 font-semibold text-lg">Name</th>
                   <th className="text-left py-3 px-4 font-semibold text-lg">Position</th>

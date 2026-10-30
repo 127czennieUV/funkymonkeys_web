@@ -19,7 +19,7 @@ const Contact = () => {
   };
 
   return (
-    <main className="contact-page-background min-h-screen px-[6vw] pb-24 pt-[10rem]">
+    <main className="min-h-screen px-[6vw] pb-24 pt-[10rem]">
       <Navbar />
       <section className="mx-auto w-full max-w-4xl">
         <h1 className="dk-prince-frog text-[clamp(5rem,11vw,10rem)] leading-[85%]">
