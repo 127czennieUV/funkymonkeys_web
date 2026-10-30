@@ -56,12 +56,3 @@ body {
 .robot-scrollbar::-webkit-scrollbar-thumb:hover {
   background: #efc900;
 }
-
-.contact-page-background {
-  background:
-    radial-gradient(circle at top left, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
-    radial-gradient(circle at top right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
-    radial-gradient(circle at bottom left, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
-    radial-gradient(circle at bottom right, rgba(255, 218, 21, 0.9) 0, rgba(255, 218, 21, 0.3) 12rem, transparent 28rem),
-    #F8F4E8;
-}
