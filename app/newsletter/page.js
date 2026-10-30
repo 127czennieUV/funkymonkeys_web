@@ -244,7 +244,7 @@ const newsletters = [
     season: "Winter 2013",
     volume: "Volume 13",
     description:
-      "sdfljsdfjadsoi.",
+      "Creating the team's motto! Showcasing offseason highlights, experiences from outreach events over the past couple months, and introducing 2014 season competitions.",
     image: "/images/newsletters/winter1314.png",
     pdf: "newsletter-pdf/winter1314.pdf",
   },
@@ -271,7 +271,7 @@ const newsletters = [
     season: "Summer 2012",
     volume: "Volume 10",
     description:
-      "sdfljsdfjadsoi.",
+      "Reflecting on a regional competition, introducint summer enrichment experiences, robot design, and graduating seniors’ farewell messages.",
     image: "/images/newsletters/summer1112.png",
     pdf: "newsletter-pdf/summer1112.pdf",
   },
