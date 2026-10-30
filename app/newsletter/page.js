@@ -9,7 +9,7 @@ const newsletters = [
   {
     year: "2026-2027",
     season: "Fall 2026",
-    volume: " Volume 39",
+    volume: "Volume 39",
     description:
         "Highlights the new robotics building, team picnic, sponsor appreciation, community involvement, small improvements that make a difference, senior reflections, and the 2026–27 workshop schedule.",
     image: "/images/newsletters/fall2627.png",
@@ -28,7 +28,7 @@ const newsletters = [
     season: "Fall 2025",
     volume: "Volume 37",
     description:
-      "EFeatures the Western Region Robotics Forum, driver experiences at the Capital City Classic, Miller Robotics outreach, fall workshops, senior reflections, and perspectives on different roles within the team.",
+      "Features the Western Region Robotics Forum, driver experiences at the Capital City Classic, Miller Robotics outreach, fall workshops, senior reflections, and perspectives on different roles within the team.",
     image: "/images/newsletters/fall2526.png",
     pdf: "/newsletter-pdf/fall2526.pdf",
   },

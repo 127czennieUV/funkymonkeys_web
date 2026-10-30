@@ -204,7 +204,7 @@ const robots = [
     details: robotDetails[2026],
   },
   {
-    name: "Monkey D' Luffy",
+    name: "Monkey D. Luffy",
     image: "/images/robot_renders/RobotRender25.png",
     details: robotDetails[2025],
   },
@@ -270,7 +270,7 @@ const robots = [
     details: robotDetails[2012],
   },
   {
-    name: "Soccer Chipmbot Extreme",
+    name: "Soccer ChimpBot Extreme",
     image: "/images/robot_renders/RobotRender10.png",
     details: robotDetails[2010],
   },

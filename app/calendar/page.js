@@ -813,7 +813,7 @@ const formatDateStr = (date) => {
               className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
             />
               <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%] mt-[4vw]">
-              CaIendar
+              Calendar
             </h1>
             
           </div>
