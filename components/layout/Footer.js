@@ -129,7 +129,7 @@ const Footer = () => {
           &copy; 2026 The Funky Monkeys. All rights reserved.
           <br />
           Website created by: Tiffany Wan and Aravind Arivudainambi <br/>
-          Credits: Warren Su and Andy Chang
+          Credits: Warren Su, Yicheng Lu, Andy Chang
         </motion.p>
       </motion.div>
     </motion.div>
