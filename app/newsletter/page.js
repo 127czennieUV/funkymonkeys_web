@@ -380,7 +380,7 @@ const Newsletter = () => {
       <section className="mx-auto max-w-[1400px] px-6 pb-20 md:px-10">
         <div className="mb-8">
 
-          <p className="max-w-2xl text-gray-600">
+          <p className="max-w-6xl text-gray-600">
             The team’s writers gather and work together to write wonderful articles describing their personal experiences during the season. Every newsletter highlights many different experiences of being on an FRC team.
           </p>
         </div>
