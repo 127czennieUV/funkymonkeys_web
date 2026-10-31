@@ -226,7 +226,7 @@ const newsletters = [
     season: "Fall 2014",
     volume: "Volume 15",
     description:
-      "Introduces the new robotics season with presidents’ welcomes, Chezy Champs, California funding changes, summer internships and projects, mentor opinions on driveteam participation, and the 2014 World Championships.",
+      "Introduces the new robotics season with presidents’ welcomes, Chezy Champs, California funding changes, summer internships, opinions on mentors driveteam coaching, and the 2014 World Championships.",
     image: "/images/newsletters/fall1415.png",
     pdf: "newsletter-pdf/fall1415.pdf",
   },

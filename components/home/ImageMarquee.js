@@ -17,7 +17,6 @@ const BASE = FILES.map((file, i) => ({
   alt: `Team 846 photo ${i + 1}`,
 }));
 
-// repeat the set so one half of the loop is always longer than the screen
 const REPEATS = 3;
 const IMAGES = Array.from({ length: REPEATS }, () => BASE).flat();
 
