@@ -401,7 +401,7 @@ const Newsletter = () => {
               <div className="flex flex-1 flex-col justify-between p-5">
                 <div>
                   <div className="flex items-center gap-3">
-                  <p className="inline-block whitespace-nowrap rounded-md bg-[#FFDA15] px-3 py-1 text-md font-semibold">
+                  <p className="inline-block whitespace-nowrap rounded-md bg-[#FFDA15] px-3 py-1 text-md font-semibold text-black">
                     {newsletter.season}
                   </p>
 
