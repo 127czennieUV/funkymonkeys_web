@@ -1,0 +1,18 @@
+export const sponsors = [
+  { name: "Gene Haas Foundation", amount: 14750, logo: "/sponsors/gene_haas_foundation.png" },
+  { name: "Google", amount: 10250, logo: "/sponsors/google.png" },
+  { name: "Apple", amount: 4250, logo: "/sponsors/apple.png" },
+  { name: "NASA", amount: 3750, logo: "/sponsors/NASA.png" },
+  { name: "Western Digital", amount: 3250, logo: "/sponsors/western_digital.png" },
+  { name: "Intuitive Surgical", amount: 2750, logo: "/sponsors/intuitive_surgical.png" },
+  { name: "Boston Scientific", amount: 2250, logo: "/sponsors/boston_scientific.png" },
+  { name: "FUHS Foundation", amount: 2250, logo: "/sponsors/FUHS_foundation.png" },
+  { name: "FIRST", amount: 2000, logo: "/sponsors/FIRST.png" },
+  { name: "ARM", amount: 2000, logo: "/sponsors/ARM.png" },
+  { name: "BAE Systems", amount: 2000, logo: "/sponsors/BAE_systems.png" },
+  { name: "PG&E", amount: 1750, logo: "/sponsors/PG&E.png" },
+  { name: "Dell", amount: 1250, logo: "/sponsors/DELL.png" },
+  { name: "Netflix", amount: 1000, logo: "/sponsors/netflix.png" },
+  { name: "Rotary Club of Cupertino", amount: 1000, logo: "/sponsors/rotary_club_of_cupertino.png" },
+  { name: "Corning Foundation", amount: 750, logo: "/sponsors/corning_foundation.png" },
+];

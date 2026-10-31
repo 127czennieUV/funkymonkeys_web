@@ -219,12 +219,6 @@ body {
   filter: invert(1);
 }
 
-.dark img[src*="Sponsors.svg"] {
-  background-color: #F8F4E8;
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-}
-
 .dark .robot-scrollbar {
   scrollbar-color: #FFDA15 #2A271E;
 }
