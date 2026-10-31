@@ -99,7 +99,7 @@ const FromStudents = () => {
       <motion.div className="w-full shrink-0 md:w-[min(30vw,29rem)] md:self-center" variants={itemVariants}>
         <Image
           className="h-auto w-full"
-          src="/images/fromstudents.jpg"
+          src="/images/fromstudents.png"
           alt="quote"
           width={4000}
           height={4000}
