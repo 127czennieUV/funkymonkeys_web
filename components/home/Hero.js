@@ -32,7 +32,7 @@ const Hero = () => {
       animate="visible"
     >
       <motion.div
-        className="relative flex w-full shrink-0 flex-row items-center justify-between bg-[#FFDA15] px-6 py-6 mt-20 md:mt-15 md:w-[min(35vw,42rem)] md:flex-col md:items-end md:justify-start md:px-5 md:py-0"
+        className="relative flex w-full shrink-0 flex-row items-center justify-between bg-[#FFDA15] px-6 py-6 mt-20 xl:mt-15 md:w-[min(35vw,42rem)] md:flex-col md:items-end md:justify-start md:px-5 md:py-0"
         variants={itemVariants}
       >
         <motion.h1
@@ -66,7 +66,7 @@ const Hero = () => {
             <motion.div className="flex flex-col" variants={itemVariants}>
               <div className="flex flex-col w-fit">
                 <motion.p
-                  className="poppins mt-0 text-[1.125rem] text-[#666666] md:mt-[min(6vw,7.2rem)] md:text-[1.5rem]"
+                  className="poppins mt-0 text-[1.125rem] text-[#666666] md:mt-24 md:text-[1.5rem] xl:mt-[min(6vw,7.2rem)]"
                   variants={itemVariants}
                 >
                   Team 846

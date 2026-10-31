@@ -7,17 +7,15 @@ const Sponsors = () => {
   return (
     <div className="flex flex-col">
       <Navbar />
-      <div className="flex flex-row items-center gap-4 pt-24 px-[4vw] md:pt-0">
+      <div className="flex items-center gap-[0.25em] px-[4vw] pb-2 pt-28 text-[clamp(2.5rem,9vw,9rem)] xl:pt-24">
         <Image
           src="/monkey.png"
           alt="monkey image"
           width={800}
           height={800}
-          className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
+          className="h-[0.9em] w-auto shrink-0 object-contain"
         />
-        <div className="flex flex-col">
-          <h1 className="text-[clamp(4rem,9vw,9rem)] dk-prince-frog mt-[4vw]">Sponsors</h1>
-        </div>
+        <h1 className="dk-prince-frog min-w-0 text-[1em] leading-none">Sponsors</h1>
       </div>
 
       <div className="flex justify-center items-center w-full mt-16 px-6 pb-24">
