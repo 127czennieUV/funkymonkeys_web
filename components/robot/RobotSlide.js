@@ -1,6 +1,12 @@
 import Image from "next/image";
 
 const RobotSlide = ({ robot_name, image, year, onSelect }) => {
+  const imagePosition = {
+    "2003": "scale-[0.82]",
+    Wes: "scale-[0.82]",
+    "Punk Monkey": "scale-[1.5] translate-y-8",
+  }[robot_name] || "";
+
   return (
     <button
       type="button"
@@ -8,15 +14,13 @@ const RobotSlide = ({ robot_name, image, year, onSelect }) => {
       className="relative flex min-h-[25rem] w-full cursor-pointer flex-col items-center justify-center rounded-3xl border-8 border-[#FFDA15] bg-[#F8F4E8] p-6 text-left shadow-xl transition-transform hover:-translate-y-1 hover:shadow-2xl focus:outline-none focus:ring-4 focus:ring-[#FFDA15]/50 sm:min-h-[30rem] sm:p-8"
       aria-label={`View details for ${robot_name}`}
     >
-      <div className="relative mb-6 flex items-center justify-center">
-        <div className="absolute h-[13rem] w-[13rem] rounded-full bg-[#FFDA15] sm:h-[16.25rem] sm:w-[16.25rem]" />
-
+      <div className="mb-6 flex h-[13rem] w-[13rem] shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#FFDA15] p-5 sm:h-[16.25rem] sm:w-[16.25rem] sm:p-7">
         <Image
           src={image}
           width={300}
           height={300}
           alt={robot_name}
-          className="z-10 h-[11rem] w-[11rem] object-contain sm:h-[13.75rem] sm:w-[13.75rem]"
+          className={`h-full w-full object-contain ${imagePosition}`}
         />
       </div>
 
