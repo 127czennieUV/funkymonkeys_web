@@ -209,6 +209,15 @@ body {
   border-color: #302C21;
 }
 
+.dark .sponsor-wall {
+  background-color: #F8F4E8;
+  border-color: rgb(0 0 0 / 0.1);
+}
+
+.dark .sponsor-wall .text-\[\#666666\] {
+  color: #666666;
+}
+
 .dark input:focus,
 .dark textarea:focus {
   border-color: #FFDA15;

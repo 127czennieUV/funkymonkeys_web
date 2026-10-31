@@ -135,7 +135,7 @@ const SponsorWall = ({ sponsors }) => {
   }, [aspects, sorted, isNarrow]);
 
   return (
-    <div className="w-[80vw] max-w-[1200px] rounded-3xl bg-[#FFFFFF] p-[clamp(1.5rem,4vw,3.5rem)]">
+    <div className="sponsor-wall w-[80vw] max-w-[1200px] rounded-3xl border border-black/10 bg-[#F8F4E8] p-[clamp(1.5rem,4vw,3.5rem)]">
       {layout ? (
         <div
           className="relative w-full"
