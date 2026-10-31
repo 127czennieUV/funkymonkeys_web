@@ -127,10 +127,10 @@ const Hero = () => {
           </motion.div>
         </motion.div>
         <motion.div
-          className="hero-footer mt-auto flex w-full flex-col bg-[#FFF7AB] px-6 py-10 md:min-h-[12rem] md:px-[min(4vw,4.8rem)] md:py-8 xl:flex-row xl:items-center xl:justify-between"
+          className="hero-footer mt-auto flex w-full flex-col bg-[#FFF7AB] px-6 py-10 md:min-h-[12rem] md:px-[min(4vw,4.8rem)] md:py-8 xl:grid xl:grid-cols-[auto_auto] xl:grid-rows-[repeat(3,auto)] xl:content-center xl:justify-between xl:gap-x-12 xl:gap-y-4"
           variants={itemVariants}
         >
-          <motion.div className="flex flex-col items-start gap-4 md:mt-3" variants={itemVariants}>
+          <motion.div className="flex flex-col items-start gap-4 md:mt-3 xl:row-span-3 xl:grid xl:grid-rows-subgrid xl:items-center xl:justify-items-start" variants={itemVariants}>
             <p className="poppins max-w-md text-[1.1rem] leading-[120%] text-[#333122]">
               Based in San Jose — Build. Learn. Inspire.
             </p>
@@ -167,7 +167,7 @@ const Hero = () => {
               </Link>
             </div>
           </motion.div>
-          <motion.nav className="mt-10 flex flex-col items-start gap-4 md:mt-12" aria-label="Footer navigation" variants={itemVariants}>
+          <motion.nav className="mt-10 flex flex-col items-start gap-4 md:mt-12 xl:row-span-3 xl:mt-3 xl:grid xl:grid-rows-subgrid xl:items-center xl:justify-items-start" aria-label="Footer navigation" variants={itemVariants}>
             <DarkModeToggle className="text-[1.25rem] text-[#333122]" />
             <div className="border-b-2 border-[#333122] pb-1">
               <h2 className="poppins text-[1.5rem] font-semibold text-[#333122]">Quick Links</h2>
