@@ -64,7 +64,7 @@ const newsletters = [
     season: "Spring 2023",
     volume: "Volume 33",
     description:
-      "Explores prototyping through robot gripper development, student experiences and emotions, regional competition, outreach demonstrations, future plans, and how technical work connects with community engagement.",
+      "Explores prototyping through robot gripper development, student experiences from the regional competitions, outreach demonstrations and community engagement.",
     image: "/images/newsletters/spring2223.png",
     pdf: "/newsletter-pdf/spring2223.pdf",
   },
@@ -118,7 +118,7 @@ const newsletters = [
     season: "Spring 2020",
     volume: "Volume 27",
     description:
-      "Documents the 2020 season and the disruption caused by the pandemic, focusing on the team’s robot, competition experiences, remote adaptation, and ways members continued participating.",
+      "Documents the 2020 season and the disruption caused by the pandemic, impact of robots on some students, competition experiences, remote adaptation.",
     image: "/images/newsletters/spring1920.png",
     pdf: "/newsletter-pdf/spring1920.pdf",
   },
@@ -127,7 +127,7 @@ const newsletters = [
     season: "Winter 2019",
     volume: "Volume 26",
     description:
-      "Covers successful workshops, an ILM/Lucasfilm visit, exploring competition pits, offseason competitions, and the Monkey Box project while highlighting technical learning and experiences beyond regular build season.",
+      "Covers successful animation workshop, an ILM/Lucasfilm visit, exploring competition pits, offseason competitions, and the Monkey Box project highlighting technical experiences beyond build season.",
     image: "/images/newsletters/winter1920.png",
     pdf: "/newsletter-pdf/winter1920.pdf",
   },
