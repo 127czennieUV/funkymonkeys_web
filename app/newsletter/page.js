@@ -362,16 +362,16 @@ const Newsletter = () => {
     <main className="min-h-screen">
       <Navbar />
     
-      <div className="flex flex-wrap items-center justify-start gap-4 px-6 pb-6 pt-28 md:flex-nowrap md:px-[3.5rem] md:pt-[7rem]">
+      <div className="flex items-center gap-[0.25em] px-6 pb-6 pt-28 text-[clamp(2.5rem,9vw,9rem)] md:px-[3.5rem] xl:pt-24">
         <Image
           src="/monkey.png"
           width={500}
           height={500}
           alt="funky monkey image"
-          className="-mt-10 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
+          className="h-[0.9em] w-auto shrink-0 object-contain"
         />
         <header className="min-w-0">
-          <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%]">
+          <h1 className="dk-prince-frog text-[1em] leading-none">
             Newsletters
           </h1>
         </header>

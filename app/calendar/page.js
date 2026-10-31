@@ -802,17 +802,17 @@ const formatDateStr = (date) => {
       <div>
         <Navbar />
 
-        <div className="flex flex-col px-4 pb-8 pt-24 sm:px-8 md:py-8">
+        <div className="flex flex-col px-4 pb-8 pt-28 sm:px-8 xl:pt-24">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-2">
-            <div className="flex flex-wrap items-center justify-start gap-4 pt-4 md:flex-nowrap md:pt-0">
+            <div className="flex items-center gap-[0.25em] text-[clamp(2.5rem,9vw,9rem)]">
               <Image
               src={"/monkey.png"}
               width={4000}
               height={4000}
               alt="funky monkey image"
-              className="mt-12 h-[clamp(4rem,9vw,8rem)] w-auto shrink-0 object-contain"
+              className="h-[0.9em] w-auto shrink-0 object-contain"
             />
-              <h1 className="dk-prince-frog text-[clamp(4rem,9vw,9rem)] leading-[85%] mt-[4vw]">
+              <h1 className="dk-prince-frog min-w-0 text-[1em] leading-none">
               Calendar
             </h1>
             
