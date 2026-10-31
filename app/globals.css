@@ -7,7 +7,7 @@
 
 html.dark {
   color-scheme: dark;
-  --foreground: #F3EFE0;
+  --foreground: #FDF6E4;
   --page-bg: #16140F;
 }
 
@@ -118,7 +118,7 @@ body {
 .dark .site-footer,
 .dark .hero-footer {
   background-color: #25221A !important;
-  color: #F3EFE0 !important;
+  color: #FDF6E4 !important;
 }
 
 .dark .site-footer a:hover {
@@ -143,7 +143,7 @@ body {
 }
 
 .dark .hover\:text-black:hover {
-  color: #FFFFFF;
+  color: #FDF6E4;
 }
 
 .dark .text-black,
@@ -151,7 +151,7 @@ body {
 .dark .text-\[\#333122\],
 .dark .text-gray-950,
 .dark .text-gray-800 {
-  color: #F3EFE0;
+  color: #FDF6E4;
 }
 
 .dark .bg-\[\#FFDA15\].text-black,
@@ -174,7 +174,7 @@ body {
 
 .dark .text-black\/50,
 .dark .text-black\/60 {
-  color: rgb(243 239 224 / 0.6);
+  color: rgb(253 246 228 / 0.6);
 }
 
 .dark .text-\[\#21596A\] {
