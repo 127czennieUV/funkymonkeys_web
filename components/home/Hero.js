@@ -2,6 +2,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import DarkModeToggle from "@/components/layout/DarkModeToggle";
+import ImageMarquee from "@/components/home/ImageMarquee";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -60,7 +61,7 @@ const Hero = () => {
           variants={itemVariants}
         >
           <motion.div
-            className="flex w-full flex-row items-start justify-between"
+          className="flex w-full flex-col gap-6 xl:flex-row xl:items-stretch xl:justify-between"
             variants={itemVariants}
           >
             <motion.div className="flex flex-col" variants={itemVariants}>
@@ -78,16 +79,18 @@ const Hero = () => {
                 ></motion.div>
               </div>
               <motion.h1
-                className="dk-prince-frog mt-4 max-w-full text-[3.75rem] leading-[85%] md:mt-[min(1vw,1.2rem)] md:max-w-[40rem] md:text-[9.375rem]"
+                className="dk-prince-frog mt-4 max-w-full text-[3.75rem] leading-[85%] md:mt-[min(1vw,1.2rem)] md:max-w-[40rem] md:text-[min(9.375rem,11vw)]"
                 variants={itemVariants}
               >
                 The Funky Monkeys
               </motion.h1>
             </motion.div>
+            
             <motion.div
-              className="hidden md:mt-[6vw] md:mr-[10vw] md:flex md:items-center"
+              className="relative -mx-6 h-40 w-[calc(100%+3rem)] md:mx-0 xl:-mb-40 md:h-44 md:w-full relative hidden xl:mt-[min(6vw,7.2rem)] xl:mr-[min(4vw,4.8rem)] xl:-mb-40 xl:block xl:h-auto xl:min-h-[22rem] xl:w-[clamp(7rem,15vw,16rem)] xl:shrink-0 xl:self-stretch"
               variants={itemVariants}
             >
+              <ImageMarquee />
             </motion.div>
           </motion.div>
           <motion.div
@@ -100,7 +103,7 @@ const Hero = () => {
             >
               <motion.div className="flex w-full flex-col items-start gap-4" variants={itemVariants}>
                 <motion.p
-                  className="poppins max-w-[20rem] text-[1.2rem] leading-[130%] text-[#333122] md:max-w-none"
+                  className="poppins max-w-[20rem] text-[1.2rem] leading-[130%] text-[#333122] xl:max-w-[calc(100%_-_clamp(7rem,15vw,16rem)_-_min(4vw,4.8rem)_-_1.5rem)]"
                   variants={itemVariants}
                 >
                   Empowering the next generation of engineers since 2002
@@ -125,6 +128,12 @@ const Hero = () => {
               </motion.div>
             </motion.div>
           </motion.div>
+        </motion.div>
+        <motion.div
+          className="relative -mx-6 h-44 w-[calc(100%+3rem)] md:mx-0 md:w-full xl:hidden"
+          variants={itemVariants}
+        >
+          <ImageMarquee />
         </motion.div>
         <motion.div
           className="hero-footer mt-auto flex w-full flex-col bg-[#FFF7AB] px-6 py-10 md:min-h-[12rem] md:px-[min(4vw,4.8rem)] md:py-8 xl:grid xl:grid-cols-[auto_auto] xl:grid-rows-[repeat(3,auto)] xl:content-center xl:justify-between xl:gap-x-12 xl:gap-y-4"

@@ -234,3 +234,14 @@ body {
 .dark img[src*="monkey.png"]:not(.keep-logo-dark) {
   filter: invert(1);
 }
+
+@keyframes marquee-x {
+  to { transform: translateX(-50%); }
+}
+@keyframes marquee-y {
+  to { transform: translateY(-50%); }
+}
+@keyframes marquee-x-rev {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(0); }
+}
