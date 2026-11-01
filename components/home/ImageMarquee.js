@@ -10,6 +10,13 @@ const FILES = [
   "judges.png",
   "2018award.png",
   "2015award.png",
+  "justin.png",
+  "electrical.png",
+  "drivetrain.png",
+  "westerndigital.png",
+  "siademo.png",
+  "onfield.png",
+  "monkey20.png",
 ];
 
 const BASE = FILES.map((file, i) => ({
