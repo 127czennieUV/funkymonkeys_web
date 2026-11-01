@@ -5,13 +5,22 @@ import { useEffect, useMemo, useState } from "react";
 const MAX_AREA = 220;
 const MAX_WIDTH = 34;
 const MAX_HEIGHT = 13;
-const MIN_SCALE = 0.35;
+const MIN_SCALE = 0.4;
+const MIN_LOG_SPAN = 1;
 const MIN_AMOUNT = 1000;
 const PADDING = 2.5;
 const GOLDEN_ANGLE = 2.39996;
 const WIDE_STRETCH = 1.9;
 const NARROW_STRETCH = 0.9;
 const TEXT_CHAR_ASPECT = 0.55;
+const WIDE_BOX = { w: 80, h: 40 };
+const NARROW_BOX = { w: 60, h: 60 };
+const logoScales = (totals) => {
+  const logs = totals.map((total) => Math.log10(total));
+  const top = Math.max(...logs);
+  const span = Math.max(MIN_LOG_SPAN, top - Math.min(...logs));
+  return logs.map((log) => 1 - (1 - MIN_SCALE) * ((top - log) / span));
+};
 
 const logoSize = (scale, aspect) => {
   const width = Math.sqrt(MAX_AREA * aspect);
@@ -97,12 +106,13 @@ const percent = (value, total) => `${(value / total) * 100}%`;
 
 const SponsorWall = ({ sponsors }) => {
   const isNarrow = useIsNarrow();
+  const box = isNarrow ? NARROW_BOX : WIDE_BOX;
 
   const sorted = useMemo(
     () =>
       sponsors
         .filter((sponsor) => sponsor.amount >= MIN_AMOUNT)
-        .sort((a, b) => b.amount - a.amount),
+        .sort((a, b) => b.total - a.total || b.amount - a.amount),
     [sponsors]
   );
 
@@ -121,60 +131,68 @@ const SponsorWall = ({ sponsors }) => {
 
   const layout = useMemo(() => {
     if (!aspects || sorted.length === 0) return null;
-    const maxAmount = sorted[0].amount;
+    const scales = logoScales(sorted.map((sponsor) => sponsor.total));
 
     const items = sorted.map((sponsor, index) => {
-      const scale = Math.max(MIN_SCALE, Math.sqrt(sponsor.amount / maxAmount));
+      const scale = scales[index];
       const aspect = aspects[index];
       const showText = aspect === null;
       const size = logoSize(scale, showText ? sponsor.name.length * TEXT_CHAR_ASPECT : aspect);
       return { ...sponsor, ...size, showText };
     });
 
-    return packLogos(items, isNarrow ? NARROW_STRETCH : WIDE_STRETCH);
-  }, [aspects, sorted, isNarrow]);
+    const packed = packLogos(items, isNarrow ? NARROW_STRETCH : WIDE_STRETCH);
+    const fit = Math.min(1, box.w / packed.width, box.h / packed.height);
+    const offsetX = (box.w - packed.width * fit) / 2;
+    const offsetY = (box.h - packed.height * fit) / 2;
+
+    return packed.rects.map((rect) => ({
+      ...rect,
+      x: offsetX + rect.x * fit,
+      y: offsetY + rect.y * fit,
+      w: rect.w * fit,
+      h: rect.h * fit,
+    }));
+  }, [aspects, sorted, isNarrow, box]);
 
   return (
     <div className="sponsor-wall w-[80vw] max-w-[1200px] rounded-3xl border border-black/10 bg-[#F8F4E8] p-[clamp(1.5rem,4vw,3.5rem)]">
-      {layout ? (
-        <div
-          className="relative w-full"
-          style={{ aspectRatio: `${layout.width} / ${layout.height}`, containerType: "inline-size" }}
-        >
-          {layout.rects.map((rect) => (
-            <div
-              key={rect.name}
-              className="absolute flex items-center justify-center"
-              style={{
-                left: percent(rect.x, layout.width),
-                top: percent(rect.y, layout.height),
-                width: percent(rect.w, layout.width),
-                height: percent(rect.h, layout.height),
-              }}
-            >
-              {rect.showText ? (
-                <span
-                  className="poppins whitespace-nowrap font-semibold leading-none text-[#1A1A1A]"
-                  style={{ fontSize: `${((rect.h * 0.7) / layout.width) * 100}cqw` }}
-                >
-                  {rect.name}
-                </span>
-              ) : (
-                <img
-                  src={rect.logo}
-                  alt={rect.name}
-                  title={rect.name}
-                  className="h-full w-full object-contain"
-                />
-              )}
-            </div>
-          ))}
-        </div>
-      ) : sorted.length === 0 ? (
-        <p className="poppins py-16 text-center text-lg text-[#666666]">No sponsors listed for this year.</p>
-      ) : (
-        <div className="min-h-[20rem]" />
-      )}
+      <div
+        className="relative flex w-full items-center justify-center"
+        style={{ aspectRatio: `${box.w} / ${box.h}`, containerType: "inline-size" }}
+      >
+        {layout?.map((rect) => (
+          <div
+            key={rect.name}
+            className="absolute flex items-center justify-center"
+            style={{
+              left: percent(rect.x, box.w),
+              top: percent(rect.y, box.h),
+              width: percent(rect.w, box.w),
+              height: percent(rect.h, box.h),
+            }}
+          >
+            {rect.showText ? (
+              <span
+                className="poppins whitespace-nowrap font-semibold leading-none text-[#1A1A1A]"
+                style={{ fontSize: `${((rect.h * 0.7) / box.w) * 100}cqw` }}
+              >
+                {rect.name}
+              </span>
+            ) : (
+              <img
+                src={rect.logo}
+                alt={rect.name}
+                title={rect.name}
+                className="h-full w-full object-contain"
+              />
+            )}
+          </div>
+        ))}
+        {sorted.length === 0 && (
+          <p className="poppins text-center text-lg text-[#666666]">No sponsors listed for this year.</p>
+        )}
+      </div>
     </div>
   );
 };

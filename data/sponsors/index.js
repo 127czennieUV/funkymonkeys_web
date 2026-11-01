@@ -21,8 +21,12 @@ import { sponsors as sponsors2024 } from "./2024";
 import { sponsors as sponsors2025 } from "./2025";
 import { sponsors as sponsors2026 } from "./2026";
 import { sponsors as sponsors2027 } from "./2027";
+import { sponsorTotals } from "./totals";
 
-export const sponsorsByYear = {
+export const logoFor = (name) =>
+  `/sponsors/${name.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "")}.png`;
+
+const rawSponsorsByYear = {
   2005: sponsors2005,
   2006: sponsors2006,
   2007: sponsors2007,
@@ -47,3 +51,14 @@ export const sponsorsByYear = {
   2026: sponsors2026,
   2027: sponsors2027,
 };
+
+export const sponsorsByYear = Object.fromEntries(
+  Object.entries(rawSponsorsByYear).map(([year, sponsors]) => [
+    year,
+    sponsors.map((sponsor) => ({
+      ...sponsor,
+      logo: logoFor(sponsor.name),
+      total: sponsorTotals[sponsor.name] ?? sponsor.amount,
+    })),
+  ])
+);
