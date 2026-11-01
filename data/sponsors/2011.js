@@ -25,6 +25,7 @@ export const sponsors = [
   { name: "Improve Your English", amount: 0 },
   { name: "Infinera", amount: 500 },
   { name: "Intuitive Surgical", amount: 1000 },
+  { name: "JChai", amount: 0 },
   { name: "KLA-Tencor", amount: 0 },
   { name: "Lam Research", amount: 0 },
   { name: "Lightbend", amount: 0 },
