@@ -142,7 +142,7 @@ const SponsorWall = ({ sponsors }) => {
     });
 
     const packed = packLogos(items, isNarrow ? NARROW_STRETCH : WIDE_STRETCH);
-    const fit = Math.min(1, box.w / packed.width, box.h / packed.height);
+    const fit = Math.min(box.w / packed.width, box.h / packed.height);
     const offsetX = (box.w - packed.width * fit) / 2;
     const offsetY = (box.h - packed.height * fit) / 2;
 
