@@ -37,7 +37,7 @@ const Hero = () => {
         variants={itemVariants}
       >
         <motion.h1
-          className="dk-prince-frog w-min text-[clamp(2.5rem,13vw,3.5rem)] leading-[85%] text-[#FFF48E] py-4 md:w-auto md:max-w-full md:self-center md:py-[min(5vw,6rem)] md:text-center md:text-[clamp(3rem,8.5vw,8rem)]"
+          className="dk-prince-frog w-min text-[clamp(2.5rem,13vw,3.5rem)] leading-[85%] text-[#000] py-4 md:w-auto md:max-w-full md:self-center md:py-[min(5vw,6rem)] md:text-center md:text-[clamp(3rem,8.5vw,8rem)]"
           variants={itemVariants}
         >
           Lynbrook Robotics
