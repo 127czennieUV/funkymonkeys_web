@@ -4,9 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 
 const MAX_AREA = 220;
 const MAX_WIDTH = 34;
-const MAX_HEIGHT = 13;
-const MIN_SCALE = 0.4;
-const MIN_LOG_SPAN = 1;
+const MAX_HEIGHT = 15;
+const MIN_SCALE = 0.2;
 const MIN_AMOUNT = 1000;
 const PADDING = 2.5;
 const GOLDEN_ANGLE = 2.39996;
@@ -16,10 +15,8 @@ const TEXT_CHAR_ASPECT = 0.55;
 const WIDE_BOX = { w: 80, h: 40 };
 const NARROW_BOX = { w: 60, h: 60 };
 const logoScales = (totals) => {
-  const logs = totals.map((total) => Math.log10(total));
-  const top = Math.max(...logs);
-  const span = Math.max(MIN_LOG_SPAN, top - Math.min(...logs));
-  return logs.map((log) => 1 - (1 - MIN_SCALE) * ((top - log) / span));
+  const top = Math.max(...totals);
+  return totals.map((total) => Math.max(MIN_SCALE, Math.sqrt(total / top)));
 };
 
 const logoSize = (scale, aspect) => {
