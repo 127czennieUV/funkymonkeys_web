@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 const MAX_AREA = 220;
 const MAX_WIDTH = 34;
 const MAX_HEIGHT = 15;
-const MIN_SCALE = 0.2;
+const MIN_SCALE = 0.25;
 const MIN_AMOUNT = 1000;
 const PADDING = 2.5;
 const GOLDEN_ANGLE = 2.39996;
