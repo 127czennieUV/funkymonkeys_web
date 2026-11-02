@@ -25,7 +25,7 @@ const ChevronIcon = ({ className }) => (
 );
 
 const arrowClass =
-  "flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#FFDA15] text-[#806D0B] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] disabled:cursor-default disabled:opacity-30 disabled:hover:translate-y-0 disabled:hover:shadow-none md:h-14 md:w-14";
+  "flex h-12 w-12 shrink-0 cursor-pointer items-center justify-center rounded-full bg-[#FFDA15] text-[#806D0B] transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_4px_6px_rgba(0,0,0,0.1)] disabled:invisible md:h-14 md:w-14";
 
 const Sponsors = () => {
   const [yearIndex, setYearIndex] = useState(years.length - 1);
@@ -49,9 +49,9 @@ const Sponsors = () => {
         <div className="flex items-center gap-6 md:gap-10">
           <button
             type="button"
-            onClick={() => setYearIndex(yearIndex - 1)}
-            disabled={yearIndex === 0}
-            aria-label="Previous year"
+            onClick={() => setYearIndex(yearIndex + 1)}
+            disabled={yearIndex === years.length - 1}
+            aria-label="Next year"
             className={arrowClass}
           >
             <ChevronIcon className="h-6 w-6" />
@@ -64,9 +64,9 @@ const Sponsors = () => {
           </h2>
           <button
             type="button"
-            onClick={() => setYearIndex(yearIndex + 1)}
-            disabled={yearIndex === years.length - 1}
-            aria-label="Next year"
+            onClick={() => setYearIndex(yearIndex - 1)}
+            disabled={yearIndex === 0}
+            aria-label="Previous year"
             className={arrowClass}
           >
             <ChevronIcon className="h-6 w-6 rotate-180" />
