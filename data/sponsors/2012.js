@@ -45,7 +45,7 @@ export const sponsors = [
   { name: "Symantec", amount: 2500 },
   { name: "TE Connectivity", amount: 0 },
   { name: "Teradata", amount: 2000 },
-  { name: "Texas Instruments", amount: 0 },
+  { name: "Texas Instruments", amount: 1000 },
   { name: "The Olander Company", amount: 0 },
   { name: "Tool Technology Distributors", amount: 0 },
   { name: "Vanderbend", amount: 0 },
